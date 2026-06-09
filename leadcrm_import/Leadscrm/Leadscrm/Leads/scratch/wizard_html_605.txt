@@ -1,0 +1,94 @@
+Created At: 2026-05-23T11:53:07Z
+Completed At: 2026-05-23T11:53:07Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/recovered_lines_1500_1800.txt`
+Total Lines: 90
+Total Bytes: 3535
+Showing lines 1 to 90
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: 1500: 
+2: 1501: function toggleDropdown(event, id) {
+3: 1502:     event.stopPropagation();
+4: 1503:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+5: 1504:         if (menu.id !== id) {
+6: 1505:             menu.classList.add('hidden');
+7: 1506:         }
+8: 1507:     });
+9: 1508:     const dropdown = document.getElementById(id);
+10: 1509:     dropdown.classList.toggle('hidden');
+11: 1510: }
+12: 1511: 
+13: 1512: document.addEventListener('click', () => {
+14: 1513:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+15: 1514:         menu.classList.add('hidden');
+16: 1515:     });
+17: 1516: });
+18: 1517: 
+19: 1518: 
+20: 1519: 
+21: 1520: const hiddenColumns = new Set();
+22: 1521: let searchQuery = '';
+23: 1522: 
+24: 1523: function toggleTableColumn(checkbox) {
+25: 1524:     const colClass = checkbox.value;
+26: 1525:     if (checkbox.checked) {
+27: 1526:         hiddenColumns.delete(colClass);
+28: 1527:     } else {
+29: 1528:         hiddenColumns.add(colClass);
+30: 1529:     }
+31: 1530:     applyColumnVisibility();
+32: 1531:     updateCustomizeLabel();
+33: 1532: }
+34: 1533: 
+35: 1534: function applyColumnVisibility() {
+36: 1535:     document.querySelectorAll('#table-view th').forEach(th => {
+37: 1536:         const matchingClass = Array.from(th.classList).find(c => c.startsWith('col-'));
+38: 1537:         if (matchingClass) {
+39: 1538:             th.classList.toggle('hidden', hiddenColumns.has(matchingClass));
+40: 1539:         }
+41: 1540:    
+<truncated 339 bytes>
+3 rounded-lg text-xs font-bold transition-all text-center bg-slate-100 text-slate-700 hover:bg-[#DDE2EE]/50";
+48: 1759:             } else {
+49: 1760:                 btn.className = "py-2 px-3 rounded-lg text-xs font-semibold transition-all text-center bg-white border border-slate-100 text-slate-400";
+50: 1761:             }
+51: 1762:         }
+52: 1763:     }
+53: 1764: 
+54: 1765:     // Update footer buttons
+55: 1766:     const backBtn = document.getElementById('wizard-back-btn');
+56: 1767:     const cancelBtn = document.getElementById('wizard-cancel-btn');
+57: 1768:     const nextBtn = document.getElementById('wizard-next-btn');
+58: 1769:     const saveBtn = document.getElementById('wizard-save-btn');
+59: 1770: 
+60: 1771:     if (stepIndex === 1) {
+61: 1772:         backBtn.classList.add('hidden');
+62: 1773:         cancelBtn.classList.remove('hidden');
+63: 1774:         nextBtn.classList.remove('hidden');
+64: 1775:         saveBtn.classList.add('hidden');
+65: 1776:     } else if (stepIndex === 2) {
+66: 1777:         backBtn.classList.remove('hidden');
+67: 1778:         cancelBtn.classList.add('hidden');
+68: 1779:         nextBtn.classList.remove('hidden');
+69: 1780:         saveBtn.classList.add('hidden');
+70: 1781:     } else if (stepIndex === 3) {
+71: 1782:         backBtn.classList.remove('hidden');
+72: 1783:         cancelBtn.classList.add('hidden');
+73: 1784:         nextBtn.classList.add('hidden');
+74: 1785:         saveBtn.classList.remove('hidden');
+75: 1786:     }
+76: 1787: }
+77: 1788: 
+78: 1789: function nextWizardStep() {
+79: 1790:     if (currentWizardStep < 3) {
+80: 1791:         setWizardTab(currentWizardStep + 1);
+81: 1792:     }
+82: 1793: }
+83: 1794: 
+84: 1795: function prevWizardStep() {
+85: 1796:     if (currentWizardStep > 1) {
+86: 1797:         setWizardTab(currentWizardStep - 1);
+87: 1798:     }
+88: 1799: }
+89: 1800: 
+90: 
+The above content shows the entire, complete file contents of the requested file.

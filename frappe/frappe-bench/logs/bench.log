@@ -1,0 +1,734 @@
+2026-06-05 18:38:20,906 DEBUG cd frappe-bench && uv venv env --seed --python python3.11
+2026-06-05 18:38:23,793 LOG Getting frappe
+2026-06-05 18:38:23,793 DEBUG cd frappe-bench/apps && git clone https://github.com/frappe/frappe.git --branch version-15 --depth 1 --origin upstream
+2026-06-05 18:38:31,309 LOG Installing frappe
+2026-06-05 18:38:31,311 DEBUG cd /home/acer/frappe/frappe-bench && uv pip install --quiet --upgrade -e /home/acer/frappe/frappe-bench/apps/frappe  --python /home/acer/frappe/frappe-bench/env/bin/python
+2026-06-05 18:39:00,305 DEBUG cd /home/acer/frappe/frappe-bench/apps/frappe && yarn install --check-files
+2026-06-05 18:39:59,021 DEBUG cd frappe-bench && bench build
+2026-06-05 18:39:59,160 INFO /home/acer/.local/bin/bench build
+2026-06-05 18:40:24,894 LOG setting up backups
+2026-06-05 18:40:24,939 LOG backups were set up
+2026-06-05 18:40:24,940 INFO Bench frappe-bench initialized
+2026-06-05 18:51:01,735 INFO /home/acer/.local/bin/bench new-site crm.local
+2026-06-05 18:52:40,275 INFO /home/acer/.local/bin/bench new-site crm.local
+2026-06-05 18:53:22,629 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-05 18:57:25,133 INFO /home/acer/.local/bin/bench new-site crm.local
+2026-06-05 19:05:34,375 INFO /home/acer/.local/bin/bench new-site crm.local --db-root-username frappe
+2026-06-05 19:12:35,819 INFO /home/acer/.local/bin/bench new-site crm.local --db-root-username frappe
+2026-06-05 19:14:50,186 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-05 19:15:01,518 INFO /home/acer/.local/bin/bench start
+2026-06-05 19:15:01,938 INFO /home/acer/.local/bin/bench worker
+2026-06-05 19:15:01,942 INFO /home/acer/.local/bin/bench watch
+2026-06-05 19:15:01,943 INFO /home/acer/.local/bin/bench schedule
+2026-06-05 19:15:01,949 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-05 19:20:50,583 INFO /home/acer/.local/bin/bench use crm.local
+2026-06-05 19:21:44,230 INFO /home/acer/.local/bin/bench config dns_multitenant
+2026-06-05 19:21:44,243 WARNING /home/acer/.local/bin/bench config dns_multitenant executed with exit code 2
+2026-06-05 19:21:53,355 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-05 19:22:27,514 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-05 19:22:28,835 INFO /home/acer/.local/bin/bench migrate
+2026-06-05 19:22:36,732 INFO /home/acer/.local/bin/bench start
+2026-06-05 19:23:31,920 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-05 19:26:04,156 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-05 19:27:43,506 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-05 19:30:37,237 INFO /home/acer/.local/bin/bench list-sites
+2026-06-05 19:33:17,231 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-05 19:38:17,427 INFO /home/acer/.local/bin/bench setup add-domain crm.local
+2026-06-05 19:39:58,801 INFO /home/acer/.local/bin/bench show-config
+2026-06-06 04:24:15,590 INFO /home/acer/.local/bin/bench start
+2026-06-06 04:24:15,997 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-06 04:24:15,997 INFO /home/acer/.local/bin/bench watch
+2026-06-06 04:24:16,003 INFO /home/acer/.local/bin/bench schedule
+2026-06-06 04:24:16,020 INFO /home/acer/.local/bin/bench worker
+2026-06-06 04:35:35,530 INFO /home/acer/.local/bin/bench --site crm.local set-admin-password NewPassword123
+2026-06-06 04:37:11,881 INFO /home/acer/.local/bin/bench --site crm.local set-admin-password admin123
+2026-06-06 04:44:30,392 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.db.get_single_value --args ['System Settings','setup_complete']
+2026-06-06 04:44:42,976 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 04:46:37,870 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 04:46:43,304 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 04:46:44,600 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-06 04:47:13,985 INFO /home/acer/.local/bin/bench start
+2026-06-06 04:50:09,163 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 04:51:31,126 INFO /home/acer/.local/bin/bench version
+2026-06-06 05:14:31,884 INFO /home/acer/.local/bin/bench get-app /home/acer/leadcrm_import/Leadscrm/Leadscrm/Leads/crm_pro
+2026-06-06 05:14:31,897 WARNING /home/acer/.local/bin/bench get-app /home/acer/leadcrm_import/Leadscrm/Leadscrm/Leads/crm_pro executed with exit code 1
+2026-06-06 05:23:02,721 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 05:27:37,577 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 05:29:51,629 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 05:31:47,952 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 05:31:55,529 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 05:37:06,116 INFO /home/acer/.local/bin/bench start
+2026-06-06 05:44:51,726 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 05:49:20,660 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 05:50:48,447 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 06:00:01,562 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-06 06:04:27,094 INFO /home/acer/.local/bin/bench version
+2026-06-06 06:07:15,948 INFO /home/acer/.local/bin/bench version
+2026-06-06 06:08:15,147 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 06:13:40,050 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 06:13:41,166 INFO /home/acer/.local/bin/bench clear-website-cache
+2026-06-06 06:13:48,881 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 06:16:02,418 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 06:16:10,874 INFO /home/acer/.local/bin/bench setup requirements
+2026-06-06 06:16:10,882 DEBUG uv pip install --quiet --upgrade pip --python /home/acer/frappe/frappe-bench/env/bin/python
+2026-06-06 06:16:11,374 LOG Installing frappe
+2026-06-06 06:16:11,375 DEBUG cd /home/acer/frappe/frappe-bench && uv pip install --quiet --upgrade -e /home/acer/frappe/frappe-bench/apps/frappe  --python /home/acer/frappe/frappe-bench/env/bin/python
+2026-06-06 06:16:14,150 DEBUG cd /home/acer/frappe/frappe-bench/apps/frappe && yarn install --check-files
+2026-06-06 06:16:20,238 WARNING /home/acer/.local/bin/bench setup requirements executed with exit code 1
+2026-06-06 06:16:55,955 INFO /home/acer/.local/bin/bench build
+2026-06-06 06:22:57,907 INFO /home/acer/.local/bin/bench console
+2026-06-06 06:24:28,041 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm
+2026-06-06 06:37:09,528 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm --force
+2026-06-06 06:37:37,224 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm --force
+2026-06-06 06:38:57,976 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm --force
+2026-06-06 06:45:19,272 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 06:45:21,134 INFO /home/acer/.local/bin/bench restart
+2026-06-06 06:45:30,850 INFO /home/acer/.local/bin/bench --site crm.local install-app precision_crm --force
+2026-06-06 06:46:36,953 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 06:47:23,035 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 06:51:24,134 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 06:51:38,537 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 06:53:55,595 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 06:55:04,419 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 07:00:44,374 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 07:28:59,526 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 07:30:41,973 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 07:31:02,096 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 07:31:10,412 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 07:41:59,627 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 07:42:08,013 INFO /home/acer/.local/bin/bench setup requirements
+2026-06-06 07:42:08,025 DEBUG uv pip install --quiet --upgrade pip --python /home/acer/frappe/frappe-bench/env/bin/python
+2026-06-06 07:42:10,135 LOG Installing frappe
+2026-06-06 07:42:10,138 DEBUG cd /home/acer/frappe/frappe-bench && uv pip install --quiet --upgrade -e /home/acer/frappe/frappe-bench/apps/frappe  --python /home/acer/frappe/frappe-bench/env/bin/python
+2026-06-06 07:42:14,245 DEBUG cd /home/acer/frappe/frappe-bench/apps/frappe && yarn install --check-files
+2026-06-06 07:42:25,051 WARNING /home/acer/.local/bin/bench setup requirements executed with exit code 1
+2026-06-06 07:42:36,492 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 07:44:38,225 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 07:50:07,893 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 07:50:21,021 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 08:10:02,563 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 08:10:04,740 INFO /home/acer/.local/bin/bench restart
+2026-06-06 08:10:13,645 INFO /home/acer/.local/bin/bench console
+2026-06-06 08:10:40,325 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 08:16:04,631 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 08:26:38,752 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 08:26:58,864 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 08:27:09,448 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 08:27:19,838 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 08:36:15,244 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 08:37:02,075 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 08:38:13,820 INFO /home/acer/.local/bin/bench new-app crm_pro
+2026-06-06 08:38:13,834 LOG creating new app crm_pro
+2026-06-06 08:41:17,011 WARNING /home/acer/.local/bin/bench new-app crm_pro executed with exit code 1
+2026-06-06 08:50:23,476 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 08:53:49,844 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 08:54:03,572 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_lead
+2026-06-06 08:54:13,752 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_deal
+2026-06-06 08:54:41,505 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 08:54:43,064 INFO /home/acer/.local/bin/bench migrate
+2026-06-06 08:54:46,004 INFO /home/acer/.local/bin/bench restart
+2026-06-06 08:54:47,234 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 08:55:14,891 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 09:00:03,531 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 09:00:05,415 INFO /home/acer/.local/bin/bench restart
+2026-06-06 09:00:06,583 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 09:00:17,739 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 09:24:09,749 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 09:41:17,404 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 09:44:01,046 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.db.sql --kwargs {"query":"select name, app_name from `tabModule Def`"}
+2026-06-06 09:47:33,430 INFO /home/acer/.local/bin/bench --site crm.local uninstall-app crm_pro --force
+2026-06-06 10:01:02,527 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 10:05:09,146 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 10:06:32,844 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 10:06:35,163 INFO /home/acer/.local/bin/bench clear-website-cache
+2026-06-06 10:06:36,696 INFO /home/acer/.local/bin/bench build
+2026-06-06 10:07:14,515 INFO /home/acer/.local/bin/bench restart
+2026-06-06 10:07:29,825 INFO /home/acer/.local/bin/bench --site crm.local remove-from-installed-apps crm_pro
+2026-06-06 10:07:46,545 INFO /home/acer/.local/bin/bench --site crm.local migrate --verbose
+2026-06-06 10:07:55,670 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 10:08:19,894 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 10:16:22,927 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 10:36:32,935 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-06 10:37:14,937 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 10:37:17,261 INFO /home/acer/.local/bin/bench restart
+2026-06-06 10:37:18,779 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 10:37:30,869 INFO /home/acer/.local/bin/bench --site crm.local mariadb -e 
+SELECT name
+FROM `tabModule Def`
+WHERE name='CRM Pro';
+
+2026-06-06 10:37:50,254 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 10:42:45,908 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-06 10:43:30,805 INFO /home/acer/.local/bin/bench --site crm.local mariadb -e 
+SELECT name
+FROM `tabModule Def`
+WHERE name='CRM Pro';
+
+2026-06-06 10:43:43,237 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 10:43:48,500 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 10:48:38,856 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 10:48:40,963 INFO /home/acer/.local/bin/bench restart
+2026-06-06 10:48:48,764 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 10:52:25,924 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 10:54:29,690 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 10:59:01,839 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_role_configuration
+2026-06-06 10:59:03,714 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 10:59:39,924 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 11:01:39,387 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 11:01:56,943 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro
+2026-06-06 11:10:55,566 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 11:11:55,769 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-06 11:20:06,360 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 11:27:46,398 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 11:29:11,301 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-06 11:29:12,997 INFO /home/acer/.local/bin/bench restart
+2026-06-06 11:29:33,225 INFO /home/acer/.local/bin/bench --site crm.local install-app crm_pro --force
+2026-06-06 12:13:02,350 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 12:13:14,355 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 12:13:48,014 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 12:13:53,186 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 12:13:54,316 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-06 12:13:55,292 INFO /home/acer/.local/bin/bench restart
+2026-06-06 12:14:57,524 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-06 12:19:50,869 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_role_configuration
+2026-06-06 12:19:52,691 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 12:20:16,375 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_role_configuration
+2026-06-06 12:20:17,698 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 12:20:31,409 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 12:46:08,692 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 12:46:16,338 INFO /home/acer/.local/bin/bench restart
+2026-06-06 12:46:33,586 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 12:47:15,505 INFO /home/acer/.local/bin/bench --site crm.local export-fixtures
+2026-06-06 12:52:34,975 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 12:52:40,609 INFO /home/acer/.local/bin/bench restart
+2026-06-06 12:53:46,654 INFO /home/acer/.local/bin/bench restart
+2026-06-06 12:54:09,725 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-06 13:24:37,741 INFO /home/acer/.local/bin/bench --site crm.local reload-doc crm_pro doctype crm_role_configuration
+2026-06-06 13:24:38,876 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 13:31:12,409 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-06 13:31:25,080 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-06 13:31:28,778 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 13:32:38,630 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 13:32:43,316 INFO /home/acer/.local/bin/bench --site crm.local set-config allow_tests true
+2026-06-06 13:32:47,583 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 13:34:21,335 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 13:34:31,794 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 13:35:17,760 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 13:35:35,972 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 13:35:46,948 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 13:35:52,099 INFO /home/acer/.local/bin/bench restart
+2026-06-06 18:22:39,617 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 18:23:31,124 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-06 18:24:55,897 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:47:19,597 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 18:47:33,563 INFO /home/acer/.local/bin/bench start
+2026-06-06 18:47:34,264 INFO /home/acer/.local/bin/bench schedule
+2026-06-06 18:47:34,264 INFO /home/acer/.local/bin/bench watch
+2026-06-06 18:47:34,264 INFO /home/acer/.local/bin/bench worker
+2026-06-06 18:47:34,417 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-06 18:47:43,937 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 18:48:06,086 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 18:48:12,750 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:48:31,700 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:48:54,475 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:49:13,562 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:50:02,916 INFO /home/acer/.local/bin/bench --site crm.local execute /mnt/c/Users/acer/Downloads/Leadscrm/Leadscrm/Leads/scratch/verify_doctypes.py
+2026-06-06 18:50:08,877 INFO /home/acer/.local/bin/bench --site crm.local run-python-script /mnt/c/Users/acer/Downloads/Leadscrm/Leadscrm/Leads/scratch/verify_doctypes.py
+2026-06-06 18:50:21,834 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify.run_verification
+2026-06-06 18:53:19,490 INFO /home/acer/.local/bin/bench version
+2026-06-06 18:53:21,233 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 18:53:47,294 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify.run_database_audit
+2026-06-06 18:54:08,832 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.functional_validation.run_functional_validation
+2026-06-06 18:54:33,189 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.functional_validation.run_functional_validation
+2026-06-06 18:57:23,769 INFO /home/acer/.local/bin/bench version
+2026-06-06 18:57:25,267 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 18:57:30,652 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 18:57:47,927 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 18:58:02,575 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-06 18:58:28,138 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.run_all_checks
+2026-06-06 18:58:38,816 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.run_all_checks
+2026-06-06 18:58:53,026 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.run_all_checks
+2026-06-06 19:01:10,751 INFO /home/acer/.local/bin/bench version
+2026-06-06 19:01:12,280 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 19:01:19,041 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 19:01:37,656 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 19:02:02,326 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.functional_validation.run_functional_validation
+2026-06-06 19:02:15,827 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.functional_validation.run_functional_validation
+2026-06-06 19:02:28,126 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.functional_validation.run_functional_validation
+2026-06-06 19:05:18,543 INFO /home/acer/.local/bin/bench version
+2026-06-06 19:05:20,156 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 19:05:21,752 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 19:05:41,465 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 19:08:30,002 INFO /home/acer/.local/bin/bench --site crm.local backup --with-files
+2026-06-06 19:10:06,798 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.utils.get_bench_path
+2026-06-06 19:10:17,427 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.generate_admin_keys
+2026-06-06 19:10:35,146 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.generate_admin_keys
+2026-06-06 19:10:49,501 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.run_generate_keys
+2026-06-06 19:11:30,333 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.setup_webhook_settings
+2026-06-06 19:12:03,005 INFO /home/acer/.local/bin/bench version
+2026-06-06 19:12:06,304 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-06 19:12:10,040 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 19:13:06,511 INFO /home/acer/.local/bin/bench doctor
+2026-06-06 19:13:18,381 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_all.restore_webhook_settings
+2026-06-06 19:13:32,037 INFO /home/acer/.local/bin/bench --site crm.local execute /mnt/c/Users/acer/Downloads/Leadscrm/Leadscrm/Leads/scratch/verify_doctypes.py
+2026-06-06 19:15:54,251 INFO /home/acer/.local/bin/bench --site crm.local backup --with-files
+2026-06-06 19:16:22,003 INFO /home/acer/.local/bin/bench setup nginx
+2026-06-06 19:16:35,659 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 19:19:47,790 INFO /home/acer/.local/bin/bench version
+2026-06-06 19:19:49,261 INFO /home/acer/.local/bin/bench list-apps
+2026-06-06 19:19:50,773 INFO /home/acer/.local/bin/bench doctor
+2026-06-06 19:20:00,266 INFO /home/acer/.local/bin/bench show-config
+2026-06-06 19:22:34,433 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-06 19:23:41,833 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-06 19:23:53,792 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-06 19:23:55,704 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-06 19:23:57,335 INFO /home/acer/.local/bin/bench build --app crm_pro
+2026-06-06 19:24:10,380 INFO /home/acer/.local/bin/bench restart
+2026-06-07 04:14:39,914 INFO /home/acer/.local/bin/bench version
+2026-06-07 04:14:41,851 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 04:14:44,540 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 04:14:46,791 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 04:14:49,314 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-07 04:15:03,603 INFO /home/acer/.local/bin/bench --site crm.local show-config
+2026-06-07 04:15:19,602 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.utils.scheduler.is_scheduler_inactive
+2026-06-07 04:15:31,227 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 04:15:40,589 INFO /home/acer/.local/bin/bench --site crm.local execute print(frappe.db.exists('DocType','CRM Role Configuration'))
+2026-06-07 04:15:54,073 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print(frappe.utils.background_jobs.get_jobs())
+2026-06-07 04:16:36,322 INFO /home/acer/.local/bin/bench version
+2026-06-07 04:16:37,899 INFO /home/acer/.local/bin/bench --help
+2026-06-07 04:16:38,793 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 04:18:43,310 INFO /home/acer/.local/bin/bench start
+2026-06-07 04:18:43,962 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 04:18:43,962 INFO /home/acer/.local/bin/bench worker
+2026-06-07 04:18:43,962 INFO /home/acer/.local/bin/bench watch
+2026-06-07 04:18:44,000 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 04:19:38,045 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 04:22:27,232 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 04:22:49,293 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 04:23:01,805 INFO /home/acer/.local/bin/bench browse
+2026-06-07 04:23:27,990 INFO /home/acer/.local/bin/bench --site crm.local show-config
+2026-06-07 04:23:42,080 INFO /home/acer/.local/bin/bench show-pending-jobs
+2026-06-07 04:23:56,038 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-07 04:24:58,545 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 04:24:59,679 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 04:25:01,007 INFO /home/acer/.local/bin/bench show-pending-jobs
+2026-06-07 04:25:02,027 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_installed_apps
+2026-06-07 04:26:25,178 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print(frappe.get_all('DocType', filters={'module':'CRM Pro'}, pluck='name'))
+2026-06-07 04:26:34,000 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print('Deals:', frappe.db.count('CRM Deal'))
+2026-06-07 04:26:42,642 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print('Contacts:', frappe.db.count('CRM Contact'))
+2026-06-07 04:26:48,621 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print('Companies:', frappe.db.count('CRM Company'))
+2026-06-07 04:26:58,881 INFO /home/acer/.local/bin/bench start
+2026-06-07 04:30:14,045 INFO /home/acer/.local/bin/bench --site crm.local execute import frappe; print(...)
+2026-06-07 04:30:23,222 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.utils.now
+2026-06-07 04:30:37,428 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 04:31:19,134 INFO /home/acer/.local/bin/bench start
+2026-06-07 04:32:02,392 INFO /home/acer/.local/bin/bench start
+2026-06-07 04:32:02,954 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 04:32:02,955 INFO /home/acer/.local/bin/bench watch
+2026-06-07 04:32:02,955 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 04:32:03,086 INFO /home/acer/.local/bin/bench worker
+2026-06-07 04:33:05,071 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 04:52:45,398 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 04:52:47,732 INFO /home/acer/.local/bin/bench restart
+2026-06-07 04:53:13,166 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 04:53:43,054 INFO /home/acer/.local/bin/bench execute crm_pro.crm_pro.api.get_dashboard_metrics --site crm.local
+2026-06-07 04:55:33,112 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 04:59:23,457 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 04:59:46,060 INFO /home/acer/.local/bin/bench migrate
+2026-06-07 04:59:51,294 INFO /home/acer/.local/bin/bench start
+2026-06-07 04:59:51,679 WARNING /home/acer/.local/bin/bench start executed with exit code 1
+2026-06-07 05:00:35,069 INFO /home/acer/.local/bin/bench start
+2026-06-07 05:00:35,743 INFO /home/acer/.local/bin/bench watch
+2026-06-07 05:00:35,743 INFO /home/acer/.local/bin/bench worker
+2026-06-07 05:00:35,756 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 05:00:35,808 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 05:00:53,887 INFO /home/acer/.local/bin/bench migrate
+2026-06-07 05:01:38,466 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:02:26,957 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 05:02:28,259 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-07 05:29:52,470 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 05:30:52,741 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 05:31:10,803 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 05:31:27,881 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:32:22,890 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:36:47,474 INFO /home/acer/.local/bin/bench start
+2026-06-07 05:37:01,597 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 05:37:08,763 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:37:24,677 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 05:43:47,600 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:43:48,196 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 05:43:48,755 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 05:43:54,420 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 05:43:55,066 INFO /home/acer/.local/bin/bench --site crm.local run-tests
+2026-06-07 05:44:04,207 INFO /home/acer/.local/bin/bench version
+2026-06-07 05:44:05,299 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:44:06,382 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 05:44:07,327 INFO /home/acer/.local/bin/bench show-config
+2026-06-07 05:44:33,173 INFO /home/acer/.local/bin/bench version
+2026-06-07 05:44:34,163 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:44:35,034 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 05:44:35,897 INFO /home/acer/.local/bin/bench show-config
+2026-06-07 05:44:58,563 INFO /home/acer/.local/bin/bench version
+2026-06-07 05:44:59,503 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:45:00,438 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 05:45:01,335 INFO /home/acer/.local/bin/bench show-config
+2026-06-07 05:45:24,867 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.test_sched.run
+2026-06-07 05:46:24,685 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.test_sched.run
+2026-06-07 05:46:37,950 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.test_sched.run
+2026-06-07 05:46:47,114 INFO /home/acer/.local/bin/bench version
+2026-06-07 05:46:48,074 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 05:46:49,255 INFO /home/acer/.local/bin/bench list-apps
+2026-06-07 05:46:50,263 INFO /home/acer/.local/bin/bench show-config
+2026-06-07 05:48:23,682 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:51:44,407 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:52:40,519 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 05:53:08,387 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 05:57:08,147 INFO /home/acer/.local/bin/bench --site crm.local run-tests
+2026-06-07 06:00:02,176 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-07 06:35:43,246 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 06:40:16,262 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 06:41:44,601 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_due_reminders
+2026-06-07 06:44:39,253 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.update_dashboard_metrics
+2026-06-07 06:44:47,719 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 06:45:05,480 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 06:48:14,143 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_due_reminders
+2026-06-07 06:48:21,003 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_pending_reminders
+2026-06-07 06:48:28,532 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.update_dashboard_metrics
+2026-06-07 06:48:35,868 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.recalculate_dashboard_metrics
+2026-06-07 06:48:45,102 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 06:52:42,169 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.setup_webhook_settings
+2026-06-07 06:52:52,601 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.restore_webhook_settings
+2026-06-07 06:53:00,085 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 06:53:06,265 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 06:53:15,129 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-07 06:53:20,022 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_pending_reminders
+2026-06-07 06:57:12,070 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 06:58:25,230 INFO /home/acer/.local/bin/bench --site crm.local enable-scheduler
+2026-06-07 06:58:31,213 INFO /home/acer/.local/bin/bench --site crm.local scheduler resume
+2026-06-07 06:58:38,569 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 06:58:54,908 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 07:00:37,991 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 07:01:39,854 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 07:01:48,155 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 07:07:48,458 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 07:08:22,137 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.setup_webhook_settings
+2026-06-07 07:08:30,158 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.restore_webhook_settings
+2026-06-07 07:08:56,280 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 07:09:28,455 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 07:12:31,301 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.setup_webhook_settings
+2026-06-07 07:12:43,442 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.restore_webhook_settings
+2026-06-07 07:13:04,753 INFO /home/acer/.local/bin/bench --site crm.local execute module.function_name
+2026-06-07 07:13:22,208 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 07:13:22,773 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 07:13:23,316 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 07:13:23,850 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.recalculate_dashboard_metrics
+2026-06-07 07:13:24,807 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_pending_reminders
+2026-06-07 07:13:25,520 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 08:24:39,026 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 08:29:34,759 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 08:33:03,073 INFO /home/acer/.local/bin/bench restart
+2026-06-07 08:33:13,714 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-07 08:33:22,202 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_all.run
+2026-06-07 08:33:35,593 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 08:33:43,082 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 08:33:50,746 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 08:33:58,365 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.recalculate_dashboard_metrics
+2026-06-07 08:34:05,601 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_pending_reminders
+2026-06-07 08:34:13,206 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 08:47:20,050 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 08:47:27,002 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 08:47:32,286 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 08:47:45,362 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.recalculate_dashboard_metrics
+2026-06-07 08:47:52,997 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.jobs.process_pending_reminders
+2026-06-07 08:48:00,162 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 08:57:40,110 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:00:07,993 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:05:53,780 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:07:17,550 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:11:13,683 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 09:11:21,381 INFO /home/acer/.local/bin/bench --site crm.local scheduler status
+2026-06-07 09:11:31,022 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 09:11:37,724 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 09:13:49,492 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:14:24,111 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 09:14:31,560 INFO /home/acer/.local/bin/bench restart
+2026-06-07 09:14:39,476 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:14:55,370 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:21:11,607 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:22:52,734 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 09:23:04,557 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:24:51,223 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:26:29,115 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:33:18,056 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:36:12,706 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:36:47,293 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 09:36:48,959 INFO /home/acer/.local/bin/bench restart
+2026-06-07 09:36:59,974 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:37:31,889 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:42:52,990 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:44:30,322 INFO /home/acer/.local/bin/bench
+2026-06-07 09:49:30,588 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 09:50:31,550 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.client.get_value --kwargs {'doctype':'CRM Lead','filters':{'name':'6gklho2n9a'},'fieldname':['*']}
+2026-06-07 09:51:33,209 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 09:54:53,665 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 10:00:24,707 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 10:03:51,869 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 10:04:00,941 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 10:05:09,772 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-07 10:27:18,857 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 10:34:48,011 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_meta --args Workspace
+2026-06-07 10:34:52,817 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.get_meta --args Workspace Link
+2026-06-07 10:35:05,635 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.create_workspaces.run
+2026-06-07 10:35:23,209 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.setup_roles_permissions.run
+2026-06-07 10:35:35,982 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.validate_facebook.run
+2026-06-07 10:35:54,373 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 10:36:29,375 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 10:36:56,586 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 10:37:22,349 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 10:37:42,860 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 11:07:45,703 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 11:10:41,921 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 11:10:51,711 INFO /home/acer/.local/bin/bench restart
+2026-06-07 11:13:34,158 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 11:13:41,542 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 11:13:43,039 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-07 11:14:01,399 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 11:15:03,064 INFO /home/acer/.local/bin/bench doctor
+2026-06-07 11:15:26,777 INFO /home/acer/.local/bin/bench migrate
+2026-06-07 11:17:35,857 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 11:22:48,047 INFO /home/acer/.local/bin/bench start
+2026-06-07 11:26:19,307 INFO /home/acer/.local/bin/bench start
+2026-06-07 11:29:27,998 INFO /home/acer/.local/bin/bench start
+2026-06-07 11:29:28,683 INFO /home/acer/.local/bin/bench watch
+2026-06-07 11:29:28,684 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 11:29:28,704 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 11:29:28,748 INFO /home/acer/.local/bin/bench worker
+2026-06-07 11:30:15,948 INFO /home/acer/.local/bin/bench start
+2026-06-07 11:48:03,179 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:11:56,149 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:22:44,180 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:25:07,124 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:28:50,848 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 13:29:01,869 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 13:29:11,197 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:33:52,380 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 13:34:01,052 INFO /home/acer/.local/bin/bench restart
+2026-06-07 13:34:08,053 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-07 13:34:09,971 INFO /home/acer/.local/bin/bench clear-website-cache
+2026-06-07 13:34:15,952 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:36:40,924 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-07 13:36:50,851 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 13:36:55,583 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 13:50:12,663 INFO /home/acer/.local/bin/bench serve
+2026-06-07 13:50:29,306 INFO /home/acer/.local/bin/bench start
+2026-06-07 13:51:46,215 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 13:55:08,341 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-07 13:55:22,344 INFO /home/acer/.local/bin/bench serve
+2026-06-07 14:21:17,672 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 14:26:53,547 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 14:42:05,206 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 14:42:35,082 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 14:42:37,074 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-07 17:19:47,609 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:22:16,688 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:22:47,836 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 17:25:22,065 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:25:22,973 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:25:22,973 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:25:22,974 INFO /home/acer/.local/bin/bench watch
+2026-06-07 17:25:23,040 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:30:03,097 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:32:40,559 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:33:12,313 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 17:34:38,584 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:34:39,074 INFO /home/acer/.local/bin/bench watch
+2026-06-07 17:34:39,074 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:34:39,074 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:34:39,134 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:37:17,684 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:39:52,714 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:40:29,256 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 17:41:15,061 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:41:15,518 INFO /home/acer/.local/bin/bench watch
+2026-06-07 17:41:15,518 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:41:15,518 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:41:15,560 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:44:52,399 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:45:27,706 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:45:46,541 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:49:18,851 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:49:19,244 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:49:19,244 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:49:19,252 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:49:19,352 INFO /home/acer/.local/bin/bench watch
+2026-06-07 17:53:10,554 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-07 17:53:34,298 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-07 17:53:35,844 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-07 17:54:07,075 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:54:07,424 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:54:07,425 INFO /home/acer/.local/bin/bench watch
+2026-06-07 17:54:07,440 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:54:07,478 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:57:06,300 INFO /home/acer/.local/bin/bench start
+2026-06-07 17:57:06,946 INFO /home/acer/.local/bin/bench schedule
+2026-06-07 17:57:06,947 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-07 17:57:06,967 INFO /home/acer/.local/bin/bench worker
+2026-06-07 17:57:07,007 INFO /home/acer/.local/bin/bench watch
+2026-06-07 18:00:02,117 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-07 18:11:13,708 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 18:16:38,473 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 18:17:52,707 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.verify_db.run
+2026-06-07 18:23:44,358 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.create_workspaces.run
+2026-06-07 18:25:19,165 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-07 18:25:32,529 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_db.run
+2026-06-07 18:28:45,824 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:25:43,839 INFO /home/acer/.local/bin/bench start
+2026-06-08 04:25:44,651 INFO /home/acer/.local/bin/bench watch
+2026-06-08 04:25:44,651 INFO /home/acer/.local/bin/bench worker
+2026-06-08 04:25:44,721 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-08 04:25:44,966 INFO /home/acer/.local/bin/bench schedule
+2026-06-08 04:27:35,355 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.run_ws_directly.py
+2026-06-08 04:27:48,270 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.print_docfields.run
+2026-06-08 04:28:21,750 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.rebuild_crm_pro.run
+2026-06-08 04:31:35,254 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:40:47,519 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:44:47,533 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:47:50,486 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:49:32,763 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 04:50:18,258 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-08 04:50:20,015 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-08 04:50:30,806 INFO /home/acer/.local/bin/bench build
+2026-06-08 04:51:15,576 INFO /home/acer/.local/bin/bench restart
+2026-06-08 04:55:33,881 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:03:22,222 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:08:00,655 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:09:40,883 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-08 05:09:42,741 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-08 05:09:44,468 INFO /home/acer/.local/bin/bench migrate
+2026-06-08 05:09:58,217 INFO /home/acer/.local/bin/bench build
+2026-06-08 05:10:33,589 INFO /home/acer/.local/bin/bench restart
+2026-06-08 05:15:07,910 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:19:28,142 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:23:19,249 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 05:23:26,121 INFO /home/acer/.local/bin/bench status
+2026-06-08 05:23:37,039 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:28:00,215 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 05:33:22,688 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 06:00:02,409 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-08 06:10:51,870 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 06:13:10,309 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 07:04:00,628 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 07:08:51,260 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-08 07:08:52,973 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-08 07:08:54,121 INFO /home/acer/.local/bin/bench migrate
+2026-06-08 07:09:03,996 INFO /home/acer/.local/bin/bench restart
+2026-06-08 07:15:45,295 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 07:16:36,270 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-08 07:16:37,434 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-08 07:16:38,574 INFO /home/acer/.local/bin/bench restart
+2026-06-08 07:17:34,288 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 07:51:34,499 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-08 08:30:39,734 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 09:32:34,018 INFO /home/acer/.local/bin/bench init frappe-bench
+2026-06-08 09:32:34,053 DEBUG cd frappe-bench && uv venv env --seed --python python3
+2026-06-08 09:32:36,067 LOG Getting frappe
+2026-06-08 09:32:36,068 DEBUG cd frappe-bench/apps && git clone https://github.com/frappe/frappe.git  --depth 1 --origin upstream
+2026-06-08 09:32:45,050 LOG Installing frappe
+2026-06-08 09:32:46,162 ERROR There was a problem while creating frappe-bench
+2026-06-08 09:34:35,324 INFO Rolling back Bench "frappe-bench"
+2026-06-08 09:34:46,714 INFO /home/acer/.local/bin/bench init frappe-bench
+2026-06-08 09:34:46,723 DEBUG cd frappe-bench && uv venv env --seed --python python3
+2026-06-08 09:34:47,040 LOG Getting frappe
+2026-06-08 09:34:47,041 DEBUG cd frappe-bench/apps && git clone https://github.com/frappe/frappe.git  --depth 1 --origin upstream
+2026-06-08 09:34:55,845 LOG Installing frappe
+2026-06-08 09:34:56,975 ERROR There was a problem while creating frappe-bench
+2026-06-08 09:35:12,059 INFO Rolling back Bench "frappe-bench"
+2026-06-08 09:40:25,510 INFO /home/acer/.local/bin/bench --version
+2026-06-08 09:59:43,736 INFO /home/acer/.local/bin/bench version
+2026-06-08 09:59:46,637 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 09:59:48,158 INFO /home/acer/.local/bin/bench migrate
+2026-06-08 09:59:56,239 INFO /home/acer/.local/bin/bench build
+2026-06-08 10:00:47,287 INFO /home/acer/.local/bin/bench run-tests --app crm_pro
+2026-06-08 10:01:24,735 INFO /home/acer/.local/bin/bench version
+2026-06-08 10:01:26,204 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:01:27,577 INFO /home/acer/.local/bin/bench list-apps
+2026-06-08 10:01:29,288 INFO /home/acer/.local/bin/bench show-config
+2026-06-08 10:01:46,663 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:01:47,928 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:01:52,657 INFO /home/acer/.local/bin/bench build
+2026-06-08 10:02:32,307 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-08 10:03:34,253 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:03:35,495 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:03:40,872 INFO /home/acer/.local/bin/bench build
+2026-06-08 10:04:21,972 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-08 10:11:01,307 INFO /home/acer/.local/bin/bench version
+2026-06-08 10:11:02,923 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:11:54,370 INFO /home/acer/.local/bin/bench list-apps
+2026-06-08 10:12:03,750 INFO /home/acer/.local/bin/bench --site all list-apps
+2026-06-08 10:12:19,269 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:12:31,674 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 10:13:28,117 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 10:13:54,995 INFO /home/acer/.local/bin/bench start
+2026-06-08 10:21:36,405 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:21:38,316 INFO /home/acer/.local/bin/bench migrate
+2026-06-08 10:21:45,214 INFO /home/acer/.local/bin/bench build
+2026-06-08 10:22:40,963 INFO /home/acer/.local/bin/bench run-tests --app crm_pro
+2026-06-08 10:26:40,827 INFO /home/acer/.local/bin/bench doctor
+2026-06-08 10:26:49,832 INFO /home/acer/.local/bin/bench list-apps
+2026-06-08 10:27:00,361 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:27:09,150 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 10:27:31,721 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-08 10:31:42,022 INFO /home/acer/.local/bin/bench start
+2026-06-08 10:31:43,158 INFO /home/acer/.local/bin/bench watch
+2026-06-08 10:31:43,160 INFO /home/acer/.local/bin/bench schedule
+2026-06-08 10:31:43,178 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-08 10:31:43,310 INFO /home/acer/.local/bin/bench worker
+2026-06-08 10:36:23,000 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 10:38:34,522 INFO /home/acer/.local/bin/bench --site crm.local migrate --skip-search-index
+2026-06-08 10:40:36,982 INFO /home/acer/.local/bin/bench start
+2026-06-08 10:40:37,546 INFO /home/acer/.local/bin/bench watch
+2026-06-08 10:40:37,546 INFO /home/acer/.local/bin/bench schedule
+2026-06-08 10:40:37,547 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-08 10:40:37,631 INFO /home/acer/.local/bin/bench worker
+2026-06-08 10:41:16,543 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:43:36,121 INFO /home/acer/.local/bin/bench run-tests --app crm_pro
+2026-06-08 10:44:48,504 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 10:45:07,118 INFO /home/acer/.local/bin/bench build
+2026-06-08 10:45:55,115 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-08 10:45:58,268 INFO /home/acer/.local/bin/bench restart
+2026-06-08 10:46:00,549 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-08 10:50:39,592 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 10:57:49,952 INFO /home/acer/.local/bin/bench backup
+2026-06-08 11:03:47,162 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 11:09:14,291 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 11:36:46,339 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-08 11:36:57,782 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 11:37:12,881 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-08 11:37:14,368 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-08 11:37:24,424 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-08 11:37:45,925 INFO /home/acer/.local/bin/bench build
+2026-06-08 11:38:30,340 INFO /home/acer/.local/bin/bench start
+2026-06-08 11:43:44,152 INFO /home/acer/.local/bin/bench setup production frappe
+2026-06-08 11:43:44,152 WARNING superuser privileges required for this command
+2026-06-08 11:43:56,253 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-08 11:44:06,252 INFO /home/acer/.local/bin/bench build
+2026-06-08 11:44:33,695 INFO /home/acer/.local/bin/bench start
+2026-06-08 11:44:38,689 INFO /home/acer/.local/bin/bench setup production frappe
+2026-06-08 11:44:38,689 WARNING superuser privileges required for this command
+2026-06-08 11:47:14,278 INFO /home/acer/.local/bin/bench start
+2026-06-08 11:47:14,799 INFO /home/acer/.local/bin/bench schedule
+2026-06-08 11:47:14,799 INFO /home/acer/.local/bin/bench watch
+2026-06-08 11:47:14,799 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-08 11:47:14,800 INFO /home/acer/.local/bin/bench worker
+2026-06-08 12:35:41,464 INFO /home/acer/.local/bin/bench start
+2026-06-08 12:35:41,898 INFO /home/acer/.local/bin/bench watch
+2026-06-08 12:35:41,898 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-08 12:35:41,898 INFO /home/acer/.local/bin/bench schedule
+2026-06-08 12:35:41,962 INFO /home/acer/.local/bin/bench worker
+2026-06-08 12:38:37,469 INFO /home/acer/.local/bin/bench --site crm.local set-admin-password admin123
+2026-06-09 05:00:35,952 INFO /home/acer/.local/bin/bench start
+2026-06-09 05:00:36,590 INFO /home/acer/.local/bin/bench worker
+2026-06-09 05:00:36,591 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-09 05:00:36,640 INFO /home/acer/.local/bin/bench watch
+2026-06-09 05:00:36,714 INFO /home/acer/.local/bin/bench schedule
+2026-06-09 06:00:02,389 INFO /home/acer/.local/bin/bench --verbose --site all backup

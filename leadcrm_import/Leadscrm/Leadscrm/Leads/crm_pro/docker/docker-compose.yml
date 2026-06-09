@@ -1,0 +1,55 @@
+version: '3.7'
+
+services:
+  db:
+    image: postgres:14-alpine
+    environment:
+      POSTGRES_DB: crm_pro
+      POSTGRES_USER: crm_user
+      POSTGRES_PASSWORD: crm_password
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  redis-cache:
+    image: redis:6.2-alpine
+    command: redis-server --maxmemory 250mb --maxmemory-policy allkeys-lru
+
+  redis-queue:
+    image: redis:6.2-alpine
+
+  backend:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: bench start
+    environment:
+      - DB_HOST=db
+      - REDIS_CACHE=redis-cache:6379
+      - REDIS_QUEUE=redis-queue:6379
+    depends_on:
+      - db
+      - redis-cache
+      - redis-queue
+    ports:
+      - "8000:8000"
+
+  scheduler:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: bench schedule
+    depends_on:
+      - backend
+
+  worker:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile
+    command: bench worker --queue default,short,long
+    depends_on:
+      - backend
+
+volumes:
+  postgres-data:

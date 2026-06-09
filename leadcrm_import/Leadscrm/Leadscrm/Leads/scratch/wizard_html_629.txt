@@ -1,0 +1,29 @@
+Created At: 2026-05-23T11:53:40Z
+Completed At: 2026-05-23T11:53:40Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/find_wizard_html.py`
+Total Lines: 21
+Total Bytes: 966
+Showing lines 1 to 21
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import json
+2: 
+3: log_path = r"C:\Users\YUVEHA\.gemini\antigravity-ide\brain\8f53ea80-d75a-4062-a547-db2a3f603faf\.system_generated\logs\transcript.jsonl"
+4: 
+5: with open(log_path, 'r', encoding='utf-8') as f:
+6:     for line_idx, line in enumerate(f):
+7:         if "wizard-" in line or "wizard_step" in line or "wizard-step" in line:
+8:             if "div" in line or "button" in line or "input" in line:
+9:                 try:
+10:                     data = json.loads(line)
+11:                     content = data.get('content', '')
+12:                     if content and len(content) > 1000:
+13:                         print(f"LogLine {line_idx} has wizard HTML, length {len(content)}")
+14:                         with open(f"scratch/wizard_html_{line_idx}.txt", "w", encoding="utf-8") as out:
+15:                             out.write(content)
+16:                         print(f"Saved scratch/wizard_html_{line_idx}.txt")
+17:                 except Exception as e:
+18:                     pass
+19: 
+20: print("Finished.")
+21: 
+The above content shows the entire, complete file contents of the requested file.

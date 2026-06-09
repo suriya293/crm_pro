@@ -1,0 +1,90 @@
+Created At: 2026-05-23T11:41:28Z
+Completed At: 2026-05-23T11:41:28Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/test_script.js`
+Total Lines: 811
+Total Bytes: 35842
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: 
+2: document.querySelectorAll('.chevron-header').forEach(header => {
+3:     header.addEventListener('click', () => {
+4:         header.classList.toggle('active-pink');
+5:     });
+6: });
+7: 
+8: let viewMode = 'grid';
+9: let sortBy = 'date';
+10: let sortOrder = 'desc';
+11: let pageLimit = 10;
+12: 
+13: // Dynamic leads database extracted from the initial HTML DOM
+14: let leadsData = [];
+15: 
+16: // Alert (red) stages
+17: const ALERT_STAGES = new Set(['PROPOSAL SENT','OTHERS','TRIAL AC','DUPLICATE']);
+18: 
+19: function parseLeadsFromDOM() {
+20:     leadsData = [];
+21:     document.querySelectorAll('.kanban-column').forEach(column => {
+22:         const stageSpan = column.querySelector('.chevron-header span.text-xs');
+23:         if (!stageSpan) return;
+24:         const stage = stageSpan.textContent.trim();
+25:         // Support both old .bg-on-primary.border cards and new .kanban-card cards
+26:         const cardSelector = '.kanban-card, .bg-on-primary.border';
+27:         column.querySelectorAll(cardSelector).forEach(card => {
+28:             const h4 = card.querySelector('h4');
+29:             if (!h4) return;
+30:             const name = (card.dataset.name || h4.textContent).trim();
+31:             // Prefer data-attributes for reliability
+32:             const email = card.dataset.email || (() => {
+33:                 const data = {};
+34:                 card.querySelectorAll('p.flex').forEach(p => {
+35:                     if (p.children.length >= 2) data[p.children[0].textContent.replace(':', '').trim().toLowerCase()] = p.children[1].textContent.trim();
+36:            
+<truncated 36003 bytes>
+d('dragging');
+757:                 currentDragName = lead.name;
+758:             });
+759:             card.addEventListener('dragend', () => {
+760:                 card.classList.remove('dragging');
+761:             });
+762:             // Click to edit
+763:             card.addEventListener('click', () => openEditLeadModal(lead.name));
+764:             container.appendChild(card);
+765:         });
+766:     });
+767: 
+768:     // Set up drop targets
+769:     setupDragAndDrop();
+770: }
+771: 
+772: let currentDragName = null;
+773: 
+774: function setupDragAndDrop() {
+775:     document.querySelectorAll('.kanban-cards-container').forEach(container => {
+776:         container.addEventListener('dragover', e => {
+777:             e.preventDefault();
+778:             e.dataTransfer.dropEffect = 'move';
+779:             container.classList.add('drag-over');
+780:         });
+781:         container.addEventListener('dragleave', e => {
+782:             if (!container.contains(e.relatedTarget)) {
+783:                 container.classList.remove('drag-over');
+784:             }
+785:         });
+786:         container.addEventListener('drop', e => {
+787:             e.preventDefault();
+788:             container.classList.remove('drag-over');
+789:             const targetStage = container.dataset.stage;
+790:             if (!targetStage || !currentDragName) return;
+791:             const lead = leadsData.find(l => l.name === currentDragName);
+792:             if (lead && lead.stage.toUpperCase() !== targetStage.toUpperCase()) {
+793:                 lead.stage = targetStage;
+794:                 lead.modifiedDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+795:                 syncKanbanFromLeadsData();
+796:             }
+797:             currentDragName = null;
+798:         });
+799:     });
+800: }
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

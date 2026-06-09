@@ -1,0 +1,80 @@
+Created At: 2026-05-23T11:42:46Z
+Completed At: 2026-05-23T11:42:47Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/test.js`
+Total Lines: 606
+Total Bytes: 24642
+Showing lines 1 to 606
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: 
+2: document.querySelectorAll('.chevron-header').forEach(header => {
+3:     header.addEventListener('click', () => {
+4:         header.classList.toggle('active-pink');
+5:     });
+6: });
+7: 
+8: let viewMode = 'grid';
+9: let sortBy = 'date';
+10: let sortOrder = 'desc';
+11: let pageLimit = 10;
+12: 
+13: // Dynamic leads database extracted from the initial HTML DOM
+14: let leadsData = [];
+15: 
+16: function parseLeadsFromDOM() {
+17:     leadsData = [];
+18:     document.querySelectorAll('.kanban-column').forEach(column => {
+19:         const stageSpan = column.querySelector('.chevron-header span.text-xs');
+20:         if (!stageSpan) return;
+21:         const stage = stageSpan.textContent.trim();
+22:         column.querySelectorAll('.bg-on-primary.border').forEach(card => {
+23:             const h4 = card.querySelector('h4');
+24:             if (!h4) return;
+25:             const name = h4.textContent.trim();
+26:             const data = {};
+27:             card.querySelectorAll('p.flex').forEach(p => {
+28:                 if (p.children.length >= 2) {
+29:                     const label = p.children[0].textContent.replace(':', '').trim().toLowerCase();
+30:                     const value = p.children[1].textContent.trim();
+31:                     data[label] = value;
+32:                 }
+33:             });
+34:             leadsData.push({
+35:                 name,
+36:                 stage,
+37:                 email: data.email || '-',
+38:                 mobile: data.mobile || '-',
+39:                 status: data.status || 'Active',
+40:                 source: data.source || '-',
+4
+<truncated 23990 bytes>
+ onclick="event.stopPropagation(); deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-400 hover:text-red-500 transition-colors p-1 rounded-lg">
+578:                             <span class="material-symbols-outlined text-[16px]">delete</span>
+579:                         </button>
+580:                     </div>
+581:                 </div>
+582:                 <div class="flex flex-col gap-1.5 text-xs text-on-surface-variant font-medium">
+583:                     ${lead.email !== '-' ? `<p class="flex justify-between"><span>Email:</span><span class="font-bold text-on-surface select-all">${lead.email}</span></p>` : ''}
+584:                     ${lead.mobile !== '-' ? `<p class="flex justify-between"><span>Mobile:</span><span class="font-bold text-on-surface select-all">${lead.mobile}</span></p>` : ''}
+585:                     ${lead.user !== '-' ? `<p class="flex justify-between"><span>Assign:</span><span class="font-bold text-on-surface">${lead.user}</span></p>` : ''}
+586:                     ${lead.source !== '-' ? `<p class="flex justify-between"><span>Source:</span><span class="font-bold text-on-surface">${lead.source}</span></p>` : ''}
+587:                     <p class="flex justify-between"><span>Priority:</span><span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${priorityClass}">${priorityText}</span></p>
+588:                     <p class="flex justify-between"><span>Date:</span><span class="font-bold text-on-surface">${lead.creationDate}</span></p>
+589:                 </div>
+590:             `;
+591:             container.appendChild(card);
+592:         });
+593:     });
+594: }
+595: 
+596: sortOrder = 'desc'; // asc or desc
+597: pageLimit = 'All'; // 10, 50, 100, 500, 'All'
+598: let statusFilter = 'All'; // All or specific stage
+599: 
+600: document.addEventListener('DOMContentLoaded', () => {
+601:     parseLeadsFromDOM();
+602:     populateFilterDropdowns();
+603:     renderLeads();
+604: });
+605: 
+606: 
+The above content shows the entire, complete file contents of the requested file.

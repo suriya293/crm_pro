@@ -1,0 +1,887 @@
+
+// Live clock init function
+function initClock() {
+    const clockEl = document.getElementById('live-clock');
+    if (!clockEl) return;
+    const updateTime = () => {
+        const now = new Date();
+        clockEl.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit', hour12: true });
+    };
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+
+// Fullscreen toggle function
+function toggleFullscreen(btn) {
+    if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(err => {
+            console.error(`Error attempting to enable fullscreen: ${err.message}`);
+        });
+        if (btn && btn.firstElementChild) {
+            btn.firstElementChild.textContent = 'fullscreen_exit';
+        }
+    } else {
+        document.exitFullscreen();
+        if (btn && btn.firstElementChild) {
+            btn.firstElementChild.textContent = 'fullscreen';
+        }
+    }
+}
+
+
+document.querySelectorAll('.chevron-header').forEach(header => {
+    header.addEventListener('click', () => {
+        header.classList.toggle('active-pink');
+    });
+});
+
+let viewMode = 'grid';
+let sortBy = 'date';
+let sortOrder = 'desc';
+let pageLimit = 10;
+
+// Dynamic leads database extracted from the initial HTML DOM
+let leadsData = [];
+
+// Alert (red) stages
+const ALERT_STAGES = new Set(['PROPOSAL SENT','OTHERS','TRIAL AC','DUPLICATE']);
+
+const DEFAULT_LEADS = [
+    { name: 'AMMU', stage: 'LOST', email: '-', mobile: '+91 7337035078', status: 'LOST', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'mamtadavi419', stage: 'LOST', email: '-', mobile: '+91 8178656912', status: 'JOB LEAD', source: '-', amount: '0', user: '-', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ranjith', stage: 'FOLLOW UP', email: '-', mobile: '+91 9949492581', status: 'Follow Up', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '20-May-2026 09:05 AM', modifiedDate: '20-May-2026 09:05 AM', date: Date.now() - 86400000 * 3, callsCount: 3, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ranjan Kumar', stage: 'FOLLOW UP', email: '-', mobile: '+91 9777155191', status: 'Follow Up', source: 'July IVR Campaign', amount: '0', user: '-', creationDate: '20-May-2026 09:05 AM', modifiedDate: '20-May-2026 09:05 AM', date: Date.now() - 86400000 * 3, callsCount: 12, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Yash Agarwal', stage: 'PROPOSAL SENT', email: '-', mobile: '+91 7908204056', status: 'Proposal Sent', source: 'APRIL IVR 2026', amount: '0', user: 'aysha', creationDate: '24-Apr-2026 09:08 AM', modifiedDate: '24-Apr-2026 09:08 AM', date: Date.now() - 86400000 * 30, callsCount: 3, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Rokith', stage: 'PROPOSAL SENT', email: '-', mobile: '+91 9047570299', status: 'Proposal Sent', source: 'IVR', amount: '0', user: '-', creationDate: '24-Apr-2026 09:08 AM', modifiedDate: '24-Apr-2026 09:08 AM', date: Date.now() - 86400000 * 30, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Sunil Kumar', stage: 'OTHERS', email: '-', mobile: '+91 8433725068', status: 'COLD', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 4, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ravindran T D', stage: 'OTHERS', email: 'tdravindran6@gmail.com', mobile: '+91 9849809115', status: 'COLD', source: 'RCS CAMPAIGN 2026 MA...', amount: '0', user: '-', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 11, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Siva Prakash', stage: 'HOT', email: '-', mobile: '+91 8754442997', status: 'HOT', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Anbu', stage: 'HOT', email: '-', mobile: '+91', status: 'HOT', source: '-', amount: '0', user: '-', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'CloudScale Solutions', stage: 'DEMO SCHEDULE', email: '-', mobile: '-', status: 'Active', source: '-', amount: '-', user: 'Mark Taylor', creationDate: 'Oct 24, 2023', modifiedDate: 'Oct 24, 2023', date: Date.now() - 86400000 * 900, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' }
+];
+
+function parseLeadsFromDOM() {
+    leadsData = [];
+    document.querySelectorAll('.kanban-column').forEach(column => {
+        const stageSpan = column.querySelector('.chevron-header span.text-xs');
+        if (!stageSpan) return;
+        const stage = stageSpan.textContent.trim();
+        // Support both old .bg-on-primary.border cards and new .kanban-card cards
+        const cardSelector = '.kanban-card, .bg-on-primary.border';
+        column.querySelectorAll(cardSelector).forEach(card => {
+            const h4 = card.querySelector('h4');
+            const name = (card.dataset.name || (h4 ? h4.textContent : '')).trim();
+            if (!name) return;
+            // Prefer data-attributes for reliability
+            const email = card.dataset.email || (() => {
+                const data = {};
+                card.querySelectorAll('p.flex').forEach(p => {
+                    if (p.children.length >= 2) data[p.children[0].textContent.replace(':', '').trim().toLowerCase()] = p.children[1].textContent.trim();
+                });
+                return data.email || '-';
+            })();
+            const mobile     = card.dataset.mobile     || (() => { const d={}; card.querySelectorAll('p.flex').forEach(p=>{if(p.children.length>=2)d[p.children[0].textContent.replace(':','').trim().toLowerCase()]=p.children[1].textContent.trim();}); return d.mobile||'-'; })();
+            const status     = card.dataset.status     || 'Active';
+            const source     = card.dataset.source     || (() => { const d={}; card.querySelectorAll('p.flex').forEach(p=>{if(p.children.length>=2)d[p.children[0].textContent.replace(':','').trim().toLowerCase()]=p.children[1].textContent.trim();}); return d.source||'-'; })();
+            const amount     = card.dataset.amount     || (() => { const d={}; card.querySelectorAll('p.flex').forEach(p=>{if(p.children.length>=2)d[p.children[0].textContent.replace(':','').trim().toLowerCase()]=p.children[1].textContent.trim();}); return d.amount||'-'; })();
+            const user       = card.dataset.user       || (() => { const d={}; card.querySelectorAll('p.flex').forEach(p=>{if(p.children.length>=2)d[p.children[0].textContent.replace(':','').trim().toLowerCase()]=p.children[1].textContent.trim();}); return d.assign||'-'; })();
+            const cDate      = card.dataset.creationdate || (() => { const d={}; card.querySelectorAll('p.flex').forEach(p=>{if(p.children.length>=2)d[p.children[0].textContent.replace(':','').trim().toLowerCase()]=p.children[1].textContent.trim();}); return d.date||'Oct 24, 2023'; })();
+            const callsCount    = parseInt(card.dataset.callscount    || '0', 10);
+            const smsCount      = parseInt(card.dataset.smscount      || '0', 10);
+            const whatsappCount = parseInt(card.dataset.whatsappcount || '0', 10);
+            leadsData.push({
+                name, stage, email, mobile, status, source, amount, user,
+                creationDate: cDate,
+                modifiedDate: cDate,
+                date: Date.now(),
+                callsCount, smsCount, whatsappCount,
+                priority: card.dataset.priority || 'Low',
+                completedDate: card.dataset.completeddate || ''
+            });
+        });
+    });
+}
+
+function loadLeadsData() {
+    try {
+        if (localStorage.getItem('leadsVersion') !== 'v2') {
+            localStorage.removeItem('leadsData');
+            localStorage.setItem('leadsVersion', 'v2');
+        }
+        const stored = localStorage.getItem('leadsData');
+        if (stored) {
+            const rawList = JSON.parse(stored);
+            if (rawList && rawList.length > 0) {
+                const seen = new Set();
+                leadsData = [];
+                rawList.forEach(lead => {
+                    const name = (lead.name || '').trim();
+                    if (!name || seen.has(name)) return;
+                    seen.add(name);
+                    leadsData.push(lead);
+                });
+                saveLeadsData();
+                return;
+            }
+        }
+    } catch(e) {}
+    leadsData = [...DEFAULT_LEADS];
+    saveLeadsData();
+}
+
+function saveLeadsData() {
+    try {
+        localStorage.setItem('leadsData', JSON.stringify(leadsData));
+    } catch(e) {}
+}
+
+let currentPage = 1;
+let recordsPerPage = 20;
+
+function changeRecordsPerPage(val) {
+    recordsPerPage = parseInt(val);
+    currentPage = 1;
+    renderLeads();
+}
+
+function prevPage() {
+    if (currentPage > 1) {
+        currentPage--;
+        renderLeads();
+    }
+}
+
+function nextPage() {
+    const totalPages = Math.ceil(leadsData.length / recordsPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        renderLeads();
+    }
+}
+
+function scrollToTop() {
+    const tableView = document.getElementById('table-view');
+    if (tableView) {
+        tableView.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function renderLeads() {
+    // 1. Update dropdown visual indicators
+    document.getElementById('active-view-label').textContent = viewMode === 'grid' ? 'Grid View' : 'List View';
+    document.getElementById('grid-check').classList.toggle('hidden', viewMode !== 'grid');
+    const listCheck = document.getElementById('list-check');
+    if (listCheck) listCheck.classList.toggle('hidden', viewMode !== 'list');
+
+            const sortLabels = { 'date':'Created Date', 'modified':'Modified Date', 'amount':'Deal Value', 'source':'Source', 'stage':'Status', 'score':'Score', 'name':'Name' };
+    document.getElementById('active-sort-label').textContent = sortLabels[sortBy] || 'Created Date';
+    ['date','modified','amount','source','stage','score','name'].forEach(s => {
+        const check = document.getElementById('sort-' + s + '-check');
+        if (check) check.classList.toggle('hidden', sortBy !== s);
+    });
+
+    document.getElementById('active-order-label').textContent = sortOrder === 'desc' ? 'Descending' : 'Ascending';
+    document.getElementById('order-desc-check').classList.toggle('hidden', sortOrder !== 'desc');
+    document.getElementById('order-asc-check').classList.toggle('hidden', sortOrder !== 'asc');
+
+    document.getElementById('active-status-label').textContent = 'Status: ' + pageLimit;
+    ['All', 'LEAD', 'LOST', 'FOLLOW UP', 'PROPOSAL SENT', 'HOT', 'TRIAL AC', 'ONBOARDED', 'DEMO DONE'].forEach(s => {
+        const check = document.getElementById(`status-${s}-check`);
+        if (check) check.classList.toggle('hidden', statusFilter !== s);
+    });
+
+    
+    [10, 50, 100, 500, 'All'].forEach(l => {
+        const check = document.getElementById(`limit-${l}-check`);
+        if (check) check.classList.toggle('hidden', pageLimit != l); // Using loose equality for numbers/strings
+    });
+
+    // 2. Toggle main view containers
+    const kanban = document.getElementById('kanban-view');
+    const table = document.getElementById('table-view');
+    document.getElementById('original-header-container').classList.add('hidden');
+    document.getElementById('list-header-container').classList.remove('hidden');
+
+    // Process Leads Data for filtering/sorting
+    let processed = [...leadsData];
+    
+    // Status filter
+    if (statusFilter !== 'All') {
+        processed = processed.filter(lead => lead.stage.toUpperCase() === statusFilter.toUpperCase());
+    }
+
+    // Search query
+    if (searchQuery) {
+        processed = processed.filter(lead => {
+            return lead.name.toLowerCase().includes(searchQuery) ||
+                   lead.email.toLowerCase().includes(searchQuery) ||
+                   lead.mobile.toLowerCase().includes(searchQuery) ||
+                   lead.user.toLowerCase().includes(searchQuery) ||
+                   lead.source.toLowerCase().includes(searchQuery) ||
+                   lead.stage.toLowerCase().includes(searchQuery);
+        });
+    }
+
+    // Sort
+        if (sortBy === 'modified') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.modifiedDate).localeCompare(String(b.modifiedDate)) : String(b.modifiedDate).localeCompare(String(a.modifiedDate)));
+    } else if (sortBy === 'amount') {
+        const parseAmt = (amt) => parseFloat(String(amt).replace(/[^0-9.-]+/g, "")) || 0;
+        processed.sort((a, b) => sortOrder === 'asc' ? parseAmt(a.amount) - parseAmt(b.amount) : parseAmt(b.amount) - parseAmt(a.amount));
+    } else if (sortBy === 'source') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.source).localeCompare(String(b.source)) : String(b.source).localeCompare(String(a.source)));
+    } else if (sortBy === 'stage') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.stage).localeCompare(String(b.stage)) : String(b.stage).localeCompare(String(a.stage)));
+    } else if (sortBy === 'score') {
+        processed.sort((a, b) => sortOrder === 'asc' ? (a.score||0) - (b.score||0) : (b.score||0) - (a.score||0));
+    } else if (sortBy === 'name') {
+        processed.sort((a, b) => sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+    } else {
+        processed.sort((a, b) => sortOrder === 'asc' ? a.date - b.date : b.date - a.date);
+    }
+
+    // Pagination/Limit
+    if (pageLimit !== 'All') {
+        const limit = parseInt(pageLimit);
+        processed = processed.slice(0, limit);
+    }
+
+    if (viewMode === 'grid') {
+        kanban.classList.remove('hidden');
+        table.classList.add('hidden');
+        document.getElementById('bulk-action-container').classList.add('hidden');
+        document.getElementById('customize-table-container').classList.add('hidden');
+        document.getElementById('sort-dropdown-container').classList.remove('hidden');
+        document.getElementById('order-dropdown-container').classList.remove('hidden');
+        document.getElementById('status-dropdown-container').classList.remove('hidden');
+        
+        
+        syncKanbanFromLeadsData(processed);
+    } else {
+        kanban.classList.add('hidden');
+        table.classList.remove('hidden');
+        document.getElementById('bulk-action-container').classList.remove('hidden');
+        document.getElementById('customize-table-container').classList.remove('hidden');
+        document.getElementById('sort-dropdown-container').classList.add('hidden');
+        document.getElementById('order-dropdown-container').classList.add('hidden');
+        document.getElementById('status-dropdown-container').classList.add('hidden'); // Status makes sense in List, wait, yes, it could be visible, but it's fine.
+        
+
+
+
+        
+        const totalRecords = processed.length;
+
+        const tbody = document.getElementById('leads-table-body');
+        tbody.innerHTML = '';
+        
+        if (totalRecords === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="11" class="py-8 text-center text-slate-400 font-semibold text-xs bg-white">
+                        No records found!!
+                    </td>
+                </tr>
+            `;
+        } else {
+            processed.forEach((lead, i) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 text-center">
+                        <input type="checkbox" onchange="handleLeadCheckboxChange()" class="lead-checkbox rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer" value="${lead.name.replace(/"/g, '&quot;')}">
+                    </td>
+                    <td class="py-3.5 px-6 font-bold text-slate-400 text-center">${i + 1}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-creation">${lead.creationDate}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-modified">${lead.modifiedDate}</td>
+                    <td class="py-3.5 px-6 font-bold text-slate-800 col-name">${lead.name}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-mobile">${lead.mobile}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-email">${lead.email}</td>
+                    <td class="py-3.5 px-6 text-slate-600 font-bold col-user">${lead.user}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-source">${lead.source}</td>
+                    <td class="py-3.5 px-6 col-status">
+                        <span class="px-2.5 py-0.5 bg-purple-50 text-[#2563EB] text-[10px] font-bold rounded-full uppercase border border-purple-100">${lead.stage}</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="openEditLeadModal('${lead.name.replace(/'/g, "\\'")}')" class="text-[#2563EB] hover:text-[#1d4ed8] transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                            </button>
+                            <button onclick="deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        applyColumnVisibility();
+
+
+    }
+}
+
+function setViewMode(mode) {
+    viewMode = mode;
+    renderLeads();
+}
+
+function setSortField(field) {
+    sortBy = field;
+    renderLeads();
+}
+
+function setSortOrder(order) {
+    sortOrder = order;
+    renderLeads();
+}
+
+function setStatusFilter(status) {
+    statusFilter = status;
+    renderLeads();
+}
+
+function setPageLimit(limitVal) {
+    pageLimit = limitVal;
+    renderLeads();
+}
+
+function toggleDropdown(event, id) {
+    event.stopPropagation();
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        if (menu.id !== id) {
+            menu.classList.add('hidden');
+        }
+    });
+    const dropdown = document.getElementById(id);
+    dropdown.classList.toggle('hidden');
+}
+
+document.addEventListener('click', () => {
+    document.querySelectorAll('.dropdown-menu').forEach(menu => {
+        menu.classList.add('hidden');
+    });
+});
+
+
+
+const hiddenColumns = new Set();
+let searchQuery = '';
+
+function toggleTableColumn(checkbox) {
+    const colClass = checkbox.value;
+    if (checkbox.checked) {
+        hiddenColumns.delete(colClass);
+    } else {
+        hiddenColumns.add(colClass);
+    }
+    applyColumnVisibility();
+    updateCustomizeLabel();
+}
+
+function applyColumnVisibility() {
+    document.querySelectorAll('#table-view th').forEach(th => {
+        const matchingClass = Array.from(th.classList).find(c => c.startsWith('col-'));
+        if (matchingClass) {
+            th.classList.toggle('hidden', hiddenColumns.has(matchingClass));
+        }
+    });
+    document.querySelectorAll('#table-view td').forEach(td => {
+        const matchingClass = Array.from(td.classList).find(c => c.startsWith('col-'));
+        if (matchingClass) {
+            td.classList.toggle('hidden', hiddenColumns.has(matchingClass));
+        }
+    });
+}
+
+function updateCustomizeLabel() {
+    const totalCols = 8;
+    const selectedCount = totalCols - hiddenColumns.size;
+    document.getElementById('customize-label').textContent = `${selectedCount} items selected`;
+}
+
+function toggleSelectAll(master) {
+    document.querySelectorAll('.lead-checkbox').forEach(cb => {
+        cb.checked = master.checked;
+    });
+}
+
+function handleLeadCheckboxChange() {
+    const allCheckboxes = document.querySelectorAll('.lead-checkbox');
+    const checkedCount = Array.from(allCheckboxes).filter(cb => cb.checked).length;
+    const master = document.getElementById('select-all-leads');
+    if (master) {
+        master.checked = checkedCount === allCheckboxes.length;
+        master.indeterminate = checkedCount > 0 && checkedCount < allCheckboxes.length;
+    }
+}
+
+function handleBulkAction(action) {
+    if (!action) return;
+    const selectedLeadNames = Array.from(document.querySelectorAll('.lead-checkbox'))
+        .filter(cb => cb.checked)
+        .map(cb => cb.value);
+
+    if (selectedLeadNames.length === 0) {
+        alert('Please select at least one lead first.');
+        document.getElementById('bulk-action-select').value = '';
+        return;
+    }
+
+    if (action === 'delete') {
+        if (confirm(`Are you sure you want to delete ${selectedLeadNames.length} selected lead(s)?`)) {
+            leadsData = leadsData.filter(lead => !selectedLeadNames.includes(lead.name));
+            syncKanbanFromLeadsData();
+            alert('Successfully deleted selected leads.');
+        }
+    } else if (action.startsWith('stage-')) {
+        const stageMap = {
+            'stage-lead': 'LEAD',
+            'stage-followup': 'FOLLOW UP',
+            'stage-onboarded': 'ONBOARDED'
+        };
+        const targetStage = stageMap[action];
+        if (targetStage) {
+            leadsData.forEach(lead => {
+                if (selectedLeadNames.includes(lead.name)) {
+                    lead.stage = targetStage;
+                }
+            });
+            syncKanbanFromLeadsData();
+            alert(`Successfully updated stage to ${targetStage} for selected leads.`);
+        }
+    }
+
+    const master = document.getElementById('select-all-leads');
+    if (master) {
+        master.checked = false;
+        master.indeterminate = false;
+    }
+    document.getElementById('bulk-action-select').value = '';
+    renderLeads();
+}
+
+function handleSearchLeads(query) {
+    searchQuery = query.toLowerCase().trim();
+    currentPage = 1;
+    renderLeads();
+    
+    // Also filter the Kanban board (Grid View) cards!
+    document.querySelectorAll('.kanban-column').forEach(column => {
+        column.querySelectorAll('.bg-on-primary.border').forEach(card => {
+            const h4 = card.querySelector('h4');
+            const name = h4 ? h4.textContent.toLowerCase() : '';
+            const emailText = card.innerHTML.toLowerCase();
+            const matches = !searchQuery || name.includes(searchQuery) || emailText.includes(searchQuery);
+            card.classList.toggle('hidden', !matches);
+        });
+    });
+}
+
+function populateFilterDropdowns() {
+    const stageSelect = document.getElementById('filter-stage');
+    const sourceSelect = document.getElementById('filter-source');
+    const userSelect = document.getElementById('filter-user');
+
+    if (!stageSelect) return;
+
+    const currentStage = stageSelect.value;
+    const currentSource = sourceSelect.value;
+    const currentUser = userSelect.value;
+
+    const stages = new Set();
+    const sources = new Set();
+    const users = new Set();
+
+    leadsData.forEach(lead => {
+        if (lead.stage) stages.add(lead.stage);
+        if (lead.source && lead.source !== '-') sources.add(lead.source);
+        if (lead.user && lead.user !== '-') users.add(lead.user);
+    });
+
+    stageSelect.innerHTML = '<option value="">All Stages</option>';
+    stages.forEach(s => {
+        stageSelect.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+
+    sourceSelect.innerHTML = '<option value="">All Sources</option>';
+    sources.forEach(s => {
+        sourceSelect.innerHTML += `<option value="${s}">${s}</option>`;
+    });
+
+    userSelect.innerHTML = '<option value="">All Users</option>';
+    users.forEach(u => {
+        userSelect.innerHTML += `<option value="${u}">${u}</option>`;
+    });
+
+    stageSelect.value = currentStage;
+    sourceSelect.value = currentSource;
+    userSelect.value = currentUser;
+}
+
+function handleFilterChange() {
+    currentPage = 1;
+    renderLeads();
+}
+
+function resetFilters() {
+    const stage = document.getElementById('filter-stage');
+    const source = document.getElementById('filter-source');
+    const user = document.getElementById('filter-user');
+    if (stage) stage.value = '';
+    if (source) source.value = '';
+    if (user) user.value = '';
+    
+    searchQuery = '';
+    const searchInput = document.getElementById('search-leads-input');
+    if (searchInput) searchInput.value = '';
+
+    currentPage = 1;
+    renderLeads();
+}
+
+function handleRefreshLeads() {
+    const btn = document.querySelector('button[onclick="handleRefreshLeads()"]');
+    if (btn) {
+        const icon = btn.querySelector('.material-symbols-outlined');
+        if (icon) {
+            icon.classList.add('animate-spin');
+            setTimeout(() => icon.classList.remove('animate-spin'), 600);
+        }
+    }
+    leadsData = [...DEFAULT_LEADS];
+    saveLeadsData();
+    resetFilters();
+    alert('Leads list refreshed successfully.');
+}
+
+function openAddLeadModal() {
+    document.getElementById('modal-title').textContent = 'Add New Lead';
+    document.getElementById('edit-lead-original-name').value = '';
+    document.getElementById('lead-form').reset();
+    document.getElementById('lead-modal').classList.remove('hidden');
+}
+
+function openEditLeadModal(name) {
+    const lead = leadsData.find(l => l.name === name);
+    if (!lead) return;
+
+    document.getElementById('modal-title').textContent = 'Edit Lead';
+    document.getElementById('edit-lead-original-name').value = lead.name;
+    document.getElementById('lead-name').value = lead.name;
+    document.getElementById('lead-email').value = lead.email === '-' ? '' : lead.email;
+    document.getElementById('lead-mobile').value = lead.mobile === '-' ? '' : lead.mobile;
+    document.getElementById('lead-stage').value = lead.stage;
+    document.getElementById('lead-source').value = lead.source;
+    document.getElementById('lead-user').value = lead.user;
+    document.getElementById('lead-amount').value = lead.amount === '-' ? '' : lead.amount;
+    document.getElementById('lead-status-field').value = lead.status === '-' ? '' : (lead.status || '');
+    document.getElementById('lead-priority').value = lead.priority || 'Low';
+    document.getElementById('lead-completed-date').value = lead.completedDate || '';
+    document.getElementById('lead-creation-date').value = lead.creationDate || '';
+
+    document.getElementById('lead-modal').classList.remove('hidden');
+}
+
+function closeLeadModal() {
+    document.getElementById('lead-modal').classList.add('hidden');
+}
+
+function handleLeadSubmit(event) {
+    event.preventDefault();
+    const originalName = document.getElementById('edit-lead-original-name').value;
+    const name = document.getElementById('lead-name').value.trim();
+    const email = document.getElementById('lead-email').value.trim() || '-';
+    const mobile = document.getElementById('lead-mobile').value.trim() || '-';
+    const stage = document.getElementById('lead-stage').value;
+    const source = document.getElementById('lead-source').value;
+    const user = document.getElementById('lead-user').value;
+    const amount = document.getElementById('lead-amount').value.trim() || '-';
+    const statusField = document.getElementById('lead-status-field').value.trim() || stage;
+    const priority = document.getElementById('lead-priority').value;
+    const completedDate = document.getElementById('lead-completed-date').value.trim();
+    const creationDateOverride = document.getElementById('lead-creation-date').value.trim();
+
+    if (originalName) {
+        const lead = leadsData.find(l => l.name === originalName);
+        if (lead) {
+            lead.name = name;
+            lead.email = email;
+            lead.mobile = mobile;
+            lead.stage = stage;
+            lead.source = source;
+            lead.user = user;
+            lead.amount = amount;
+            lead.status = statusField;
+            lead.priority = priority;
+            lead.completedDate = completedDate;
+            if (creationDateOverride) lead.creationDate = creationDateOverride;
+            lead.modifiedDate = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        }
+    } else {
+        const defaultCreation = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+        leadsData.push({
+            name, stage, email, mobile,
+            status: statusField,
+            source, amount, user,
+            priority: priority,
+            completedDate: completedDate,
+            creationDate: creationDateOverride || defaultCreation,
+            modifiedDate: creationDateOverride || defaultCreation,
+            date: Date.now(),
+            callsCount: 0, smsCount: 0, whatsappCount: 0
+        });
+    }
+
+    saveLeadsData();
+    closeLeadModal();
+    populateFilterDropdowns();
+    syncKanbanFromLeadsData();
+    renderLeads();
+}
+
+function deleteLead(name) {
+    if (confirm(`Are you sure you want to delete lead "${name}"?`)) {
+        leadsData = leadsData.filter(l => l.name !== name);
+        saveLeadsData();
+        renderLeads();
+    }
+}
+
+function buildCommBadges(calls, sms, whatsapp) {
+    const badgeClass = "absolute -top-1.5 -right-1.5 bg-[#F05A42] text-white text-[9px] font-bold rounded-full w-[14px] h-[14px] flex items-center justify-center leading-none";
+    return `
+        <div class="flex items-center gap-2 shrink-0 ml-2 pt-1">
+            <div class="relative cursor-pointer hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[18px] text-[#22C55E]">call</span>
+                <span class="${badgeClass}">${calls}</span>
+            </div>
+            <div class="relative cursor-pointer hover:scale-110 transition-transform">
+                <span class="material-symbols-outlined text-[18px] text-[#FBBF24]">chat_bubble_outline</span>
+                <span class="${badgeClass}">${sms}</span>
+            </div>
+            <div class="relative cursor-pointer hover:scale-110 transition-transform">
+                <svg viewBox="0 0 24 24" width="18" height="18" stroke="#22C55E" stroke-width="1.5" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+                <span class="${badgeClass}">${whatsapp}</span>
+            </div>
+        </div>
+    `;
+}
+
+function buildKanbanCard(lead) {
+    const esc = s => String(s || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    const safeN = (lead.name || '').replace(/'/g, "\\'");
+    const commBadges = buildCommBadges(lead.callsCount || 0, lead.smsCount || 0, lead.whatsappCount || 0);
+    const priorityText = lead.priority || 'Low';
+    const completedDate = lead.completedDate || '';
+    const creationDate  = lead.creationDate  || '';
+    const amtNum = parseFloat(String(lead.amount || '').replace(/[^0-9.-]/g, '')) || 0;
+    const amtDisplay = amtNum > 0 ? amtNum.toFixed(0) : '0';
+    
+    const mobileStr = String(lead.mobile || '');
+    const mobileParts = (mobileStr !== '' && mobileStr !== '-') ? mobileStr.split(' ') : [];
+    const mobilePart1 = mobileParts.length > 0 ? mobileParts[0] : '';
+    const mobilePart2 = mobileParts.length > 1 ? mobileParts.slice(1).join(' ') : '';
+
+    const cDateStr = String(creationDate || '');
+    const cDateSpaceIdx = cDateStr.lastIndexOf(' ');
+    const cDatePart1 = cDateSpaceIdx !== -1 ? cDateStr.substring(0, cDateSpaceIdx) : cDateStr;
+    const cDatePart2 = cDateSpaceIdx !== -1 ? cDateStr.substring(cDateSpaceIdx + 1) : '';
+
+    return `
+        <div class="kanban-card bg-white border border-slate-200 rounded-xl shadow-sm hover:shadow-md transition-all relative cursor-pointer overflow-hidden"
+             draggable="true"
+             data-name="${esc(lead.name)}"
+             data-email="${esc(lead.email)}"
+             data-mobile="${esc(lead.mobile)}"
+             data-status="${esc(lead.status || 'Active')}"
+             data-source="${esc(lead.source)}"
+             data-amount="${esc(lead.amount)}"
+             data-user="${esc(lead.user)}"
+             data-creationDate="${esc(creationDate)}"
+             data-priority="${esc(priorityText)}"
+             data-completedDate="${esc(completedDate)}"
+             data-callscount="${lead.callsCount || 0}"
+             data-smscount="${lead.smsCount || 0}"
+             data-whatsappcount="${lead.whatsappCount || 0}">
+            
+            <!-- Header: Name + Icons -->
+            <div class="flex justify-between items-start px-3 pt-3 pb-2 bg-slate-50/50 border-b border-slate-100">
+                <h4 class="text-[14px] font-bold text-slate-700 leading-snug flex-1 pr-1">${esc(lead.name)}</h4>
+                <div class="flex items-center gap-1.5 shrink-0">
+                    <button onclick="event.stopPropagation(); openEditLeadModal('${safeN}')" class="text-[#3B82F6] hover:bg-slate-100 p-0.5 rounded transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">edit</span>
+                    </button>
+                    <button onclick="event.stopPropagation(); deleteLead('${safeN}')" class="text-slate-400 hover:bg-slate-100 p-0.5 rounded transition-colors">
+                        <span class="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Body Fields Stacked exactly like the image -->
+            <div class="px-3 py-3 flex flex-col gap-3 text-[13px] text-slate-600 leading-tight">
+                <div>
+                    <span class="font-bold text-slate-700">Email:</span>
+                    <span class="ml-1 break-all">${esc(lead.email !== '-' ? lead.email : '')}</span>
+                </div>
+                
+                <div class="flex items-start justify-between">
+                    <div class="flex flex-col gap-1.5">
+                        <div>
+                            <span class="font-bold text-slate-700">Mobile:</span>
+                            <span class="ml-1">${esc(mobilePart1)}</span>
+                        </div>
+                        <div>${esc(mobilePart2)}</div>
+                    </div>
+                    ${commBadges}
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700">Status:</span>
+                    <span class="ml-1">${esc(lead.status && lead.status !== '-' ? lead.status : '')}</span>
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700">Source:</span>
+                    <span class="ml-1">${esc(lead.source !== '-' ? lead.source : '')}</span>
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700">Assign:</span>
+                    <span class="ml-1">${esc(lead.user !== '-' ? lead.user : '')}</span>
+                </div>
+
+                <div class="flex items-center gap-1">
+                    <span class="font-bold text-slate-700">Amount :</span>
+                    <span class="text-slate-700 text-[14px] leading-none">&#9746;</span>
+                    <span>${amtDisplay}</span>
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700">Priority:</span>
+                    <span class="ml-1">${esc(priorityText)}</span>
+                </div>
+
+                <div>
+                    <span class="font-bold text-slate-700">Completed Date:</span>
+                    <span class="ml-1">${esc(completedDate)}</span>
+                </div>
+
+                <div class="flex flex-col gap-1.5">
+                    <div>
+                        <span class="font-bold text-slate-700">Creation Date:</span>
+                        <span class="ml-1">${esc(cDatePart1)}</span>
+                    </div>
+                    <div>${esc(cDatePart2)}</div>
+                </div>
+            </div>
+        </div>`;
+}
+
+function syncKanbanFromLeadsData(processedData = leadsData) {
+    document.querySelectorAll('.kanban-column').forEach(column => {
+        const stageSpan = column.querySelector('.chevron-header span.text-xs');
+        if (!stageSpan) return;
+        const colStage = stageSpan.textContent.trim();
+        const container = column.querySelector('.kanban-cards-container');
+        const subheader = column.querySelector('[data-subheader]');
+        if (!container) return;
+
+        const colLeads = processedData.filter(l => l.stage.toUpperCase() === colStage.toUpperCase());
+        const isAlert = ALERT_STAGES.has(colStage.toUpperCase());
+        const colorClass = isAlert ? 'red' : 'green';
+        const textColor = isAlert ? '#991B1B' : '#0F766E';
+
+        // Update subheader
+        if (subheader) {
+            const totalValue = colLeads.reduce((sum, l) => {
+                const v = parseFloat(String(l.amount || '').replace(/[^0-9.-]+/g, '')) || 0;
+                return sum + v;
+            }, 0);
+            const count = colLeads.length;
+            const displayAmt = totalValue.toFixed(2);
+            subheader.className = `kanban-subheader ${colorClass}`;
+            subheader.innerHTML = `
+                <span class="material-symbols-outlined text-[13px]">currency_rupee</span>
+                <span class="font-bold">${displayAmt}</span>
+                <span class="opacity-80 ml-1">• ${count} lead${count !== 1 ? 's' : ''}</span>`;
+        }
+
+        container.innerHTML = '';
+
+        if (colLeads.length === 0) {
+            container.innerHTML = `
+                <div class="kanban-placeholder-card">
+                    No deals<br>in this<br>stage
+                </div>`;
+            return;
+        }
+
+        colLeads.forEach(lead => {
+            const wrapper = document.createElement('div');
+            wrapper.innerHTML = buildKanbanCard(lead);
+            const card = wrapper.firstElementChild;
+            // Drag start
+            card.addEventListener('dragstart', e => {
+                e.dataTransfer.effectAllowed = 'move';
+                e.dataTransfer.setData('text/plain', lead.name);
+                card.classList.add('dragging');
+                currentDragName = lead.name;
+            });
+            card.addEventListener('dragend', () => {
+                card.classList.remove('dragging');
+            });
+            // Click to edit
+            card.addEventListener('click', () => openEditLeadModal(lead.name));
+            container.appendChild(card);
+        });
+    });
+
+    // Set up drop targets
+    setupDragAndDrop();
+}
+
+let currentDragName = null;
+
+function setupDragAndDrop() {
+    document.querySelectorAll('.kanban-cards-container').forEach(container => {
+        container.addEventListener('dragover', e => {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+            container.classList.add('drag-over');
+        });
+        container.addEventListener('dragleave', e => {
+            if (!container.contains(e.relatedTarget)) {
+                container.classList.remove('drag-over');
+            }
+        });
+        container.addEventListener('drop', e => {
+            e.preventDefault();
+            container.classList.remove('drag-over');
+            const targetStage = container.dataset.stage;
+            if (!targetStage || !currentDragName) return;
+            const lead = leadsData.find(l => l.name === currentDragName);
+            if (lead && lead.stage.toUpperCase() !== targetStage.toUpperCase()) {
+                lead.stage = targetStage;
+                lead.modifiedDate = new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                saveLeadsData();
+                syncKanbanFromLeadsData();
+            }
+            currentDragName = null;
+        });
+    });
+}
+
+sortOrder = 'desc'; // asc or desc
+pageLimit = 'All'; // 10, 50, 100, 500, 'All'
+let statusFilter = 'All'; // All or specific stage
+
+document.addEventListener('DOMContentLoaded', () => {
+    loadLeadsData();
+    populateFilterDropdowns();
+    renderLeads();
+});
+

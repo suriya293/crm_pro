@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>LEADS - CRM Pipeline</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        /* KANBAN LAYOUT - Visible Scrollbars */
+
+        /* The outer scroll rail - fills remaining height, scrolls horizontally */
+        #kanban-view {
+            flex: 1 1 0;
+            min-height: 0;
+            display: flex;
+            flex-direction: column;
+            overflow-x: auto;
+            overflow-y: hidden;
+            scrollbar-width: auto;
+            scrollbar-color: #4A85F6 #dde4ef;
+        }
+        #kanban-view::-webkit-scrollbar      { height: 10px; }
+        #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+        #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border-radius: 5px; min-width: 40px; }
+        #kanban-view::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+
+        /* Inner r
+
+                    <button onclick="openAddLeadModal()" class="flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 hover:from-[#4A85F6] hover:to-[#4A85F6]/50 text-white rounded-full text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">add</span> Add Lead
+                    </button>
+                    <button onclick="handleRefreshLeads()" class="p-2 bg-[#4A85F6] hover:bg-[#3b71ca] text-white border-none rounded-full transition-all shadow-sm flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[16px]">refresh</span>
+                    </button>
+            </div>
+        </section>
+
+<style>
+.hide-scrollbar::-webkit-scrollbar { display: none !important; }
+.hide-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+.chevron-header {
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+.chevron-header:hover {
+    filter: brightness(0.95);
+}
+.chevron-header.active-pink {
+    background-color: #FEE2E2 !important;
+    background-image: none !important;
+    color: #991B1B !important;
+}
+.chevron-header.active-pink span {
+    color: #991B1B !important;
+}
+.chevron-header.active-pink div {
+    background-color: rgba(153, 27, 27, 0.1) !important;
+    color: #99

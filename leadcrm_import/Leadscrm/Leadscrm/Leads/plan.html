@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>DaffyTel - Manage Plan</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#4A85F6",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#eff6ff",
+                        "secondary-container": "#dbeafe",
+                        "on-secondary-container": "#1e40af",
+                        "surface": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#f8fafc",
+                        "surface-container": "#f1f5f9",
+                        "surface-container-high": "#e2e8f0",
+                        "outline-variant": "#cbd5e1",
+                        "background": "#f4f5f9",
+                        "on-surface": "#0f172a",
+                        "on-surface-variant": "#475569",
+                        "tertiary": "#8EB3FC",
+                    },
+                    fontFamily: {
+                        "sans": ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #64748b transparent;
+        }
+        /* Custom scrollbar matching the application theme */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8;
+        }
+        button, a, select, input {
+            cursor: pointer;
+        }
+    </style>
+
+    <script>
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+</head>
+<body class="bg-background text-on-surface font-sans overflow-y-auto overflow-x-hidden min-h-screen flex flex-col">
+    <div id="vanta-bg" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+
+    <!-- Top AppBar -->
+    <header class="bg-white px-6 py-4 flex items-center justify-between border-b border-slate-200 shadow-sm z-10 shrink-0">
+        <div class="flex items-center gap-2 text-slate-800 font-black text-[13px] cursor-pointer hover:text-primary transition-colors" onclick="handleGoBack()">
+            <span class="material-symbols-outlined text-[20px] font-extrabold">arrow_back</span>
+            MANAGE PLAN
+        </div>
+        <div class="text-[12px] text-slate-500 font-semibold flex items-center gap-1">
+            <span class="hover:text-primary cursor-pointer" onclick="window.location.href='settings.html'">Settings</span>
+            <span class="text-slate-400 mx-1">&gt;</span>
+            <span class="text-slate-800 font-bold">Manage Plan</span>
+        </div>
+    </header>
+
+    <!-- Main Content Grid -->
+    <main class="flex-1 p-8 max-w-7xl w-full mx-auto flex flex-col gap-6">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
+            
+            <!-- Left Column: Input Panel -->
+            <div class="lg:col-span-2 flex flex-col gap-6">
+                <!-- Config Card -->
+                <div class="bg-white border border-slate-200 p-8 shadow-sm rounded-md flex flex-col gap-6">
+                    <!-- Headings -->
+                    <div class="grid grid-cols-3 text-[11px] font-bold text-slate-500 tracking-wider pb-3 border-b border-slate-100">
+                        <div>Plan</div>
+                        <div>BILLING CYCLE</div>
+                        <div>TOTAL USERS</div>
+                    </div>
+                    
+                    <!-- Form Controls Row -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4 items-center">
+                        <!-- Plan Name (Blank / Standard in mockup) -->
+                        <div class="text-[14px] font-semibold text-slate-700">
+                        </div>
+                        
+                        <!-- Billing Cycle Dropdown -->
+                        <div>
+                            <div class="relative">
+                                <select id="billingCycle" onchange="calculatePlan()" class="w-full md:w-48 border border-slate-300 rounded px-3 py-2 text-[13px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                                    <option value="1">1 Month</option>
+                                    <option value="3">3 Months (5% off)</option>
+                                    <option value="6">6 Months (10% off)</option>
+                                    <option value="12">12 Months (20% off)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <!-- Total Users Input and calculation string -->
+                        <div class="flex items-center gap-3">
+                            <input id="totalUsers" type="number" min="0" value="0" oninput="calculatePlan()" class="w-20 border border-slate-300 rounded px-3 py-2 text-[13px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none shadow-sm" />
+                            <span class="text-[13px] text-slate-600 whitespace-nowrap">
+                                X <span id="formulaRate">₹0</span> = <span id="formulaSubtotal" class="font-semibold text-slate-800">₹0</span> / month
+                            </span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Form Buttons -->
+                <div class="flex items-center gap-4">
+                    <button onclick="handleContinue()" class="px-6 py-2.5 bg-[#3B4D80] hover:bg-[#2e3d66] text-white border-none rounded text-[13px] font-bold active:scale-95 transition-all shadow-sm">
+                        Continue
+                    </button>
+                    <button onclick="handleGoBack()" class="px-6 py-2.5 text-slate-600 hover:text-slate-800 hover:bg-slate-200/50 rounded text-[13px] font-bold active:scale-95 transition-all">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            <!-- Right Column: Summary Panel -->
+            <div class="bg-white border border-slate-200 p-8 shadow-sm rounded-md flex flex-col gap-6 relative">
+                <!-- Badge header -->
+                <div class="flex justify-end">
+                    <span id="cycleBadge" class="bg-[#EFF6FF] text-[#1E40AF] px-3 py-1 rounded text-[12px] font-bold">
+                        Paid Monthly
+                    </span>
+                </div>
+
+                <!-- Pricing Rows -->
+                <div class="flex flex-col gap-3">
+                    <div class="flex justify-between items-center text-[13px] text-slate-700">
+                        <span id="summaryUsersLabel">0 users</span>
+                        <span id="summarySubtotal" class="font-semibold">₹0</span>
+                    </div>
+                    <div class="text-[13px] text-slate-400 font-medium">
+                        <span id="summaryRateLabel">₹0/user/month</span>
+                    </div>
+                </div>
+
+                <!-- Divider line -->
+                <div class="border-t border-slate-200 my-2"></div>
+
+                <!-- Total cost -->
+                <div class="flex justify-between items-center">
+                    <span class="text-[15px] font-bold text-slate-700">Total Cost</span>
+                    <span id="summaryTotalCost" class="text-[15px] font-extrabold text-slate-800">₹0</span>
+                </div>
+            </div>
+            
+        </div>
+    </main>
+
+    <!-- Success Modal -->
+    <div id="paymentModalOverlay" class="fixed inset-0 bg-slate-900/40 z-[60] hidden flex items-center justify-center transition-opacity opacity-0 backdrop-blur-sm">
+        <div id="paymentModal" class="bg-white rounded-md shadow-2xl w-[420px] p-8 text-center transform scale-95 transition-transform duration-300">
+            <!-- Green Checkmark -->
+            <div class="mx-auto w-[72px] h-[72px] rounded-full border-[3px] border-[#a3e635] flex items-center justify-center mb-6 shadow-sm">
+                <svg class="w-10 h-10 text-[#84cc16]" fill="none" stroke="currentColor" stroke-width="3" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+                </svg>
+            </div>
+            
+            <h3 class="text-[17px] font-medium text-slate-700 mb-2">Order Processed</h3>
+            <p class="text-[13px] text-slate-500 mb-8">Your subscription configuration has been successfully updated.</p>
+            
+            <button onclick="closePaymentModal()" class="px-8 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white rounded text-[14px] font-bold active:scale-95 transition-all shadow-md">OK</button>
+        </div>
+    </div>
+
+    <script>
+        // Pricing Configuration
+        const BASE_MONTHLY_RATE = 150; // Rate per user per month
+        
+        function calculatePlan() {
+            const billingCycleSelect = document.getElementById('billingCycle');
+            const totalUsersInput = document.getElementById('totalUsers');
+            
+            const months = parseInt(billingCycleSelect.value) || 1;
+            const users = parseInt(totalUsersInput.value) || 0;
+            
+            // Apply cycle discounts
+            let monthlyRate = BASE_MONTHLY_RATE;
+            if (months === 3) monthlyRate = 142;  // ~5% off
+            else if (months === 6) monthlyRate = 135;  // 10% off
+            else if (months === 12) monthlyRate = 120; // 20% off
+            
+            // Adjust rate to 0 if users is 0 to match screenshot perfectly
+            const displayRate = users === 0 ? 0 : monthlyRate;
+            const displaySubtotal = displayRate * users;
+            const displayTotal = displaySubtotal * months;
+
+            // Formatted values with commas if necessary
+            const formattedRate = '₹' + displayRate.toLocaleString('en-IN');
+            const formattedSubtotal = '₹' + displaySubtotal.toLocaleString('en-IN');
+            const formattedTotal = '₹' + displayTotal.toLocaleString('en-IN');
+            
+            // Update left config card
+            document.getElementById('formulaRate').textContent = formattedRate;
+            document.getElementById('formulaSubtotal').textContent = formattedSubtotal;
+            
+            // Update right column summary card
+            document.getElementById('summaryUsersLabel').textContent = users + ' ' + (users === 1 ? 'user' : 'users');
+            
+            // In a subscription, the subtotal displays total cost for the selected period
+            document.getElementById('summarySubtotal').textContent = formattedTotal;
+            document.getElementById('summaryRateLabel').textContent = formattedRate + '/user/month';
+            document.getElementById('summaryTotalCost').textContent = formattedTotal;
+            
+            // Update badges
+            const cycleBadge = document.getElementById('cycleBadge');
+            if (months === 12) {
+                cycleBadge.textContent = 'Paid Yearly';
+            } else if (months === 1) {
+                cycleBadge.textContent = 'Paid Monthly';
+            } else {
+                cycleBadge.textContent = 'Paid every ' + months + ' Months';
+            }
+        }
+        
+        function handleGoBack() {
+            // Check if history is available, otherwise go to stage.html
+            if (document.referrer && document.referrer.includes('stage.html')) {
+                window.location.href = 'stage.html';
+            } else {
+                window.location.href = 'settings.html';
+            }
+        }
+
+        const paymentOverlay = document.getElementById('paymentModalOverlay');
+        const paymentModal = document.getElementById('paymentModal');
+
+        function handleContinue() {
+            const users = parseInt(document.getElementById('totalUsers').value) || 0;
+            if (users <= 0) {
+                alert("Please enter a valid number of users greater than 0.");
+                return;
+            }
+            paymentOverlay.classList.remove('hidden');
+            void paymentOverlay.offsetWidth;
+            paymentOverlay.classList.remove('opacity-0');
+            paymentModal.classList.remove('scale-95');
+            paymentModal.classList.add('scale-100');
+        }
+
+        function closePaymentModal() {
+            paymentOverlay.classList.add('opacity-0');
+            paymentModal.classList.remove('scale-100');
+            paymentModal.classList.add('scale-95');
+            setTimeout(() => {
+                paymentOverlay.classList.add('hidden');
+                handleGoBack(); // Go back to settings/stages after success
+            }, 300);
+        }
+
+        // Initialize calculations on load
+        document.addEventListener('DOMContentLoaded', () => {
+            calculatePlan();
+        });
+    </script>
+
+
+
+
+</body>
+</html>

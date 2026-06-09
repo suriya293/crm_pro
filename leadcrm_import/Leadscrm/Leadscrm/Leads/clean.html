@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Cleaning Data...</title>
+</head>
+<body>
+    <h2>Cleaning duplicate data, please wait...</h2>
+    <script>
+        function dedupeDeep(arr) {
+            if (!Array.isArray(arr)) return arr;
+            const seen = new Set();
+            return arr.filter(item => {
+                const val = JSON.stringify(item);
+                if (seen.has(val)) return false;
+                seen.add(val);
+                return true;
+            });
+        }
+
+        const keysToClean = [
+            'leadsData', 
+            'crmUsers', 
+            'crmLoginActivities', 
+            'crmImportHistory'
+        ];
+
+        keysToClean.forEach(key => {
+            try {
+                const raw = localStorage.getItem(key);
+                if (raw) {
+                    const parsed = JSON.parse(raw);
+                    if (Array.isArray(parsed)) {
+                        const cleaned = dedupeDeep(parsed);
+                        localStorage.setItem(key, JSON.stringify(cleaned));
+                        console.log(`Cleaned ${key}: went from ${parsed.length} to ${cleaned.length} items.`);
+                    }
+                }
+            } catch (e) {
+                console.error(`Error cleaning ${key}:`, e);
+            }
+        });
+
+        // Redirect back to dashboard immediately after cleaning
+        window.location.href = 'dashboard.html';
+    </script>
+</body>
+</html>

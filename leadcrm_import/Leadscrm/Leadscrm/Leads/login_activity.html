@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LEADS - Login Activity</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Outfit', sans-serif !important;
+        }
+        body, .font-body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        .dropdown-menu { display: none; }
+        .dropdown-menu:not(.hidden) { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu:not(.hidden) { animation: fadeIn 0.15s ease; }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        button, a, select, input[type="checkbox"], input[type="radio"], .cursor-pointer {
+            cursor: pointer;
+        }
+        button.bg-gradient-to-r:hover,
+        a.bg-gradient-to-r:hover {
+            background-image: linear-gradient(to right, #0f766e, #0f766e) !important;
+        }
+        .activity-card {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .activity-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px -5px rgba(13, 148, 136, 0.08), 0 4px 6px -2px rgba(13, 148, 136, 0.04);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = { darkMode: "class" }</script>
+    <style>
+        :root {
+            --primary-bg: #0D9488;
+            --primary-bg-hover: #0F766E;
+            --sidebar-bg: #0D9488;
+            --header-bg: #ffffff;
+            --text-primary: #ffffff;
+            --accent: #D97706;
+        }
+        .bg-primary { background-color: var(--primary-bg) !important; }
+        .bg-primary-hover:hover { background-color: var(--primary-bg-hover) !important; }
+        .text-primary { color: var(--text-primary) !important; }
+        .border-primary { border-color: var(--primary-bg) !important; }
+    </style>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+</head>
+<body class="bg-[#F0FDFA] bg-gradient-to-br from-[#F0FDFA] to-[#F8FAFC] text-slate-800 font-sans overflow-hidden flex h-screen">
+    <div id="vanta-bg" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+
+<!-- Toast Notification System -->
+<div id="toast-container" class="fixed top-4 right-4 z-50 flex flex-col gap-3"></div>
+
+<!-- Sidebar -->
+<aside class="hidden md:flex flex-col h-screen py-inner-padding bg-gradient-to-b from-[#0F766E] via-[#0D9488] to-[#115E59] border-r border-teal-500/10 w-64 shadow-2xl shrink-0 text-white">
+    <div class="px-6 mb-8 mt-4">
+        <h1 class="text-[20px] font-black text-white leading-tight">LEADS</h1>
+        <p class="text-xs text-white/70">CRM ADMIN</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="dashboard.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">dashboard</span>
+            <span class="text-label-md font-label-md text-white/80">Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="code.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">filter_list</span>
+            <span class="text-label-md font-label-md text-white/80">Leads</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="reports.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">bar_chart</span>
+            <span class="text-label-md font-label-md text-white/80">Reports</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-[#1E90FF] text-white rounded-xl font-bold shadow-md shadow-blue-900/20 hover:bg-white/25 transition-all duration-300" href="settings.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white">settings</span>
+            <span class="text-label-md font-label-md text-white font-bold">Settings</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="app.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">apps</span>
+            <span class="text-label-md font-label-md text-white/80">Apps</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-4 space-y-3 border-t border-white/15 pt-5 pb-2">
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="#">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">help</span>
+            <span class="text-[13px] font-bold tracking-wider">Help</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="signin.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">logout</span>
+            <span class="text-[13px] font-bold tracking-wider">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+    <!-- Top Header -->
+    <header class="flex justify-between items-center w-full px-6 h-14 bg-white border-b border-slate-100 z-10 shrink-0">
+        <div class="flex items-center">
+            <h2 class="text-[20px] font-black text-[#0D9488] tracking-wide">LOGIN ACTIVITY</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Live Clock -->
+            <div id="clock-container" class="flex items-center gap-1.5 px-3 py-1 bg-teal-50/50 border border-teal-100/50 rounded-xl text-xs font-bold text-slate-600 shadow-sm whitespace-nowrap">
+                <span class="material-symbols-outlined text-[15px] text-[#0D9488]">schedule</span>
+                <span id="live-clock">--:--:--</span>
+                        </div>
+            
+            <!-- Fullscreen Button -->
+            <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Fullscreen">
+                <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+            </button>
+            <!-- Dark Mode -->
+            <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Dark Mode">
+                <span class="material-symbols-outlined text-[20px]">dark_mode</span>
+            </button>
+            
+            <!-- Profile dropdown -->
+            <div class="relative">
+                <button onclick="toggleAdminMenu(event)" class="flex items-center gap-2 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-[#0D9488] rounded-full border border-teal-100 text-xs font-bold transition-all shadow-sm">
+                    <div class="w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                        <span class="material-symbols-outlined text-[16px] font-bold">person</span>
+                    </div>
+                    <span id="header-username">Admin</span>
+                    <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                </button>
+                <div id="admin-menu" class="absolute right-0 mt-1.5 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                    <a href="profile.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> Profile
+                    </a>
+                    <a href="login_activity.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Login Activity
+                    </a>
+                    <a href="client_secret.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">key</span> Client & Secret
+                    </a>
+                    <a href="change_password.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">lock</span> Change Password
+                    </a>
+                    <a href="signin.html" class="px-4 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors flex items-center gap-2 text-xs font-bold">
+                        <span class="material-symbols-outlined text-[16px] text-red-500">logout</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Canvas -->
+    <div class="flex-1 p-6 space-y-6 max-w-5xl mx-auto w-full flex flex-col justify-center">
+        <!-- Breadcrumb / Header Title -->
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-slate-200/60 pb-5">
+            <div>
+                <h3 class="text-2xl font-black text-slate-800 tracking-tight">Login Activity Logs</h3>
+                <p class="text-sm text-slate-500">View and track all secure access connection logs for your account.</p>
+            </div>
+            <div class="flex items-center gap-2">
+                <a href="dashboard.html" class="inline-flex items-center justify-center gap-1.5 px-4 py-2 bg-white hover:bg-transparent text-slate-600 border border-slate-200 rounded-xl text-xs font-bold transition-all shadow-sm">
+                    <span class="material-symbols-outlined text-[16px]">arrow_back</span>
+                    Back to Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Login Activity Card -->
+        <div class="activity-card bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm flex flex-col w-full">
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-100">
+                <h4 class="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
+                    <span class="material-symbols-outlined text-teal-600 text-[20px]">history</span>
+                    Access History
+                </h4>
+                
+                <!-- Filters -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <!-- IP search -->
+                    <div class="relative w-40 sm:w-48">
+                        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-400 text-[16px]">search</span>
+                        <input type="text" id="log-ip-filter" placeholder="Search IP..." class="w-full pl-8 pr-3 py-1.5 rounded-lg border border-slate-200 text-xs font-medium focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:outline-none transition-all placeholder-slate-400/85">
+                    </div>
+                    <!-- Date Filter Popover -->
+                    <div class="relative inline-block text-left">
+                        <button type="button" onclick="toggleDateFilterMenu(event)" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-slate-200 hover:bg-transparent text-slate-650 rounded-lg text-xs font-bold transition-all shadow-sm">
+                            <span class="material-symbols-outlined text-[16px] text-slate-500">filter_alt</span>
+                            <span>Filter</span>
+                            <!-- Active indicator dot -->
+                            <span id="filter-active-dot" class="w-1.5 h-1.5 rounded-full bg-teal-500 hidden"></span>
+                        </button>
+                        
+                        <!-- Popover Panel -->
+                        <div id="date-filter-menu" class="absolute right-0 mt-2 w-64 bg-white border border-slate-200 rounded-xl shadow-xl p-4 z-20 hidden dropdown-menu space-y-4">
+                            <h5 class="text-xs font-extrabold text-slate-700 uppercase tracking-wider flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-teal-600 text-[16px]">calendar_today</span>
+                                Date Range Filter
+                            </h5>
+                            <!-- Start Date -->
+                            <div class="space-y-1">
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wide">Start Date</label>
+                                <input type="date" id="log-start-date" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:outline-none transition-all cursor-pointer text-slate-700">
+                            </div>
+                            <!-- End Date -->
+                            <div class="space-y-1">
+                                <label class="block text-[10px] font-bold text-slate-400 uppercase tracking-wide">End Date</label>
+                                <input type="date" id="log-end-date" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 text-xs font-semibold focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:outline-none transition-all cursor-pointer text-slate-700">
+                            </div>
+                            <!-- Action Buttons -->
+                            <div class="flex items-center justify-end gap-2 pt-2 border-t border-slate-100">
+                                <button type="button" onclick="clearDateFilter(event)" class="px-3 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-lg text-xs font-bold transition-all shadow-sm">
+                                    Clear
+                                </button>
+                                <button type="button" onclick="applyDateFilter(event)" class="px-3 py-1.5 bg-teal-600 hover:bg-teal-700 text-white rounded-lg text-xs font-bold transition-all shadow-sm">
+                                    Apply
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="overflow-x-auto custom-scrollbar">
+                <table class="w-full text-left border-collapse min-w-[600px]">
+                    <thead>
+                        <tr class="border-b border-slate-100 bg-transparent/50">
+                            <th class="py-2.5 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Serial No.</th>
+                            <th class="py-2.5 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Login Time</th>
+                            <th class="py-2.5 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Logout Time</th>
+                            <th class="py-2.5 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">Total Duration</th>
+                            <th class="py-2.5 px-3 text-[10px] font-bold text-slate-400 uppercase tracking-wider">IP Address</th>
+                        </tr>
+                    </thead>
+                    <tbody id="login-logs-tbody" class="divide-y divide-slate-50 text-[12px] text-slate-700">
+                        <!-- Populated dynamically -->
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination and items per page -->
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-4 mt-6 pt-4 border-t border-slate-100 text-xs font-semibold text-slate-500">
+                <div class="flex items-center gap-2">
+                    <span>Show</span>
+                    <select id="log-page-size" class="px-2 py-1 bg-white border border-slate-200 rounded-lg text-xs font-bold cursor-pointer text-slate-600 focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 focus:outline-none">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                    </select>
+                    <span>entries</span>
+                    <span id="log-count-info" class="text-slate-400 ml-2">Showing 0-0 of 0 entries</span>
+                </div>
+                <div class="flex items-center gap-1.5" id="log-pagination">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    let currentUser = null;
+    let loginActivities = [];
+    let filteredLogs = [];
+    let currentLogPage = 1;
+    let logPageSize = 5;
+
+    // Toast Alerts
+    function showToast(message, type = 'success') {
+        const container = document.getElementById('toast-container');
+        if (!container) return;
+
+        const toast = document.createElement('div');
+        toast.className = `flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-bold transition-all duration-300 transform translate-x-12 opacity-0`;
+        
+        let icon = 'check_circle';
+        if (type === 'success') {
+            toast.classList.add('bg-emerald-50', 'border-emerald-250', 'text-emerald-700');
+        } else if (type === 'error') {
+            toast.classList.add('bg-red-50', 'border-red-250', 'text-red-750');
+            icon = 'error';
+        } else {
+            toast.classList.add('bg-transparent', 'border-slate-250', 'text-slate-700');
+            icon = 'info';
+        }
+
+        toast.innerHTML = `
+            <span class="material-symbols-outlined text-[18px]">${icon}</span>
+            <span>${message}</span>
+        `;
+
+        container.appendChild(toast);
+        
+        setTimeout(() => {
+            toast.classList.remove('translate-x-12', 'opacity-0');
+        }, 10);
+
+        setTimeout(() => {
+            toast.classList.add('translate-x-12', 'opacity-0');
+            setTimeout(() => toast.remove(), 300);
+        }, 3000);
+    }
+
+    // Fullscreen Toggle
+    function toggleFullscreen(button) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'enabled');
+            }).catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'disabled');
+            }).catch(e => {});
+        }
+    }
+
+    // Auto-restore fullscreen on first interaction if it was enabled
+    if (!window.hasFullscreenRestorer) {
+        window.hasFullscreenRestorer = true;
+        const restoreFullscreen = () => {
+            if (localStorage.getItem('fullscreen') === 'enabled' && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => {});
+            }
+            document.removeEventListener('click', restoreFullscreen);
+            document.removeEventListener('keydown', restoreFullscreen);
+        };
+        document.addEventListener('click', restoreFullscreen);
+        document.addEventListener('keydown', restoreFullscreen);
+    }
+
+    // Live Clock
+    function initClock() {
+        const clock = document.getElementById('live-clock');
+        const update = () => {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth()+1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            if (clock) clock.textContent = `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+        };
+        update();
+        setInterval(update, 1000);
+    }
+
+    let filterStartDate = null;
+    let filterEndDate = null;
+
+    // Admin Dropdown Toggle
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const dateMenu = document.getElementById('date-filter-menu');
+        if (dateMenu) dateMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    // Date Filter Menu Toggle
+    function toggleDateFilterMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('date-filter-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu && !adminMenu.contains(e.target) && !e.target.closest('button[onclick*="toggleAdminMenu"]')) {
+            adminMenu.classList.add('hidden');
+        }
+        const dateMenu = document.getElementById('date-filter-menu');
+        if (dateMenu && !dateMenu.contains(e.target) && !e.target.closest('button[onclick*="toggleDateFilterMenu"]')) {
+            dateMenu.classList.add('hidden');
+        }
+    });
+
+    // Dark Mode Toggle
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', 'disabled');
+            showToast('Dark Mode Disabled');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('darkMode', 'enabled');
+            showToast('Dark Mode Enabled');
+        }
+    }
+
+    // Show Tips
+    function showTip() {
+        showToast('Tip: Review your login logs regularly to identify any unauthorized access IPs.', 'info');
+    }
+
+    // Session Verification
+    function verifySession() {
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) {
+            window.location.replace('signin.html');
+            return;
+        }
+
+        document.getElementById('header-username').textContent = session.username;
+        try {
+            const photos = JSON.parse(localStorage.getItem('crmUserProfilePhotos') || '{}');
+            const userPhoto = photos[session.username.toLowerCase()];
+            const headerImg = document.getElementById('header-user-photo');
+            const headerPlaceholder = document.getElementById('header-user-placeholder');
+            if (userPhoto) {
+                if (headerImg) {
+                    headerImg.src = userPhoto;
+                    headerImg.classList.remove('hidden');
+                }
+                if (headerPlaceholder) headerPlaceholder.classList.add('hidden');
+            } else {
+                if (headerImg) {
+                    headerImg.src = '';
+                    headerImg.classList.add('hidden');
+                }
+                if (headerPlaceholder) headerPlaceholder.classList.remove('hidden');
+            }
+        } catch(e) {}
+
+        let users = [];
+        try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+        
+        currentUser = users.find(u => u.username.toLowerCase() === session.username.toLowerCase());
+        
+        if (!currentUser) {
+            showToast('User record not found in system storage!', 'error');
+            currentUser = {
+                username: session.username,
+                email: session.email || 'admin@daffytel.com',
+                password: 'admin123'
+            };
+        }
+
+        loadLoginActivities();
+    }
+
+    // Load Login Activities
+    function loadLoginActivities() {
+        let activities = [];
+        try {
+            activities = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]');
+        } catch(e) {}
+
+        activities = activities.filter(a => a.username.toLowerCase() === currentUser.username.toLowerCase());
+
+        if (activities.length === 0) {
+            activities = seedMockLoginLogs();
+        }
+
+        loginActivities = activities;
+        filteredLogs = [...loginActivities];
+        applyLogsFilters();
+    }
+
+    function seedMockLoginLogs() {
+        const logs = [];
+        const ips = ['192.168.1.102', '192.168.1.15', '172.16.4.52', '10.0.0.15', '192.168.1.200', '198.51.100.24', '203.0.113.88'];
+        const now = Date.now();
+
+        for (let i = 15; i >= 1; i--) {
+            const loginOffset = i * 8 * 60 * 60 * 1000;
+            const loginTime = now - loginOffset;
+            const durationMin = Math.floor(Math.random() * 120) + 15;
+            const logoutTime = i === 1 ? null : loginTime + (durationMin * 60 * 1000);
+            
+            let durationStr = '--';
+            if (logoutTime) {
+                const hours = Math.floor(durationMin / 60);
+                const mins = durationMin % 60;
+                durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            }
+
+            logs.push({
+                username: currentUser.username,
+                serial: 16 - i,
+                loginAt: loginTime,
+                logoutAt: logoutTime,
+                duration: durationStr,
+                ip: ips[Math.floor(Math.random() * ips.length)]
+            });
+        }
+
+        let allLogs = [];
+        try { allLogs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]'); } catch(e) {}
+        allLogs = allLogs.filter(a => a.username.toLowerCase() !== currentUser.username.toLowerCase());
+        allLogs = [...allLogs, ...logs];
+        localStorage.setItem('crmLoginActivities', JSON.stringify(allLogs));
+
+        return logs;
+    }
+
+    function formatDateTime(date) {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        const ss = String(date.getSeconds()).padStart(2, '0');
+        return `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+    }
+
+    function applyLogsFilters() {
+        const ipSearch = document.getElementById('log-ip-filter').value.trim().toLowerCase();
+
+        filteredLogs = loginActivities.filter(log => {
+            const matchesIp = log.ip.toLowerCase().includes(ipSearch);
+            let matchesDate = true;
+
+            if (filterStartDate) {
+                matchesDate = matchesDate && (log.loginAt >= filterStartDate.getTime());
+            }
+            if (filterEndDate) {
+                matchesDate = matchesDate && (log.loginAt <= filterEndDate.getTime());
+            }
+
+            return matchesIp && matchesDate;
+        });
+
+        currentLogPage = 1;
+        renderLogsTable();
+    }
+
+    function applyDateFilter(event) {
+        if (event) event.preventDefault();
+        
+        const startVal = document.getElementById('log-start-date').value;
+        const endVal = document.getElementById('log-end-date').value;
+
+        filterStartDate = startVal ? new Date(startVal + 'T00:00:00') : null;
+        filterEndDate = endVal ? new Date(endVal + 'T23:59:59') : null;
+
+        const activeDot = document.getElementById('filter-active-dot');
+        if (filterStartDate || filterEndDate) {
+            if (activeDot) activeDot.classList.remove('hidden');
+        } else {
+            if (activeDot) activeDot.classList.add('hidden');
+        }
+
+        applyLogsFilters();
+
+        const menu = document.getElementById('date-filter-menu');
+        if (menu) menu.classList.add('hidden');
+    }
+
+    function clearDateFilter(event) {
+        if (event) event.preventDefault();
+
+        document.getElementById('log-start-date').value = '';
+        document.getElementById('log-end-date').value = '';
+
+        filterStartDate = null;
+        filterEndDate = null;
+
+        const activeDot = document.getElementById('filter-active-dot');
+        if (activeDot) activeDot.classList.add('hidden');
+
+        applyLogsFilters();
+
+        const menu = document.getElementById('date-filter-menu');
+        if (menu) menu.classList.add('hidden');
+    }
+
+    function renderLogsTable() {
+        const tbody = document.getElementById('login-logs-tbody');
+        tbody.innerHTML = '';
+
+        const startIdx = (currentLogPage - 1) * logPageSize;
+        const endIdx = startIdx + logPageSize;
+        const paginatedData = filteredLogs.slice().reverse().slice(startIdx, endIdx);
+
+        paginatedData.forEach((log, index) => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-transparent/50 transition-colors';
+            
+            const loginStr = formatDateTime(new Date(log.loginAt));
+            const logoutStr = log.logoutAt ? formatDateTime(new Date(log.logoutAt)) : '<span class="text-emerald-600 font-bold flex items-center gap-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>Active Session</span>';
+            const durationStr = log.logoutAt ? log.duration : '--';
+            const serialNo = filteredLogs.length - (startIdx + index);
+
+            tr.innerHTML = `
+                <td class="py-2.5 px-3 font-semibold text-slate-500">${serialNo}</td>
+                <td class="py-2.5 px-3 font-medium text-slate-700">${loginStr}</td>
+                <td class="py-2.5 px-3 font-medium text-slate-750">${logoutStr}</td>
+                <td class="py-2.5 px-3 font-bold text-slate-650">${durationStr}</td>
+                <td class="py-2.5 px-3 font-mono text-slate-500">${log.ip}</td>
+            `;
+            tbody.appendChild(tr);
+        });
+
+        if (paginatedData.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="5" class="py-8 text-center text-slate-400 text-xs font-medium">No activity records found matching filters.</td></tr>`;
+        }
+
+        const total = filteredLogs.length;
+        const fromVal = total === 0 ? 0 : startIdx + 1;
+        const toVal = Math.min(endIdx, total);
+        document.getElementById('log-count-info').textContent = `Showing ${fromVal}-${toVal} of ${total} entries`;
+
+        renderLogsPagination(total);
+    }
+
+    function renderLogsPagination(totalEntries) {
+        const container = document.getElementById('log-pagination');
+        container.innerHTML = '';
+
+        const totalPages = Math.ceil(totalEntries / logPageSize);
+        if (totalPages <= 1) return;
+
+        const prevBtn = document.createElement('button');
+        prevBtn.className = `p-1.5 border rounded-lg flex items-center justify-center transition-all ${currentLogPage === 1 ? 'border-slate-100 text-slate-350 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-transparent'}`;
+        prevBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">chevron_left</span>';
+        prevBtn.disabled = currentLogPage === 1;
+        prevBtn.onclick = () => {
+            if (currentLogPage > 1) {
+                currentLogPage--;
+                renderLogsTable();
+            }
+        };
+        container.appendChild(prevBtn);
+
+        for (let i = 1; i <= totalPages; i++) {
+            const pageBtn = document.createElement('button');
+            const isActive = i === currentLogPage;
+            pageBtn.className = `px-2.5 py-1 border text-xs font-bold rounded-lg transition-all ${isActive ? 'bg-[#1E90FF] border-[#1E90FF] text-white shadow-sm shadow-blue-500/10' : 'border-slate-200 text-slate-600 hover:bg-transparent'}`;
+            pageBtn.textContent = i;
+            pageBtn.onclick = () => {
+                currentLogPage = i;
+                renderLogsTable();
+            };
+            container.appendChild(pageBtn);
+        }
+
+        const nextBtn = document.createElement('button');
+        nextBtn.className = `p-1.5 border rounded-lg flex items-center justify-center transition-all ${currentLogPage === totalPages ? 'border-slate-100 text-slate-350 cursor-not-allowed' : 'border-slate-200 text-slate-600 hover:bg-transparent'}`;
+        nextBtn.innerHTML = '<span class="material-symbols-outlined text-[16px]">chevron_right</span>';
+        nextBtn.disabled = currentLogPage === totalPages;
+        nextBtn.onclick = () => {
+            if (currentLogPage < totalPages) {
+                currentLogPage++;
+                renderLogsTable();
+            }
+        };
+        container.appendChild(nextBtn);
+    }
+
+    document.getElementById('log-ip-filter').addEventListener('input', applyLogsFilters);
+    document.getElementById('log-page-size').addEventListener('change', (e) => {
+        logPageSize = parseInt(e.target.value);
+        currentLogPage = 1;
+        renderLogsTable();
+    });
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initClock();
+        verifySession();
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    });
+</script>
+
+
+
+
+</body>
+</html>

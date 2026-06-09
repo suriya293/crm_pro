@@ -1,0 +1,67 @@
+Created At: 2026-05-23T11:41:21Z
+Completed At: 2026-05-23T11:41:21Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 29897
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: $files = @("c:\Users\YUVEHA\OneDrive\Documents\Leads\code.html", "c:\Users\YUVEHA\OneDrive\Documents\Leads\listview.html")
+2: foreach ($f in $files) {
+3:     $c = [System.IO.File]::ReadAllText($f)
+4:     $c = $c -replace "document\.getElementById\('limit-dropdown-container'\)\.classList\.(add|remove)\('hidden'\);", ""
+5:     [System.IO.File]::WriteAllText($f, $c)
+6: }
+7: Write-Output "Fixed classList error!"
+8: 
+9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+11:     <style>
+12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13: 
+14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+15:         #kanban-view {
+16:             flex: 1 1 0;
+17:             min-height: 0;
+18:             display: flex;
+19:             flex-direction: column;
+20:             overflow-x: auto;
+21:             overflow-y: hidden;
+22:             scrollbar-width: auto;
+23:             scrollbar-color: #4A85F6 #dde4ef;
+24:         }
+25:         #kanban-view::-webkit-scrollbar      { height: 10px; }
+26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+27:         #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border-radius: 5px; min-width: 40px; }
+28:         #kanban-view::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+29: 
+<truncated 12795 bytes>
+: 
+773: 
+774: 
+775: <div class="kanban-cards-container" data-stage="DEMO DONE"></div>
+776: </div>
+777: 
+778: <!-- 10. RNR -->
+779: <div class="kanban-column">
+780: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+781: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+782: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_disabled</span>
+783: </div>
+784: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">RNR</span>
+785: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+786: </header>
+787: <div class="kanban-subheader green" data-subheader></div>
+788: <div class="kanban-cards-container" data-stage="RNR"></div>
+789: </div>
+790: 
+791: <!-- 11. CALL BACK -->
+792: <div class="kanban-column">
+793: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+794: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+795: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_callback</span>
+796: </div>
+797: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">CALL BACK</span>
+798: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+799: </header>
+800: <div class="kanban-subheader green" data-subheader></div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

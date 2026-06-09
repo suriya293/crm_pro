@@ -1,0 +1,2320 @@
+
+// â”€â”€â”€ State â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+let leadsData = [];
+let searchQuery = '';
+let statusFilter = 'All';
+let sortBy = 'date';
+let sortOrder = 'desc';
+let pageLimit = '10';
+let currentPage = 1;
+let pageSize = 10;
+const hiddenColumns = new Set();
+
+// Advanced filter state
+let advFilters = {
+    name:'', mobile:'', email:'', assign:'',
+    userGroup:'', user:'', stage:'', source:'',
+    priority:'', adsName:'', country:'', city:'',
+    pincode:'', tag:'', segment:'', dateType:'created',
+    dateFrom:'', dateTo:'', customFieldName:'', customFieldValue:''
+};
+
+function toggleFilterPanel() {
+    const panel   = document.getElementById('filter-panel');
+    const overlay = document.getElementById('filter-overlay');
+    const btn     = document.getElementById('filter-panel-btn');
+    const isOpen  = !panel.classList.contains('translate-x-full');
+    if (isOpen) {
+        // Close
+        panel.classList.add('translate-x-full');
+        overlay.classList.add('hidden');
+        btn.classList.remove('bg-orange-500','text-white','border-orange-500');
+        btn.classList.add('bg-orange-50','text-orange-700','border-orange-200');
+    } else {
+        // Open
+        panel.classList.remove('translate-x-full');
+        overlay.classList.remove('hidden');
+        btn.classList.add('bg-orange-500','text-white','border-orange-500');
+        btn.classList.remove('bg-orange-50','text-orange-700','border-orange-200');
+        populateFilterDropdowns();
+    }
+}
+
+function populateFilterDropdowns() {
+    // Sources
+    const sources = [...new Set(leadsData.map(l => l.source).filter(s => s && s !== '-'))].sort();
+    const srcSel  = document.getElementById('fp-source');
+    const curSrc  = srcSel.value;
+    srcSel.innerHTML = '<option value="">All Sources</option>' + sources.map(s => `<option${s===curSrc?' selected':''}>${s}</option>`).join('');
+    // Users
+    const users   = [...new Set(leadsData.map(l => l.user).filter(u => u && u !== '-'))].sort();
+    const usrSel  = document.getElementById('fp-user');
+    const curUsr  = usrSel.value;
+    usrSel.innerHTML = '<option value="">All Users</option>' + users.map(u => `<option${u===curUsr?' selected':''}>${u}</option>`).join('');
+}
+
+function applyAdvancedFilters() {
+    advFilters.name             = (document.getElementById('fp-name')?.value||'').trim().toLowerCase();
+    advFilters.mobile           = (document.getElementById('fp-mobile')?.value||'').trim().toLowerCase();
+    advFilters.email            = (document.getElementById('fp-email')?.value||'').trim().toLowerCase();
+    advFilters.assign           = document.querySelector('input[name="fp-assign"]:checked')?.value||'';
+    advFilters.userGroup        = (document.getElementById('fp-user-group')?.value||'');
+    advFilters.user             = (document.getElementById('fp-user')?.value||'');
+    advFilters.stage            = (document.getElementById('fp-stage')?.value||'');
+    advFilters.source           = (document.getElementById('fp-source')?.value||'');
+    advFilters.priority         = document.querySelector('input[name="fp-priority"]:checked')?.value||'';
+    advFilters.adsName          = (document.getElementById('fp-ads-name')?.value||'').trim().toLowerCase();
+    advFilters.country          = (document.getElementById('fp-country')?.value||'');
+    advFilters.city             = (document.getElementById('fp-city')?.value||'').trim().toLowerCase();
+    advFilters.pincode          = (document.getElementById('fp-pincode')?.value||'').trim();
+    advFilters.tag              = (document.getElementById('fp-tag')?.value||'').trim().toLowerCase();
+    advFilters.segment          = (document.getElementById('fp-segment')?.value||'');
+    advFilters.dateType         = document.querySelector('input[name="fp-date-type"]:checked')?.value||'created';
+    advFilters.dateFrom         = (document.getElementById('fp-date-from')?.value||'');
+    advFilters.dateTo           = (document.getElementById('fp-date-to')?.value||'');
+    advFilters.customFieldName  = (document.getElementById('fp-custom-field-name')?.value||'').trim().toLowerCase();
+    advFilters.customFieldValue = (document.getElementById('fp-custom-field-value')?.value||'').trim().toLowerCase();
+    currentPage = 1;
+    renderLeads();
+    updateFilterChips();
+    // Close drawer after applying
+    const panel = document.getElementById('filter-panel');
+    if (!panel.classList.contains('translate-x-full')) toggleFilterPanel();
+}
+
+function clearAdvancedFilters() {
+    advFilters = { name:'', mobile:'', email:'', assign:'', userGroup:'', user:'', stage:'', source:'',
+        priority:'', adsName:'', country:'', city:'', pincode:'', tag:'', segment:'',
+        dateType:'created', dateFrom:'', dateTo:'', customFieldName:'', customFieldValue:'' };
+    ['fp-name','fp-mobile','fp-email','fp-user-group','fp-user','fp-stage','fp-source',
+     'fp-ads-name','fp-country','fp-city','fp-pincode','fp-tag','fp-segment',
+     'fp-date-from','fp-date-to','fp-custom-field-name','fp-custom-field-value']
+        .forEach(id => { const el = document.getElementById(id); if(el) el.value=''; });
+    // Reset radio buttons
+    const assignAll = document.getElementById('fp-assign-all');
+    if(assignAll) assignAll.checked = true;
+    const priorityAll = document.querySelector('input[name="fp-priority"][value=""]');
+    if(priorityAll) priorityAll.checked = true;
+    const dateCreated = document.querySelector('input[name="fp-date-type"][value="created"]');
+    if(dateCreated) dateCreated.checked = true;
+    currentPage = 1;
+    renderLeads();
+    updateFilterChips();
+}
+
+function downloadFilteredExcel() {
+    // Get current filtered leads (re-run filter logic inline)
+    let processed = [...leadsData];
+    if (advFilters.name)    processed = processed.filter(l => (l.name||'').toLowerCase().includes(advFilters.name));
+    if (advFilters.mobile)  processed = processed.filter(l => (l.mobile||'').toLowerCase().includes(advFilters.mobile));
+    if (advFilters.email)   processed = processed.filter(l => (l.email||'').toLowerCase().includes(advFilters.email));
+    if (advFilters.stage)   processed = processed.filter(l => (l.stage||'').toUpperCase() === advFilters.stage.toUpperCase());
+    if (advFilters.source)  processed = processed.filter(l => (l.source||'') === advFilters.source);
+    if (advFilters.user)    processed = processed.filter(l => (l.user||'') === advFilters.user);
+    if (advFilters.priority) processed = processed.filter(l => (l.priority||'').toLowerCase() === advFilters.priority.toLowerCase());
+    if (advFilters.assign === 'assigned')   processed = processed.filter(l => l.user && l.user !== '-' && l.user !== '');
+    if (advFilters.assign === 'unassigned') processed = processed.filter(l => !l.user || l.user === '-' || l.user === '');
+    if (advFilters.dateFrom) { const from = new Date(advFilters.dateFrom).getTime(); processed = processed.filter(l => l.date >= from); }
+    if (advFilters.dateTo)   { const to   = new Date(advFilters.dateTo).getTime() + 86399999; processed = processed.filter(l => l.date <= to); }
+
+    // Build CSV
+    const headers = ['Name','Mobile','Email','Stage','Source','User','Priority','Creation Date','Modified Date'];
+    const rows = processed.map(l => [
+        `"${(l.name||'').replace(/"/g,'""')}"`,
+        `"${(l.mobile||'')}"`,
+        `"${(l.email||'')}"`,
+        `"${(l.stage||'')}"`,
+        `"${(l.source||'')}"`,
+        `"${(l.user||'')}"`,
+        `"${(l.priority||'')}"`,
+        `"${(l.creationDate||'')}"`,
+        `"${(l.modifiedDate||'')}"`
+    ].join(','));
+    const csv = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' });
+    const url  = URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href = url; a.download = 'leads_filtered_' + new Date().toISOString().slice(0,10) + '.csv';
+    document.body.appendChild(a); a.click();
+    document.body.removeChild(a); URL.revokeObjectURL(url);
+}
+
+function updateFilterChips() {
+    const chips = document.getElementById('filter-chips');
+    const badge = document.getElementById('filter-active-badge');
+    if (!chips) return;
+    const labels = {
+        name:'Name', mobile:'Mobile', email:'Email', assign:'Assign',
+        userGroup:'Group', user:'User', stage:'Stage', source:'Source',
+        priority:'Priority', adsName:'Ads', country:'Country', city:'City',
+        pincode:'Pincode', tag:'Tag', segment:'Segment',
+        dateFrom:'From', dateTo:'To', customFieldName:'Field', customFieldValue:'Value'
+    };
+    const active = Object.entries(advFilters).filter(([k,v]) => v && k !== 'dateType');
+    badge.textContent = active.length;
+    badge.classList.toggle('hidden', active.length === 0);
+    chips.innerHTML = active.map(([k,v]) =>
+        `<span class="inline-flex items-center gap-1 px-2.5 py-1 bg-orange-100 border border-orange-200 text-orange-700 text-[11px] font-bold rounded-full">
+            ${labels[k]||k}: ${v}
+            <button onclick="clearOneFilter('${k}')" class="material-symbols-outlined text-[12px] hover:text-orange-900 cursor-pointer leading-none">close</button>
+        </span>`
+    ).join('');
+}
+
+function clearOneFilter(key) {
+    advFilters[key] = '';
+    const el = document.getElementById('fp-' + (key==='dateFrom'?'date-from': key==='dateTo'?'date-to': key));
+    if (el) el.value = '';
+    currentPage = 1;
+    renderLeads();
+    updateFilterChips();
+}
+
+// LocalStorage Version Control / Clean Reset for Live Environment
+try {
+    if (localStorage.getItem('crmVersion') !== 'v14') {
+        localStorage.removeItem('leadsData');
+        localStorage.removeItem('leadSourcesData');
+        localStorage.removeItem('leadStagesData');
+        localStorage.removeItem('leadUsersData');
+        localStorage.setItem('crmVersion', 'v14');
+    }
+} catch(e) {}
+
+const DEFAULT_LEADS = [
+    { name: 'AMMU', stage: 'LOST', email: '-', mobile: '+91 7337035078', status: 'LOST', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'mamtadavi419', stage: 'LOST', email: '-', mobile: '+91 8178656912', status: 'JOB LEAD', source: '-', amount: '0', user: '-', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ranjith', stage: 'FOLLOW UP', email: '-', mobile: '+91 9949492581', status: 'Follow Up', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '20-May-2026 09:05 AM', modifiedDate: '20-May-2026 09:05 AM', date: Date.now() - 86400000 * 3, callsCount: 3, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ranjan Kumar', stage: 'FOLLOW UP', email: '-', mobile: '+91 9777155191', status: 'Follow Up', source: 'July IVR Campaign', amount: '0', user: '-', creationDate: '20-May-2026 09:05 AM', modifiedDate: '20-May-2026 09:05 AM', date: Date.now() - 86400000 * 3, callsCount: 12, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Yash Agarwal', stage: 'PROPOSAL SENT', email: '-', mobile: '+91 7908204056', status: 'Proposal Sent', source: 'APRIL IVR 2026', amount: '0', user: 'aysha', creationDate: '24-Apr-2026 09:08 AM', modifiedDate: '24-Apr-2026 09:08 AM', date: Date.now() - 86400000 * 30, callsCount: 3, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Rokith', stage: 'PROPOSAL SENT', email: '-', mobile: '+91 9047570299', status: 'Proposal Sent', source: 'IVR', amount: '0', user: '-', creationDate: '24-Apr-2026 09:08 AM', modifiedDate: '24-Apr-2026 09:08 AM', date: Date.now() - 86400000 * 30, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Sunil Kumar', stage: 'OTHERS', email: '-', mobile: '+91 8433725068', status: 'COLD', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 4, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Ravindran T D', stage: 'OTHERS', email: 'tdravindran6@gmail.com', mobile: '+91 9849809115', status: 'COLD', source: 'RCS CAMPAIGN 2026 MA...', amount: '0', user: '-', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 11, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Siva Prakash', stage: 'HOT', email: '-', mobile: '+91 8754442997', status: 'HOT', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'Anbu', stage: 'HOT', email: '-', mobile: '+91', status: 'HOT', source: '-', amount: '0', user: '-', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+    { name: 'CloudScale Solutions', stage: 'DEMO SCHEDULE', email: '-', mobile: '-', status: 'Active', source: '-', amount: '-', user: 'Mark Taylor', creationDate: 'Oct 24, 2023', modifiedDate: 'Oct 24, 2023', date: Date.now() - 86400000 * 900, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' }
+];
+
+const DEFAULT_SOURCES = [];
+
+const DEFAULT_STAGES = [
+    { name: "LEAD", active: true, statuses: ["New Lead"] },
+    { name: "LOST", active: true, statuses: ["Price Mismatch", "Not Interested", "Not Required"] },
+    { name: "FOLLOW UP", active: true, statuses: ["Follow Up"] },
+    { name: "PROPOSAL SENT", active: true, statuses: ["Proposal Sent"] },
+    { name: "OTHERS", active: true, statuses: ["COLD"] },
+    { name: "HOT", active: true, statuses: ["HOT"] },
+    { name: "TRIAL AC", active: true, statuses: ["TRIAL AC"] },
+    { name: "ONBOARDED", active: true, statuses: ["ONBOARDED"] },
+    { name: "RNR", active: true, statuses: ["RNR"] },
+    { name: "CALL BACK", active: true, statuses: ["CALL BACK"] },
+    { name: "INVOICE", active: true, statuses: ["INVOICE"] },
+    { name: "DEMO SCHEDULE", active: true, statuses: ["DEMO SCHEDULE"] },
+    { name: "DUPLICATE", active: true, statuses: ["DUPLICATE"] },
+    { name: "DIRECT MEETING", active: true, statuses: ["DIRECT MEETING"] }
+];
+
+// LocalStorage Version Control â€” fully live, no data seeding
+try {
+    if (localStorage.getItem('crmVersion') !== 'v14') {
+        localStorage.removeItem('leadsData');
+        localStorage.removeItem('leadSourcesData');
+        localStorage.removeItem('leadStagesData');
+        localStorage.removeItem('leadUsersData');
+        localStorage.removeItem('leadSegmentsData');
+        localStorage.setItem('crmVersion', 'v14');
+    }
+    // Seed default segments if not present
+    if (!localStorage.getItem('leadSegmentsData')) {
+        const defaultSegments = [
+            { name: "Enterprise", date: Date.now() },
+            { name: "Mid-Market", date: Date.now() },
+            { name: "SMB", date: Date.now() }
+        ];
+        localStorage.setItem('leadSegmentsData', JSON.stringify(defaultSegments));
+    }
+} catch(e) {}
+
+const STATUS_ALIASES = {
+    "LEAD": ["LEAD"],
+    "LOST": ["LOST"],
+    "FOLLOW UP": ["FOLLOW UP"],
+    "PROPOSAL SENT": ["PROPOSAL SENT"],
+    "OTHERS": ["OTHERS"],
+    "HOT": ["HOT"],
+    "TRIAL AC": ["TRIAL ACCOUNT", "TRIAL AC"],
+    "ONBOARDED": ["ONBOARDED"],
+    "DEMO DONE": ["DEMO DONE"],
+    "RNR": ["RNR"],
+    "CALL BACK": ["CALL BACK"],
+    "INVOICE SENT": ["INVOICE SENT", "INVOICE"],
+    "DEMO SCHEDULE": ["DEMO SCHEDULED", "DEMO SCHEDULE"],
+    "DUPLICATE": ["DUPLICATE"],
+    "DIRECT MEETING": ["DIRECT MEETING"]
+};
+
+function filterByCardStatus(status) {
+    statusFilter = status;
+    currentPage = 1;
+    renderLeads();
+}
+
+function updateSummaryCards() {
+    let filteredForCounts = [...leadsData];
+    if (searchQuery) {
+        filteredForCounts = filteredForCounts.filter(l =>
+            l.name.toLowerCase().includes(searchQuery) ||
+            l.email.toLowerCase().includes(searchQuery) ||
+            l.mobile.toLowerCase().includes(searchQuery) ||
+            l.user.toLowerCase().includes(searchQuery) ||
+            l.source.toLowerCase().includes(searchQuery) ||
+            (l.stage && l.stage.toLowerCase().includes(searchQuery))
+        );
+    }
+
+    const counts = {
+        "ALL": filteredForCounts.length,
+        "LEAD": 0,
+        "LOST": 0,
+        "FOLLOW UP": 0,
+        "PROPOSAL SENT": 0,
+        "OTHERS": 0,
+        "HOT": 0,
+        "TRIAL AC": 0,
+        "ONBOARDED": 0,
+        "DEMO DONE": 0,
+        "RNR": 0,
+        "CALL BACK": 0,
+        "INVOICE SENT": 0,
+        "DEMO SCHEDULE": 0,
+        "DUPLICATE": 0,
+        "DIRECT MEETING": 0
+    };
+
+    filteredForCounts.forEach(l => {
+        const rawStage = (l.stage || '').toUpperCase().trim();
+        let matched = false;
+        for (const cardKey of Object.keys(counts)) {
+            if (cardKey === "ALL") continue;
+            const aliases = STATUS_ALIASES[cardKey] || [cardKey];
+            if (aliases.includes(rawStage)) {
+                counts[cardKey]++;
+                matched = true;
+                break;
+            }
+        }
+        if (!matched && rawStage) {
+            const found = Object.keys(counts).find(k => k === rawStage);
+            if (found) {
+                counts[found]++;
+            } else {
+                counts["OTHERS"]++;
+            }
+        }
+    });
+
+    document.getElementById('card-count-all').textContent = counts["ALL"];
+    document.getElementById('card-count-lead').textContent = counts["LEAD"];
+    document.getElementById('card-count-lost').textContent = counts["LOST"];
+    document.getElementById('card-count-follow-up').textContent = counts["FOLLOW UP"];
+    document.getElementById('card-count-proposal-sent').textContent = counts["PROPOSAL SENT"];
+    document.getElementById('card-count-others').textContent = counts["OTHERS"];
+    document.getElementById('card-count-hot').textContent = counts["HOT"];
+    document.getElementById('card-count-trial-ac').textContent = counts["TRIAL AC"];
+    document.getElementById('card-count-onboarded').textContent = counts["ONBOARDED"];
+    document.getElementById('card-count-demo-done').textContent = counts["DEMO DONE"];
+    document.getElementById('card-count-rnr').textContent = counts["RNR"];
+    document.getElementById('card-count-call-back').textContent = counts["CALL BACK"];
+    document.getElementById('card-count-invoice-sent').textContent = counts["INVOICE SENT"];
+    document.getElementById('card-count-demo-schedule').textContent = counts["DEMO SCHEDULE"];
+    document.getElementById('card-count-duplicate').textContent = counts["DUPLICATE"];
+    document.getElementById('card-count-direct-meeting').textContent = counts["DIRECT MEETING"];
+
+    const allCards = [
+        { id: 'card-status-all', key: 'All' },
+        { id: 'card-status-lead', key: 'LEAD' },
+        { id: 'card-status-lost', key: 'LOST' },
+        { id: 'card-status-follow-up', key: 'FOLLOW UP' },
+        { id: 'card-status-proposal-sent', key: 'PROPOSAL SENT' },
+        { id: 'card-status-others', key: 'OTHERS' },
+        { id: 'card-status-hot', key: 'HOT' },
+        { id: 'card-status-trial-ac', key: 'TRIAL AC' },
+        { id: 'card-status-onboarded', key: 'ONBOARDED' },
+        { id: 'card-status-demo-done', key: 'DEMO DONE' },
+        { id: 'card-status-rnr', key: 'RNR' },
+        { id: 'card-status-call-back', key: 'CALL BACK' },
+        { id: 'card-status-invoice-sent', key: 'INVOICE SENT' },
+        { id: 'card-status-demo-schedule', key: 'DEMO SCHEDULE' },
+        { id: 'card-status-duplicate', key: 'DUPLICATE' },
+        { id: 'card-status-direct-meeting', key: 'DIRECT MEETING' }
+    ];
+
+    allCards.forEach(c => {
+        const el = document.getElementById(c.id);
+        if (el) {
+            if (statusFilter.toUpperCase() === c.key.toUpperCase()) {
+                if (c.key === 'All') {
+                    el.classList.remove('border-slate-200/80', 'bg-white');
+                    el.classList.add('border-[#0D9488]', 'bg-teal-50/20', 'ring-2', 'ring-[#0D9488]/20');
+                } else {
+                    el.classList.remove('border-slate-200/80', 'bg-white');
+                    el.classList.add('border-blue-500', 'bg-blue-50/20', 'ring-2', 'ring-blue-500/20');
+                }
+            } else {
+                el.classList.remove('border-[#0D9488]', 'border-blue-500', 'bg-teal-50/20', 'bg-blue-50/20', 'ring-2', 'ring-[#0D9488]/20', 'ring-blue-500/20');
+                el.classList.add('border-slate-200/80', 'bg-white');
+            }
+        }
+    });
+}
+
+function loadLeadsData() {
+    try {
+        const stored = localStorage.getItem('leadsData');
+        if (stored) {
+            const rawList = JSON.parse(stored);
+            if (rawList && rawList.length > 0) {
+                const seenNames = new Set();
+                const seenMobiles = new Set();
+                leadsData = [];
+                rawList.forEach(lead => {
+                    const name = (lead.name || '').trim().toLowerCase();
+                    const mobile = (lead.mobile || '').trim();
+                    
+                    if (!name) return;
+                    if (seenNames.has(name)) return;
+                    if (mobile && mobile !== '-' && seenMobiles.has(mobile)) return;
+                    
+                    seenNames.add(name);
+                    if (mobile && mobile !== '-') seenMobiles.add(mobile);
+                    
+                    // Clear old hardcoded segment values as per user request
+                    if (lead.segment === "Enterprise" || lead.segment === "Mid-Market" || lead.segment === "SMB") {
+                        lead.segment = "";
+                    }
+                    leadsData.push(lead);
+                });
+                saveLeadsData();
+                return;
+            }
+        }
+    } catch(e) {}
+    leadsData = [];
+    saveLeadsData();
+}
+
+function loadStagesIntoDropdown() {
+    try {
+        let list = [];
+        const stored = localStorage.getItem('leadStagesData');
+        if (stored) {
+            list = JSON.parse(stored);
+        }
+        if (!list || !Array.isArray(list) || list.length === 0) {
+            list = [...DEFAULT_STAGES];
+            localStorage.setItem('leadStagesData', JSON.stringify(list));
+        }
+        const sel = document.getElementById('lead-stage');
+        if (sel) {
+            const activeStages = list.filter(s => s.active);
+            sel.innerHTML = '<option value="">Please Select Status</option>';
+            activeStages.forEach(stage => {
+                const opt = document.createElement('option');
+                opt.value = stage.name;
+                opt.textContent = stage.name;
+                sel.appendChild(opt);
+            });
+        }
+    } catch(e) {}
+}
+
+function loadFilterStagesDropdown() {
+    try {
+        let list = [];
+        const stored = localStorage.getItem('leadStagesData');
+        if (stored) {
+            list = JSON.parse(stored);
+        }
+        if (!list || !Array.isArray(list) || list.length === 0) {
+            list = [...DEFAULT_STAGES];
+            localStorage.setItem('leadStagesData', JSON.stringify(list));
+        }
+        const dropdown = document.getElementById('status-dropdown');
+        if (dropdown) {
+            const activeStages = list.filter(s => s.active);
+            
+            let html = `<button onclick="setStatusFilter('All')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-transparent transition-colors flex items-center justify-between">All <span id="status-All-check" class="material-symbols-outlined text-[16px] text-[#0D9488]">check</span></button>`;
+            
+            activeStages.forEach(stage => {
+                const isHidden = (statusFilter !== stage.name) ? 'hidden' : '';
+                html += `
+                    <button onclick="setStatusFilter('${stage.name}')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-transparent transition-colors flex items-center justify-between">${stage.name} <span id="status-${stage.name}-check" class="material-symbols-outlined text-[16px] text-[#0D9488] ${isHidden}">check</span></button>
+                `;
+            });
+            dropdown.innerHTML = html;
+        }
+    } catch(e) {}
+}
+
+function saveLeadsData() {
+    try { localStorage.setItem('leadsData', JSON.stringify(leadsData)); } catch(e) {}
+}
+
+// â”€â”€â”€ Render â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function renderLeads() {
+    // Update indicators
+    const activeLabel = document.getElementById('active-status-label');
+    if (activeLabel) activeLabel.textContent = 'Status: ' + statusFilter;
+    document.querySelectorAll('[id^="status-"][id$="-check"]').forEach(check => {
+        const checkStage = check.id.replace('status-', '').replace('-check', '');
+        check.classList.toggle('hidden', statusFilter.toUpperCase() !== checkStage.toUpperCase());
+    });
+
+    const activeSortLabel = document.getElementById('active-sort-label');
+    if (activeSortLabel) {
+        const sortLabels = { 'date':'Created Date', 'modified':'Modified Date', 'amount':'Deal Value', 'source':'Source', 'stage':'Status', 'score':'Score', 'name':'Name' };
+        activeSortLabel.textContent = sortLabels[sortBy] || 'Created Date';
+    }
+    ['date','modified','amount','source','stage','score','name'].forEach(s => {
+        const check = document.getElementById('sort-' + s + '-check');
+        if (check) check.classList.toggle('hidden', sortBy !== s);
+    });
+
+    const activeOrderLabel = document.getElementById('active-order-label');
+    if (activeOrderLabel) {
+        activeOrderLabel.textContent = sortOrder === 'desc' ? 'Descending' : 'Ascending';
+    }
+    const orderDescCheck = document.getElementById('order-desc-check');
+    if (orderDescCheck) orderDescCheck.classList.toggle('hidden', sortOrder !== 'desc');
+    const orderAscCheck = document.getElementById('order-asc-check');
+    if (orderAscCheck) orderAscCheck.classList.toggle('hidden', sortOrder !== 'asc');
+
+
+
+    // Filter
+    let processed = [...leadsData];
+    if (statusFilter !== 'All') {
+        const aliases = STATUS_ALIASES[statusFilter.toUpperCase()] || [statusFilter.toUpperCase()];
+        processed = processed.filter(l => l.stage && aliases.includes(l.stage.toUpperCase()));
+    }
+    // Advanced filters
+    if (advFilters.stage)    processed = processed.filter(l => (l.stage||'').toUpperCase() === advFilters.stage.toUpperCase());
+    if (advFilters.source)   processed = processed.filter(l => (l.source||'') === advFilters.source);
+    if (advFilters.user)     processed = processed.filter(l => (l.user||'') === advFilters.user);
+    if (advFilters.priority) processed = processed.filter(l => (l.priority||'').toLowerCase() === advFilters.priority.toLowerCase());
+    if (advFilters.mobile)   processed = processed.filter(l => (l.mobile||'').toLowerCase().includes(advFilters.mobile));
+    if (advFilters.dateFrom) {
+        const from = new Date(advFilters.dateFrom).getTime();
+        processed = processed.filter(l => l.date >= from);
+    }
+    if (advFilters.dateTo) {
+        const to = new Date(advFilters.dateTo).getTime() + 86399999;
+        processed = processed.filter(l => l.date <= to);
+    }
+    if (searchQuery) processed = processed.filter(l =>
+        l.name.toLowerCase().includes(searchQuery) ||
+        l.email.toLowerCase().includes(searchQuery) ||
+        l.mobile.toLowerCase().includes(searchQuery) ||
+        l.user.toLowerCase().includes(searchQuery) ||
+        l.source.toLowerCase().includes(searchQuery) ||
+        (l.stage && l.stage.toLowerCase().includes(searchQuery))
+    );
+
+    // Sort
+            if (sortBy === 'modified') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.modifiedDate).localeCompare(String(b.modifiedDate)) : String(b.modifiedDate).localeCompare(String(a.modifiedDate)));
+    } else if (sortBy === 'amount') {
+        const parseAmt = (amt) => parseFloat(String(amt).replace(/[^0-9.-]+/g, "")) || 0;
+        processed.sort((a, b) => sortOrder === 'asc' ? parseAmt(a.amount) - parseAmt(b.amount) : parseAmt(b.amount) - parseAmt(a.amount));
+    } else if (sortBy === 'source') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.source).localeCompare(String(b.source)) : String(b.source).localeCompare(String(a.source)));
+    } else if (sortBy === 'stage') {
+        processed.sort((a, b) => sortOrder === 'asc' ? String(a.stage || '').localeCompare(String(b.stage || '')) : String(b.stage || '').localeCompare(String(a.stage || '')));
+    } else if (sortBy === 'score') {
+        processed.sort((a, b) => sortOrder === 'asc' ? (a.score||0) - (b.score||0) : (b.score||0) - (a.score||0));
+    } else if (sortBy === 'name') {
+        processed.sort((a, b) => sortOrder === 'asc' ? a.name.localeCompare(b.name) : b.name.localeCompare(a.name));
+    } else {
+        processed.sort((a, b) => sortOrder === 'asc' ? a.date - b.date : b.date - a.date);
+    }
+
+    // Pagination & Limit calculation
+    const total = processed.length;
+    let totalPages = 1;
+    let startIndex = 0;
+    let endIndex = total;
+    let pageLeads = processed;
+
+    // Reset master checkbox
+    const masterCheckbox = document.getElementById('select-all-leads');
+    if (masterCheckbox) {
+        masterCheckbox.checked = false;
+        masterCheckbox.indeterminate = false;
+    }
+
+    // Sync select value
+    const sizeSelect = document.getElementById('page-size-select');
+    if (sizeSelect) sizeSelect.value = pageSize;
+
+    if (pageSize !== 'All') {
+        const size = parseInt(pageSize) || 10;
+        totalPages = Math.max(Math.ceil(total / size), 1);
+        if (currentPage > totalPages) currentPage = totalPages;
+        if (currentPage < 1) currentPage = 1;
+        startIndex = (currentPage - 1) * size;
+        endIndex = Math.min(startIndex + size, total);
+        pageLeads = processed.slice(startIndex, endIndex);
+    }
+
+    // Update entries text
+    const recordCountEl = document.getElementById('record-count');
+    if (recordCountEl) {
+        if (total === 0) {
+            recordCountEl.textContent = 'Showing 0 to 0 of 0 records';
+        } else {
+            recordCountEl.textContent = `Showing ${startIndex + 1} to ${endIndex} of ${total} records`;
+        }
+    }
+
+    // Render table
+    const tbody = document.getElementById('leads-table-body');
+    if (total === 0) {
+        const visibleColspan = 18 - hiddenColumns.size;
+        tbody.innerHTML = `<tr><td colspan="${visibleColspan}" class="py-10 text-center text-slate-400 font-semibold text-xs">No records found</td></tr>`;
+        applyColumnVisibility();
+        updatePaginationControls(1);
+        return;
+    }
+
+    tbody.innerHTML = '';
+    pageLeads.forEach((lead, i) => {
+        const globalIndex = startIndex + i + 1;
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-transparent transition-colors border-b border-slate-100';
+        tr.innerHTML = `
+            <td class="py-3.5 px-4 text-center">
+                <input type="checkbox" onchange="handleLeadCheckboxChange()" class="lead-checkbox rounded border-slate-300 w-4 h-4 cursor-pointer" value="${lead.name.replace(/"/g, '&quot;')}">
+            </td>
+            <td class="py-3.5 px-6 font-bold text-slate-400 text-center">${globalIndex}</td>
+            <td class="py-3.5 px-6 text-slate-600 col-creation">${lead.creationDate}</td>
+            <td class="py-3.5 px-6 text-slate-600 col-modified">${lead.modifiedDate}</td>
+            <td class="py-3.5 px-6 font-bold text-slate-800 col-name"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.name}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-mobile">${lead.mobile}</td>
+            <td class="py-3.5 px-6 text-slate-600 col-email"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.email}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-company"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.company || '-'}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-segment"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.segment || '-'}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-followup">${lead.followupDate || '-'}</td>
+            <td class="py-3.5 px-6 text-slate-600 col-address"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.address || '-'}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-city"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.city || '-'}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-state"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.state || '-'}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-pincode">${lead.pincode || '-'}</td>
+            <td class="py-3.5 px-6 font-bold text-slate-600 col-user"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.user}</div></td>
+            <td class="py-3.5 px-6 text-slate-600 col-source"><div class="truncate-cell" onclick="this.classList.toggle('expanded')" title="Click to expand/collapse">${lead.source}</div></td>
+            <td class="py-3.5 px-6 col-status">
+                <span class="px-2.5 py-0.5 bg-purple-50 text-blue-600 text-[10px] font-bold rounded-full uppercase border border-purple-100">${lead.stage}</span>
+            </td>
+            <td class="py-3.5 px-6 text-right">
+                <div class="flex justify-end gap-2.5 items-center">
+                    <button onclick="alert('Call feature coming soon')" class="text-emerald-500 hover:text-emerald-600 transition-colors" title="Call">
+                        <span class="material-symbols-outlined text-[18px]">call</span>
+                    </button>
+                    <button onclick="alert('Message feature coming soon')" class="text-blue-500 hover:text-blue-600 transition-colors" title="Message">
+                        <span class="material-symbols-outlined text-[18px]">sms</span>
+                    </button>
+                    <button onclick="alert('WhatsApp feature coming soon')" class="text-green-500 hover:text-green-600 transition-colors flex items-center justify-center" title="WhatsApp">
+                        <svg class="w-[18px] h-[18px] fill-current" viewBox="0 0 24 24"><path d="M12.031 21c-1.308 0-2.593-.339-3.753-.984L2 22l2.062-6.045A9.957 9.957 0 013 12c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-9.969 9zM12 4C7.589 4 4 7.589 4 12c0 1.764.57 3.42 1.637 4.779l-1.18 3.457 3.535-1.157A7.95 7.95 0 0012 20c4.411 0 8-3.589 8-8s-3.589-8-8-8zm4.07 11.233c-.223-.112-1.317-.652-1.52-.728-.205-.075-.353-.112-.501.112-.15.223-.578.728-.707.876-.131.149-.261.168-.485.056-.224-.112-.94-.347-1.791-1.107-.66-.59-1.106-1.32-1.235-1.543-.13-.224-.014-.345.098-.456.1-.1.224-.262.336-.393.111-.131.15-.224.223-.373.074-.15.037-.281-.019-.393-.056-.112-.501-1.209-.687-1.656-.18-.435-.365-.377-.501-.384-.13-.007-.28-.007-.43-.007s-.391.056-.596.281c-.205.224-.783.766-.783 1.868s.803 2.167.914 2.316c.112.149 1.58 2.41 3.824 3.378.533.23 .949.367 1.272.471.536.171 1.025.146 1.408.089.431-.065 1.317-.538 1.503-1.057.185-.519.185-.964.131-1.057-.056-.094-.205-.15-.43-.262z"/></svg>
+                    </button>
+                    <button onclick="alert('Email feature coming soon')" class="text-orange-500 hover:text-orange-600 transition-colors" title="Email">
+                        <span class="material-symbols-outlined text-[18px]">mail</span>
+                    </button>
+                    <button onclick="alert('View Lead feature coming soon')" class="text-slate-500 hover:text-slate-700 transition-colors" title="View">
+                        <span class="material-symbols-outlined text-[18px]">visibility</span>
+                    </button>
+                    <button onclick="openEditLeadModal('${lead.name.replace(/'/g, "\\'")}')" class="text-[#0D9488] hover:text-[#0F766E] transition-colors" title="Edit">
+                        <span class="material-symbols-outlined text-[18px]">edit</span>
+                    </button>
+                    <button onclick="deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors" title="Delete">
+                        <span class="material-symbols-outlined text-[18px]">delete</span>
+                    </button>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+
+    applyColumnVisibility();
+    updateSummaryCards();
+    updatePaginationControls(totalPages);
+}
+
+// â”€â”€â”€ Controls â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function setStatusFilter(s) { statusFilter = s; currentPage = 1; renderLeads(); }
+function setSortField(f) { sortBy = f; currentPage = 1; renderLeads(); }
+function setSortOrder(o) { sortOrder = o; currentPage = 1; renderLeads(); }
+function setPageLimit(l) { pageSize = l === 'All' ? 'All' : parseInt(l); currentPage = 1; renderLeads(); }
+function handleSearch(q) { searchQuery = q.toLowerCase().trim(); currentPage = 1; renderLeads(); }
+
+function changePage(direction) {
+    currentPage += direction;
+    renderLeads();
+    const mainEl = document.querySelector('main');
+    if (mainEl) mainEl.scrollTop = 0;
+}
+
+function changePageSize(size) {
+    pageSize = size === 'All' ? 'All' : parseInt(size);
+    currentPage = 1;
+    renderLeads();
+    const mainEl = document.querySelector('main');
+    if (mainEl) mainEl.scrollTop = 0;
+}
+
+function updatePaginationControls(totalPages) {
+    const prevBtn = document.getElementById('btn-prev');
+    const nextBtn = document.getElementById('btn-next');
+    if (prevBtn) prevBtn.disabled = currentPage === 1;
+    if (nextBtn) nextBtn.disabled = currentPage === totalPages;
+
+    const pageNumbersDiv = document.getElementById('page-numbers');
+    if (pageNumbersDiv) {
+        pageNumbersDiv.innerHTML = '';
+
+        const startRange = Math.max(1, currentPage - 2);
+        const endRange = Math.min(totalPages, currentPage + 2);
+
+        for (let i = startRange; i <= endRange; i++) {
+            const btn = document.createElement('button');
+            btn.textContent = i;
+            if (i === currentPage) {
+                btn.className = 'w-8 h-8 flex items-center justify-center rounded-xl bg-[#0D9488] text-white text-xs font-bold shadow-sm cursor-default';
+            } else {
+                btn.className = 'w-8 h-8 flex items-center justify-center rounded-xl bg-white border border-slate-200 text-slate-600 hover:bg-slate-100 text-xs font-bold cursor-pointer transition-colors';
+                btn.onclick = () => {
+                    currentPage = i;
+                    renderLeads();
+                    const mainEl = document.querySelector('main');
+                    if (mainEl) mainEl.scrollTop = 0;
+                };
+            }
+            pageNumbersDiv.appendChild(btn);
+        }
+    }
+}
+
+// â”€â”€â”€ Column Visibility â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toggleTableColumn(checkbox) {
+    if (checkbox.checked) hiddenColumns.delete(checkbox.value);
+    else hiddenColumns.add(checkbox.value);
+    saveHiddenColumns();
+    applyColumnVisibility();
+    updateCustomizeLabel();
+}
+
+function applyColumnVisibility() {
+    document.querySelectorAll('th, td').forEach(cell => {
+        const col = Array.from(cell.classList).find(c => c.startsWith('col-'));
+        if (col) cell.classList.toggle('hidden', hiddenColumns.has(col));
+    });
+    const emptyCell = document.querySelector('#leads-table-body td[colspan]');
+    if (emptyCell && emptyCell.textContent.trim() === 'No records found') {
+        emptyCell.setAttribute('colspan', 18 - hiddenColumns.size);
+    }
+}
+
+function updateCustomizeLabel() {
+    document.getElementById('customize-label').textContent = `${15 - hiddenColumns.size} items selected`;
+}
+
+function saveHiddenColumns() {
+    try { localStorage.setItem('hiddenColumns', JSON.stringify(Array.from(hiddenColumns))); } catch(e) {}
+}
+
+function loadHiddenColumns() {
+    try {
+        const stored = localStorage.getItem('hiddenColumns');
+        if (stored) {
+            const arr = JSON.parse(stored);
+            if (Array.isArray(arr)) {
+                hiddenColumns.clear();
+                arr.forEach(c => hiddenColumns.add(c));
+            }
+        }
+    } catch(e) {}
+    
+    document.querySelectorAll('#customize-dropdown input[type="checkbox"]').forEach(cb => {
+        cb.checked = !hiddenColumns.has(cb.value);
+    });
+    updateCustomizeLabel();
+}
+
+// â”€â”€â”€ Select All â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toggleSelectAll(master) {
+    document.querySelectorAll('.lead-checkbox').forEach(cb => cb.checked = master.checked);
+}
+
+function handleLeadCheckboxChange() {
+    const all = document.querySelectorAll('.lead-checkbox');
+    const checked = Array.from(all).filter(cb => cb.checked).length;
+    const master = document.getElementById('select-all-leads');
+    if (master) {
+        master.checked = checked === all.length;
+        master.indeterminate = checked > 0 && checked < all.length;
+    }
+}
+
+// â”€â”€â”€ Bulk Action â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function handleBulkAction(action) {
+    if (!action) return;
+    
+    if (action === 'delete-all') {
+        if (confirm('Are you sure you want to delete ALL leads in the database? This action cannot be undone.')) {
+            leadsData = [];
+            saveLeadsData();
+            renderLeads();
+        }
+        document.getElementById('bulk-action-select').value = '';
+        return;
+    }
+
+    const selected = Array.from(document.querySelectorAll('.lead-checkbox')).filter(cb => cb.checked).map(cb => cb.value);
+    if (selected.length === 0) { 
+        alert('Please select at least one lead first.'); 
+        document.getElementById('bulk-action-select').value = ''; 
+        return; 
+    }
+
+    if (action === 'assign-user') {
+        const targetUser = prompt(`Enter username to assign to the selected ${selected.length} lead(s):`);
+        if (targetUser && targetUser.trim()) {
+            leadsData.forEach(l => {
+                if (selected.includes(l.name)) {
+                    l.user = targetUser.trim();
+                    l.modifiedDate = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                }
+            });
+            saveLeadsData();
+            renderLeads();
+        }
+    } else if (action === 'change-status') {
+        const targetStatus = prompt(`Enter new status/stage for the selected ${selected.length} lead(s) (e.g. LEAD, FOLLOW UP, ONBOARDED):`);
+        if (targetStatus && targetStatus.trim()) {
+            const formattedStatus = targetStatus.trim().toUpperCase();
+            leadsData.forEach(l => {
+                if (selected.includes(l.name)) {
+                    l.stage = formattedStatus;
+                    l.status = formattedStatus;
+                    l.modifiedDate = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                }
+            });
+            saveLeadsData();
+            renderLeads();
+        }
+    } else if (action === 'change-followup') {
+        const targetDate = prompt(`Enter new follow-up date (YYYY-MM-DD) for the selected ${selected.length} lead(s):`);
+        if (targetDate && targetDate.trim()) {
+            leadsData.forEach(l => {
+                if (selected.includes(l.name)) {
+                    l.followupDate = targetDate.trim();
+                    l.modifiedDate = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                }
+            });
+            saveLeadsData();
+            renderLeads();
+        }
+    } else if (action === 'create-autodialer') {
+        if (confirm(`Create an autodialer campaign for the selected ${selected.length} lead(s)?`)) {
+            alert(`Autodialer campaign successfully created for ${selected.length} lead(s).`);
+        }
+    } else if (action === 'send-sms') {
+        const msg = prompt(`Enter SMS message content to send to ${selected.length} lead(s):`);
+        if (msg && msg.trim()) {
+            alert(`SMS campaign scheduled successfully for ${selected.length} lead(s).`);
+        }
+    } else if (action === 'send-email') {
+        const subject = prompt('Enter Email subject:');
+        if (subject && subject.trim()) {
+            const body = prompt('Enter Email body:');
+            if (body && body.trim()) {
+                alert(`Email campaign scheduled successfully for ${selected.length} lead(s).`);
+            }
+        }
+    } else if (action === 'send-whatsapp') {
+        const msg = prompt(`Enter WhatsApp message to send to ${selected.length} lead(s):`);
+        if (msg && msg.trim()) {
+            alert(`WhatsApp messages scheduled successfully for ${selected.length} lead(s).`);
+        }
+    } else if (action === 'create-segment') {
+        const segmentName = prompt(`Enter new segment name for the selected ${selected.length} lead(s):`);
+        if (segmentName && segmentName.trim()) {
+            leadsData.forEach(l => {
+                if (selected.includes(l.name)) {
+                    l.segment = segmentName.trim();
+                    l.modifiedDate = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+                }
+            });
+            saveLeadsData();
+            renderLeads();
+        }
+    }
+    
+    document.getElementById('bulk-action-select').value = '';
+}
+
+// â”€â”€â”€ Modal â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+let currentAddLeadTab = 0;
+
+function switchAddLeadTab(tabIndex) {
+    if (tabIndex < 0 || tabIndex > 2) return;
+    currentAddLeadTab = tabIndex;
+    document.querySelectorAll('.add-lead-tab').forEach((btn, i) => {
+        if (i === tabIndex) {
+            let activeStyle = '';
+            if (i === 0) activeStyle = 'bg-[#0D9488] hover:bg-[#0f766e] text-white shadow-md font-bold';
+            else if (i === 1) activeStyle = 'bg-[#0ea5e9] hover:bg-[#0284c7] text-white shadow-md font-bold';
+            else if (i === 2) activeStyle = 'bg-[#D97706] hover:bg-[#b45309] text-white shadow-md font-bold';
+            btn.className = 'add-lead-tab flex-1 py-2 text-center text-[13px] rounded-lg transition-all ' + activeStyle;
+        } else {
+            btn.className = 'add-lead-tab flex-1 py-2 text-center text-[13px] font-semibold rounded-lg transition-all text-slate-500 hover:text-slate-800 bg-transparent';
+        }
+    });
+    document.querySelectorAll('.add-lead-panel').forEach((panel, i) => {
+        panel.classList.toggle('hidden', i !== tabIndex);
+    });
+    const backBtn = document.getElementById('add-lead-back-btn');
+    const nextBtn = document.getElementById('add-lead-next-btn');
+    const saveBtn = document.getElementById('add-lead-save-btn');
+    if (backBtn) backBtn.style.display = tabIndex > 0 ? 'flex' : 'none';
+    if (nextBtn) nextBtn.style.display = tabIndex < 2 ? 'flex' : 'none';
+    if (saveBtn) saveBtn.style.display = tabIndex === 2 ? 'inline-flex' : 'none';
+}
+
+function loadSourcesIntoDropdown() {
+    try {
+        let list = [];
+        const stored = localStorage.getItem('leadSourcesData');
+        if (stored) {
+            list = JSON.parse(stored);
+        }
+        if (!list || !Array.isArray(list) || list.length === 0) {
+            list = [...DEFAULT_SOURCES];
+            localStorage.setItem('leadSourcesData', JSON.stringify(list));
+        }
+        const sel = document.getElementById('lead-source');
+        if (sel) {
+            sel.innerHTML = '<option value="">Please Select Source</option>';
+            list.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.name;
+                opt.textContent = item.name;
+                sel.appendChild(opt);
+            });
+        }
+    } catch(e) {}
+}
+
+function loadUsersIntoDropdown() {
+    try {
+        const stored = localStorage.getItem('leadUsersData');
+        const sel = document.getElementById('lead-user');
+        if (sel) {
+            sel.innerHTML = '<option value="">Please Select User</option>';
+            if (stored) {
+                const list = JSON.parse(stored);
+                if (Array.isArray(list)) {
+                    list.forEach(user => {
+                        if (user.status !== 'Deleted') {
+                            const opt = document.createElement('option');
+                            opt.value = user.fullname;
+                            opt.textContent = `${user.fullname} (${user.status || 'Offline'})`;
+                            sel.appendChild(opt);
+                        }
+                    });
+                }
+            }
+        }
+    } catch(e) {}
+}
+
+function updateSelectedUserStatus() {
+    const sel = document.getElementById('lead-user');
+    const badge = document.getElementById('selected-user-status');
+    if (!sel || !badge) return;
+    
+    const selectedVal = sel.value;
+    if (!selectedVal) {
+        badge.classList.add('hidden');
+        return;
+    }
+    
+    let userStatus = 'Offline';
+    try {
+        const stored = localStorage.getItem('leadUsersData');
+        if (stored) {
+            const list = JSON.parse(stored);
+            if (Array.isArray(list)) {
+                const user = list.find(u => u.fullname === selectedVal);
+                if (user) {
+                    userStatus = user.status || 'Offline';
+                }
+            }
+        }
+    } catch(e) {}
+    
+    badge.textContent = userStatus;
+    badge.classList.remove('hidden');
+    if (userStatus === 'Online') {
+        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-250 ml-2';
+    } else {
+        badge.className = 'text-[10px] font-bold px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200 ml-2';
+    }
+}
+
+function loadSegmentsIntoDropdown() {
+    try {
+        let list = [];
+        const stored = localStorage.getItem('leadSegmentsData');
+        if (stored) {
+            list = JSON.parse(stored);
+        }
+        if (!list || !Array.isArray(list) || list.length === 0) {
+            list = [
+                { name: "Enterprise", date: Date.now() },
+                { name: "Mid-Market", date: Date.now() },
+                { name: "SMB", date: Date.now() }
+            ];
+            localStorage.setItem('leadSegmentsData', JSON.stringify(list));
+        }
+        const sel = document.getElementById('lead-segment');
+        if (sel) {
+            sel.innerHTML = '<option value="">Please Select Segment</option>';
+            list.forEach(item => {
+                const opt = document.createElement('option');
+                opt.value = item.name;
+                opt.textContent = item.name;
+                sel.appendChild(opt);
+            });
+        }
+    } catch(e) {}
+}
+
+function openAddLeadModal() {
+    document.getElementById('modal-title').textContent = 'Add Lead';
+    document.getElementById('edit-lead-original-name').value = '';
+    document.getElementById('lead-form').reset();
+    loadSourcesIntoDropdown();
+    loadStagesIntoDropdown();
+    loadUsersIntoDropdown();
+    loadSegmentsIntoDropdown();
+    document.getElementById('lead-country').value = 'India';
+    const maleRadio = document.querySelector('input[name="lead-gender"][value="Male"]');
+    if (maleRadio) maleRadio.checked = true;
+    const cfContainer = document.getElementById('custom-fields-container');
+    cfContainer.innerHTML = '<div class="grid grid-cols-2 gap-4 mt-3 custom-field-row"><input type="text" placeholder="Field Name" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none text-slate-800 text-sm custom-field-name"><input type="text" placeholder="Field Value" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none text-slate-800 text-sm custom-field-value"></div>';
+    document.getElementById('lead-name-error').textContent = 'Atleast 3 letter or number is mandatory.Space Allow with alphanumberic string';
+    document.getElementById('lead-name-error').classList.add('hidden');
+    switchAddLeadTab(0);
+    document.getElementById('lead-modal').classList.remove('hidden');
+}
+
+function openEditLeadModal(name) {
+    loadSourcesIntoDropdown();
+    loadStagesIntoDropdown();
+    loadUsersIntoDropdown();
+    loadSegmentsIntoDropdown();
+    const lead = leadsData.find(l => l.name === name);
+    if (!lead) return;
+    document.getElementById('modal-title').textContent = 'Edit Lead';
+    document.getElementById('edit-lead-original-name').value = lead.name;
+    document.getElementById('lead-name-error').textContent = 'Atleast 3 letter or number is mandatory.Space Allow with alphanumberic string';
+    document.getElementById('lead-name-error').classList.add('hidden');
+    // Tab 1
+    document.getElementById('lead-name').value = lead.name;
+    document.getElementById('lead-email').value = (lead.email === '-' ? '' : lead.email);
+    document.getElementById('lead-mobile').value = (lead.mobile === '-' ? '' : lead.mobile);
+    document.getElementById('lead-country-code').value = lead.countryCode || '+91';
+    document.getElementById('lead-stage').value = lead.stage;
+    document.getElementById('lead-source').value = lead.source;
+    document.getElementById('lead-user').value = lead.user;
+    document.getElementById('lead-segment').value = lead.segment || '';
+    document.getElementById('lead-priority').value = lead.priority || 'Low';
+    document.getElementById('lead-alt-mobile-1').value = lead.altMobile1 || '';
+    document.getElementById('lead-alt-mobile-2').value = lead.altMobile2 || '';
+    document.getElementById('lead-alt-mobile-3').value = lead.altMobile3 || '';
+    document.getElementById('lead-age').value = lead.age || '';
+    const genderVal = lead.gender || 'Male';
+    const genderRadio = document.querySelector('input[name="lead-gender"][value="' + genderVal + '"]');
+    if (genderRadio) genderRadio.checked = true;
+    // Tab 2
+    document.getElementById('lead-address').value = lead.address || '';
+    document.getElementById('lead-state').value = lead.state || '';
+    populateCities();
+    document.getElementById('lead-city').value = lead.city || '';
+    document.getElementById('lead-country').value = lead.country || 'India';
+    document.getElementById('lead-pincode').value = lead.pincode || '';
+    // Tab 3
+    document.getElementById('lead-company').value = lead.company || '';
+    document.getElementById('lead-designation').value = lead.designation || '';
+    document.getElementById('lead-website').value = lead.website || '';
+    document.getElementById('lead-tags').value = lead.tags || '';
+    document.getElementById('lead-followup').value = lead.followupDate || '';
+    document.getElementById('lead-opportunity').value = (lead.amount && lead.amount !== '-') ? lead.amount : (lead.opportunity || '');
+    // Custom fields
+    const cfContainer = document.getElementById('custom-fields-container');
+    cfContainer.innerHTML = '';
+    const cfs = lead.customFields || [];
+    if (cfs.length === 0) cfs.push({name:'', value:''});
+    cfs.forEach(cf => { addCustomFieldRow(cf.name, cf.value); });
+    switchAddLeadTab(0);
+    document.getElementById('lead-modal').classList.remove('hidden');
+}
+
+function closeLeadModal() {
+    document.getElementById('lead-modal').classList.add('hidden');
+}
+
+function handleLeadSubmit(event) {
+    event.preventDefault();
+    const originalName = document.getElementById('edit-lead-original-name').value;
+    const name = document.getElementById('lead-name').value.trim();
+    if (name.length < 3) {
+        document.getElementById('lead-name-error').textContent = 'Atleast 3 letter or number is mandatory.Space Allow with alphanumberic string';
+        document.getElementById('lead-name-error').classList.remove('hidden');
+        switchAddLeadTab(0);
+        return;
+    }
+    document.getElementById('lead-name-error').classList.add('hidden');
+
+    // Duplicate Data Validation Check
+    const duplicateNameLead = leadsData.find(l => {
+        if (originalName && l.name === originalName) return false;
+        return l.name && l.name.trim().toLowerCase() === name.toLowerCase();
+    });
+    if (duplicateNameLead) {
+        document.getElementById('lead-name-error').textContent = 'A lead with this Name already exists.';
+        document.getElementById('lead-name-error').classList.remove('hidden');
+        switchAddLeadTab(0);
+        document.getElementById('lead-name').focus();
+        return;
+    }
+
+    const mobileInput = document.getElementById('lead-mobile').value.trim();
+    const duplicateMobileLead = (mobileInput && mobileInput !== '-') ? leadsData.find(l => {
+        if (originalName && l.name === originalName) return false;
+        return l.mobile && l.mobile !== '-' && l.mobile.trim() === mobileInput;
+    }) : null;
+    if (duplicateMobileLead) {
+        alert('Error: A lead with this Mobile number already exists (' + duplicateMobileLead.name + ').');
+        switchAddLeadTab(0);
+        document.getElementById('lead-mobile').focus();
+        return;
+    }
+    const email = document.getElementById('lead-email').value.trim() || '-';
+    const countryCode = document.getElementById('lead-country-code').value;
+    const mobile = document.getElementById('lead-mobile').value.trim() || '-';
+    const stage = document.getElementById('lead-stage').value || 'LEAD';
+    const source = document.getElementById('lead-source').value || '-';
+    const user = document.getElementById('lead-user').value || '-';
+    const segment = document.getElementById('lead-segment').value || '';
+    const priority = document.getElementById('lead-priority').value || 'Low';
+    const altMobile1 = document.getElementById('lead-alt-mobile-1').value.trim();
+    const altMobile2 = document.getElementById('lead-alt-mobile-2').value.trim();
+    const altMobile3 = document.getElementById('lead-alt-mobile-3').value.trim();
+    const age = document.getElementById('lead-age').value.trim();
+    const genderEl = document.querySelector('input[name="lead-gender"]:checked');
+    const gender = genderEl ? genderEl.value : 'Male';
+    const address = document.getElementById('lead-address').value.trim();
+    const state = document.getElementById('lead-state').value;
+    const city = document.getElementById('lead-city').value;
+    const country = document.getElementById('lead-country').value.trim();
+    const pincode = document.getElementById('lead-pincode').value.trim();
+    const company = document.getElementById('lead-company').value.trim();
+    const designation = document.getElementById('lead-designation').value.trim();
+    const website = document.getElementById('lead-website').value.trim();
+    const tags = document.getElementById('lead-tags').value;
+    const followupDate = document.getElementById('lead-followup').value;
+    const opportunity = document.getElementById('lead-opportunity').value.trim();
+    const customFields = [];
+    document.querySelectorAll('.custom-field-row').forEach(row => {
+        const fn = row.querySelector('.custom-field-name');
+        const fv = row.querySelector('.custom-field-value');
+        const fname = fn ? fn.value.trim() : '';
+        const fvalue = fv ? fv.value.trim() : '';
+        if (fname || fvalue) customFields.push({name: fname, value: fvalue});
+    });
+    const amount = opportunity || '-';
+    const now = new Date().toLocaleDateString('en-IN', { day:'2-digit', month:'short', year:'numeric', hour:'2-digit', minute:'2-digit' });
+
+    if (originalName) {
+        const lead = leadsData.find(l => l.name === originalName);
+        if (lead) {
+            Object.assign(lead, {
+                name, email, mobile, countryCode, stage, source, user, amount,
+                status: stage, priority, segment,
+                altMobile1, altMobile2, altMobile3, age, gender,
+                address, state, city, country, pincode,
+                company, designation, website, tags, opportunity, followupDate,
+                customFields, modifiedDate: now
+            });
+        }
+    } else {
+        leadsData.push({
+            name, stage, email, mobile, countryCode,
+            status: stage, source, amount, user, priority, segment,
+            altMobile1, altMobile2, altMobile3, age, gender,
+            address, state, city, country, pincode,
+            company, designation, website, tags, opportunity, followupDate,
+            customFields, completedDate: '',
+            creationDate: now, modifiedDate: now,
+            date: Date.now(), callsCount: 0, smsCount: 0, whatsappCount: 0
+        });
+    }
+    saveLeadsData();
+    closeLeadModal();
+    renderLeads();
+}
+
+function deleteLead(name) {
+    if (confirm(`Are you sure you want to delete lead "${name}"?`)) {
+        leadsData = leadsData.filter(l => l.name !== name);
+        saveLeadsData();
+        renderLeads();
+    }
+}
+
+function addCustomField() {
+    addCustomFieldRow('', '');
+}
+
+function addCustomFieldRow(name, value) {
+    const container = document.getElementById('custom-fields-container');
+    const row = document.createElement('div');
+    row.className = 'grid grid-cols-2 gap-4 mt-3 custom-field-row';
+    const safeName = (name || '').replace(/"/g, '&quot;');
+    const safeValue = (value || '').replace(/"/g, '&quot;');
+    row.innerHTML = '<input type="text" placeholder="Field Name" value="' + safeName + '" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none text-slate-800 text-sm custom-field-name"><input type="text" placeholder="Field Value" value="' + safeValue + '" class="w-full px-3 py-2 bg-white border border-slate-300 rounded-lg focus:outline-none text-slate-800 text-sm custom-field-value">';
+    container.appendChild(row);
+}
+
+function promptAddOption(selectId, label) {
+    const newVal = prompt('Enter new ' + label + ':');
+    if (newVal && newVal.trim()) {
+        const sel = document.getElementById(selectId);
+        const val = newVal.trim();
+        
+        // Add option element to DOM
+        const opt = document.createElement('option');
+        opt.value = val;
+        opt.textContent = val;
+        sel.appendChild(opt);
+        sel.value = val;
+        
+        // Persist to localStorage to make it live
+        if (selectId === 'lead-user') {
+            try {
+                let list = [];
+                const stored = localStorage.getItem('leadUsersData');
+                if (stored) list = JSON.parse(stored);
+                if (!list.some(u => u.fullname.toLowerCase() === val.toLowerCase())) {
+                    const nextId = Math.floor(100000 + Math.random() * 900000).toString();
+                    list.push({
+                        userid: nextId,
+                        username: val.toLowerCase().replace(/\s+/g, ''),
+                        email: val.toLowerCase().replace(/\s+/g, '') + '@example.com',
+                        mobile: '+91 0000000000',
+                        fullname: val,
+                        login: "No",
+                        created: new Date().toLocaleDateString('en-GB') + " 12:00 PM",
+                        verified: "Yes",
+                        status: "Active"
+                    });
+                    localStorage.setItem('leadUsersData', JSON.stringify(list));
+                }
+            } catch(e) {}
+        } else if (selectId === 'lead-source') {
+            try {
+                let list = [];
+                const stored = localStorage.getItem('leadSourcesData');
+                if (stored) list = JSON.parse(stored);
+                if (!list.some(s => s.name.toLowerCase() === val.toLowerCase())) {
+                    list.push({
+                        name: val.toUpperCase(),
+                        date: Date.now(),
+                        icon: 'source'
+                    });
+                    localStorage.setItem('leadSourcesData', JSON.stringify(list));
+                }
+            } catch(e) {}
+        } else if (selectId === 'lead-stage') {
+            try {
+                let list = [];
+                const stored = localStorage.getItem('leadStagesData');
+                if (stored) list = JSON.parse(stored);
+                if (!list.some(s => s.name.toLowerCase() === val.toLowerCase())) {
+                    list.push({
+                        name: val.toUpperCase(),
+                        active: true,
+                        statuses: [val]
+                    });
+                    localStorage.setItem('leadStagesData', JSON.stringify(list));
+                }
+            } catch(e) {}
+        } else if (selectId === 'lead-segment') {
+            try {
+                let list = [];
+                const stored = localStorage.getItem('leadSegmentsData');
+                if (stored) list = JSON.parse(stored);
+                if (!list.some(s => s.name.toLowerCase() === val.toLowerCase())) {
+                    list.push({
+                        name: val,
+                        date: Date.now()
+                    });
+                    localStorage.setItem('leadSegmentsData', JSON.stringify(list));
+                }
+            } catch(e) {}
+        }
+    }
+}
+
+function populateCities() {
+    const stateVal = document.getElementById('lead-state').value;
+    const citySelect = document.getElementById('lead-city');
+    citySelect.innerHTML = '<option value=""></option>';
+    const cityMap = {
+        'Andhra Pradesh': ['Visakhapatnam','Vijayawada','Guntur','Tirupati','Nellore'],
+        'Assam': ['Guwahati','Silchar','Dibrugarh','Jorhat'],
+        'Bihar': ['Patna','Gaya','Bhagalpur','Muzaffarpur'],
+        'Chhattisgarh': ['Raipur','Bhilai','Bilaspur','Korba'],
+        'Delhi': ['New Delhi','Dwarka','Rohini','Saket'],
+        'Goa': ['Panaji','Margao','Vasco da Gama'],
+        'Gujarat': ['Ahmedabad','Surat','Vadodara','Rajkot','Gandhinagar'],
+        'Haryana': ['Gurugram','Faridabad','Panipat','Ambala','Karnal'],
+        'Himachal Pradesh': ['Shimla','Manali','Dharamshala','Kullu'],
+        'Jammu and Kashmir': ['Srinagar','Jammu','Anantnag','Baramulla'],
+        'Jharkhand': ['Ranchi','Jamshedpur','Dhanbad','Bokaro'],
+        'Karnataka': ['Bangalore','Mysore','Hubli','Mangalore','Belgaum'],
+        'Kerala': ['Kochi','Thiruvananthapuram','Kozhikode','Thrissur'],
+        'Madhya Pradesh': ['Bhopal','Indore','Jabalpur','Gwalior','Ujjain'],
+        'Maharashtra': ['Mumbai','Pune','Nagpur','Nashik','Thane','Aurangabad'],
+        'Odisha': ['Bhubaneswar','Cuttack','Rourkela','Berhampur'],
+        'Punjab': ['Chandigarh','Ludhiana','Amritsar','Jalandhar','Patiala'],
+        'Rajasthan': ['Jaipur','Jodhpur','Udaipur','Kota','Ajmer'],
+        'Tamil Nadu': ['Chennai','Coimbatore','Madurai','Salem','Trichy'],
+        'Telangana': ['Hyderabad','Warangal','Nizamabad','Karimnagar'],
+        'Uttar Pradesh': ['Lucknow','Kanpur','Agra','Varanasi','Noida','Ghaziabad'],
+        'Uttarakhand': ['Dehradun','Haridwar','Rishikesh','Nainital'],
+        'West Bengal': ['Kolkata','Howrah','Durgapur','Siliguri']
+    };
+    const cities = cityMap[stateVal] || [];
+    cities.forEach(c => {
+        const opt = document.createElement('option');
+        opt.value = c; opt.textContent = c;
+        citySelect.appendChild(opt);
+    });
+}
+
+// â”€â”€â”€ Refresh â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function handleRefresh() {
+    const icon = document.getElementById('refresh-icon');
+    icon.classList.add('animate-spin');
+    setTimeout(() => icon.classList.remove('animate-spin'), 600);
+    renderLeads();
+}
+
+// â”€â”€â”€ Dropdown â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+function toggleDropdown(event, id) {
+    event.stopPropagation();
+    document.querySelectorAll('.dropdown-menu').forEach(m => { if (m.id !== id) m.classList.add('hidden'); });
+    
+    const dropdown = document.getElementById(id);
+    const isHidden = dropdown.classList.contains('hidden');
+    
+    if (isHidden) {
+        dropdown.classList.remove('hidden');
+        
+        const button = event.currentTarget;
+        const rect = button.getBoundingClientRect();
+        
+        dropdown.style.position = 'fixed';
+        dropdown.style.marginTop = '0px';
+        dropdown.style.top = `${rect.bottom + 6}px`;
+        
+        if (id === 'customize-dropdown' || id === 'utilities-dropdown' || id === 'admin-menu') {
+            dropdown.style.right = `${window.innerWidth - rect.right}px`;
+            dropdown.style.left = 'auto';
+        } else {
+            dropdown.style.left = `${rect.left}px`;
+            dropdown.style.right = 'auto';
+        }
+    } else {
+        dropdown.classList.add('hidden');
+    }
+}
+document.addEventListener('click', () => document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden')));
+
+function toggleAdminMenu(event) {
+    toggleDropdown(event, 'admin-menu');
+}
+
+// Live clock init function
+function initClock() {
+    const clockEl = document.getElementById('live-clock');
+    if (!clockEl) return;
+    const updateTime = () => {
+        const now = new Date();
+        const dd = String(now.getDate()).padStart(2, '0');
+        const mm = String(now.getMonth() + 1).padStart(2, '0');
+        const yyyy = now.getFullYear();
+        const hh = String(now.getHours()).padStart(2, '0');
+        const min = String(now.getMinutes()).padStart(2, '0');
+        const ss = String(now.getSeconds()).padStart(2, '0');
+        clockEl.textContent = `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+    };
+    updateTime();
+    setInterval(updateTime, 1000);
+}
+
+// Fullscreen toggle function
+function toggleFullscreen(button) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'enabled');
+            }).catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'disabled');
+            }).catch(e => {});
+        }
+    }
+
+    // Auto-restore fullscreen on first interaction if it was enabled
+    if (!window.hasFullscreenRestorer) {
+        window.hasFullscreenRestorer = true;
+        const restoreFullscreen = () => {
+            if (localStorage.getItem('fullscreen') === 'enabled' && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => {});
+            }
+            document.removeEventListener('click', restoreFullscreen);
+            document.removeEventListener('keydown', restoreFullscreen);
+        };
+        document.addEventListener('click', restoreFullscreen);
+        document.addEventListener('keydown', restoreFullscreen);
+    }
+
+// Dark Mode Toggle functions
+function initDarkMode() {
+    if (localStorage.getItem('darkMode') === 'enabled') {
+        document.documentElement.classList.add('dark');
+    }
+}
+function toggleDarkMode() {
+    if (document.documentElement.classList.contains('dark')) {
+        document.documentElement.classList.remove('dark');
+        localStorage.setItem('darkMode', 'disabled');
+    } else {
+        document.documentElement.classList.add('dark');
+        localStorage.setItem('darkMode', 'enabled');
+    }
+}
+
+// â”€â”€â”€ Init â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+document.addEventListener('DOMContentLoaded', () => {
+    initDarkMode();
+    initClock();
+    loadLeadsData();
+    loadFilterStagesDropdown();
+    loadHiddenColumns();
+    renderLeads();
+});
+
+    // Injected Change Password Dropdown Logic
+    function toggleChangePasswordMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('change-password-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'change-password-menu') m.classList.add('hidden');
+        });
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function handleHeaderChangePassword(event) {
+        event.preventDefault();
+        const form = event.target;
+        const oldPass = form.querySelector('.header-old-pass').value;
+        const newPass = form.querySelector('.header-new-pass').value;
+        const confirmPass = form.querySelector('.header-confirm-pass').value;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) {
+            showToast('No active session found.', 'error');
+            return;
+        }
+
+        let users = [];
+        try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+        
+        const userIdx = users.findIndex(u => u.username.toLowerCase() === session.username.toLowerCase());
+        if (userIdx === -1) {
+            showToast('User not found.', 'error');
+            return;
+        }
+
+        if (oldPass !== users[userIdx].password) {
+            showToast('Incorrect old password!', 'error');
+            return;
+        }
+
+        if (newPass.length < 6) {
+            showToast('New password must be at least 6 characters!', 'error');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            showToast('New password and confirm password do not match!', 'error');
+            return;
+        }
+
+        if (newPass === oldPass) {
+            showToast('New password cannot be the same as old password!', 'error');
+            return;
+        }
+
+        users[userIdx].password = newPass;
+        localStorage.setItem('crmUsers', JSON.stringify(users));
+
+        showToast('Password updated successfully!');
+        form.reset();
+        
+        const menu = document.getElementById('change-password-menu');
+        if (menu) menu.classList.add('hidden');
+
+        if (typeof verifySession === 'function') {
+            verifySession();
+        }
+    }
+
+    if (typeof showForgotPasswordModal !== 'function') {
+        window.showForgotPasswordModal = function() {
+            const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+            if (!session) return;
+            let users = [];
+            try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+            const user = users.find(u => u.username.toLowerCase() === session.username.toLowerCase());
+            if (user) {
+                const modal = document.getElementById('forgot-password-modal');
+                if (modal) {
+                    document.getElementById('retrieved-password').textContent = user.password;
+                    document.getElementById('retrieved-email').textContent = user.email || 'your registered email';
+                    modal.classList.remove('hidden');
+                } else {
+                    alert('For sandbox testing, your current password is: ' + user.password);
+                }
+            }
+        };
+    }
+
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    if (typeof showToast !== 'function') {
+        window.showToast = function(message, type = 'success') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed top-4 right-4 z-50 flex flex-col gap-3';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-bold transition-all duration-300 transform translate-x-12 opacity-0';
+            
+            let icon = 'check_circle';
+            if (type === 'success') {
+                toast.className += ' bg-emerald-50 border-emerald-250 text-emerald-700';
+            } else if (type === 'error') {
+                toast.className += ' bg-red-50 border-red-250 text-red-750';
+                icon = 'error';
+            } else {
+                toast.className += ' bg-transparent border-slate-250 text-slate-700';
+                icon = 'info';
+            }
+
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px]">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+    }
+
+    document.addEventListener('click', () => {
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+    });
+
+
+    // Injected Login Activity Dropdown Logic
+    function toggleLoginActivityMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('login-activity-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'login-activity-menu') m.classList.add('hidden');
+        });
+        if (menu) {
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                renderHeaderLoginLogs();
+            }
+        }
+    }
+
+    function renderHeaderLoginLogs() {
+        const tbodies = document.querySelectorAll('.header-login-activity-tbody');
+        if (tbodies.length === 0) return;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) return;
+
+        let logs = [];
+        try {
+            logs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]');
+        } catch(e) {}
+
+        logs = logs.filter(a => a.username.toLowerCase() === session.username.toLowerCase());
+
+        if (logs.length === 0) {
+            logs = seedMockLoginLogsHeader(session.username);
+        }
+
+        const recent = logs.slice().reverse().slice(0, 5);
+
+        tbodies.forEach(tbody => {
+            tbody.innerHTML = '';
+            recent.forEach((log, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-transparent/50 transition-colors';
+                
+                const loginStr = formatHeaderDateTime(new Date(log.loginAt));
+                const logoutStr = log.logoutAt ? formatHeaderDateTime(new Date(log.logoutAt)) : '<span class="text-emerald-600 font-bold">Active</span>';
+                const durationStr = log.logoutAt ? log.duration : '--';
+                const serialNo = logs.length - index;
+
+                tr.innerHTML = `
+                    <td class="py-1.5 px-2 font-semibold text-slate-500">${serialNo}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-700">${loginStr}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-750">${logoutStr}</td>
+                    <td class="py-1.5 px-2 font-bold text-slate-650">${durationStr}</td>
+                    <td class="py-1.5 px-2 font-mono text-slate-500">${log.ip}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (recent.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400 text-xs">No records.</td></tr>';
+            }
+        });
+    }
+
+    function formatHeaderDateTime(date) {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${dd}-${mm} ${hh}:${min}`;
+    }
+
+    function seedMockLoginLogsHeader(username) {
+        const logs = [];
+        const ips = ['192.168.1.102', '192.168.1.15', '172.16.4.52', '10.0.0.15', '192.168.1.200', '198.51.100.24', '203.0.113.88'];
+        const now = Date.now();
+
+        for (let i = 15; i >= 1; i--) {
+            const loginOffset = i * 8 * 60 * 60 * 1000;
+            const loginTime = now - loginOffset;
+            const durationMin = Math.floor(Math.random() * 120) + 15;
+            const logoutTime = i === 1 ? null : loginTime + (durationMin * 60 * 1000);
+            
+            let durationStr = '--';
+            if (logoutTime) {
+                const hours = Math.floor(durationMin / 60);
+                const mins = durationMin % 60;
+                durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            }
+
+            logs.push({
+                username: username,
+                serial: 16 - i,
+                loginAt: loginTime,
+                logoutAt: logoutTime,
+                duration: durationStr,
+                ip: ips[Math.floor(Math.random() * ips.length)]
+            });
+        }
+
+        let allLogs = [];
+        try { allLogs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]'); } catch(e) {}
+        allLogs = allLogs.filter(a => a.username.toLowerCase() !== username.toLowerCase());
+        allLogs = [...allLogs, ...logs];
+        localStorage.setItem('crmLoginActivities', JSON.stringify(allLogs));
+
+        return logs;
+    }
+
+    window.toggleAdminMenu = function(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    };
+
+    document.addEventListener('click', () => {
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+    });
+
+// ─── Import Leads Wizard ───
+let parsedCSVHeaders = [];
+let parsedCSVRows = [];
+let currentCSVFileName = '';
+
+
+function openImportLeadsModal() {
+    const utilDropdown = document.getElementById('utilities-dropdown');
+    if (utilDropdown) utilDropdown.classList.add('hidden');
+    
+    document.getElementById('csv-file-input').value = '';
+    document.getElementById('csv-upload-status').textContent = 'Choose File or drag it here';
+    document.getElementById('csv-details-card').classList.add('hidden');
+    document.getElementById('import-next-btn').disabled = true;
+    
+    parsedCSVHeaders = [];
+    parsedCSVRows = [];
+    
+    populateImportConfigSelects();
+    goToImportStep1();
+    
+    document.getElementById('import-leads-modal').classList.remove('hidden');
+}
+
+function closeImportLeadsModal() {
+    document.getElementById('import-leads-modal').classList.add('hidden');
+}
+
+function populateImportConfigSelects() {
+    try {
+        const segSel = document.getElementById('csv-default-segment');
+        segSel.innerHTML = '<option value="">No Segment</option>';
+        const storedSeg = localStorage.getItem('leadSegmentsData');
+        let segments = [];
+        if (storedSeg) segments = JSON.parse(storedSeg);
+        if (!segments || segments.length === 0) {
+            segments = [{ name: "Enterprise" }, { name: "Mid-Market" }, { name: "SMB" }];
+        }
+        segments.forEach(item => {
+            const opt = document.createElement('option');
+            opt.value = item.name;
+            opt.textContent = item.name;
+            segSel.appendChild(opt);
+        });
+    } catch(e) {}
+
+    try {
+        const userSel = document.getElementById('csv-default-user');
+        userSel.innerHTML = '<option value="">No User</option>';
+        const storedUsers = localStorage.getItem('leadUsersData');
+        if (storedUsers) {
+            const list = JSON.parse(storedUsers);
+            if (Array.isArray(list)) {
+                const activeUsers = list.filter(u => u.status === 'Active');
+                activeUsers.forEach(user => {
+                    const opt = document.createElement('option');
+                    opt.value = user.fullname;
+                    opt.textContent = user.fullname;
+                    userSel.appendChild(opt);
+                });
+            }
+        }
+    } catch(e) {}
+
+    try {
+        const stageSel = document.getElementById('csv-default-stage');
+        stageSel.innerHTML = '<option value="">No Status</option>';
+        const storedStages = localStorage.getItem('leadStagesData');
+        if (storedStages) {
+            const list = JSON.parse(storedStages);
+            if (Array.isArray(list)) {
+                list.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.name;
+                    opt.textContent = item.name;
+                    stageSel.appendChild(opt);
+                });
+            }
+        }
+    } catch(e) {}
+
+    try {
+        const srcSel = document.getElementById('csv-default-source');
+        srcSel.innerHTML = '<option value="">No Source</option>';
+        const storedSources = localStorage.getItem('leadSourcesData');
+        if (storedSources) {
+            const list = JSON.parse(storedSources);
+            if (Array.isArray(list)) {
+                list.forEach(item => {
+                    const opt = document.createElement('option');
+                    opt.value = item.name;
+                    opt.textContent = item.name;
+                    srcSel.appendChild(opt);
+                });
+            }
+        }
+    } catch(e) {}
+}
+
+function parseCSVLine(line) {
+    let result = [];
+    let current = '';
+    let inQuotes = false;
+    for (let i = 0; i < line.length; i++) {
+        let char = line[i];
+        if (char === '"') {
+            inQuotes = !inQuotes;
+        } else if (char === ',' && !inQuotes) {
+            result.push(current.trim());
+            current = '';
+        } else {
+            current += char;
+        }
+    }
+    result.push(current.trim());
+    return result;
+}
+
+function parseCSVContent(text) {
+    let lines = text.split('\n');
+    let rows = [];
+    for (let i = 0; i < lines.length; i++) {
+        let line = lines[i].replace(/\r$/, '').trim();
+        if (line) {
+            rows.push(parseCSVLine(line));
+        }
+    }
+    return rows;
+}
+
+function handleCSVFileSelection(event) {
+    const file = event.target.files[0];
+    if (!file) return;
+    currentCSVFileName = file.name;
+
+    
+    if (!file.name.toLowerCase().endsWith('.csv')) {
+        showToast('Please select a valid CSV file.', 'error');
+        return;
+    }
+    
+    if (file.size > 5 * 1024 * 1024) {
+        showToast('File size exceeds the 5 MB limit.', 'error');
+        return;
+    }
+    
+    const reader = new FileReader();
+    reader.onload = function(e) {
+        const text = e.target.result;
+        const rows = parseCSVContent(text);
+        
+        if (rows.length === 0) {
+            showToast('The CSV file is empty.', 'error');
+            return;
+        }
+        
+        parsedCSVHeaders = rows[0];
+        parsedCSVRows = rows.slice(1);
+        
+        document.getElementById('csv-upload-status').innerHTML = `<span class="text-teal-600 font-extrabold flex items-center gap-1"><span class="material-symbols-outlined text-[18px]">check_circle</span> ${file.name}</span>`;
+        document.getElementById('csv-total-rows').value = parsedCSVRows.length;
+        document.getElementById('csv-details-card').classList.remove('hidden');
+        document.getElementById('import-next-btn').disabled = false;
+        
+        showToast('CSV loaded successfully. Select defaults below.');
+    };
+    reader.readAsText(file);
+}
+
+function goToImportStep2() {
+    document.getElementById('import-step-1-panel').classList.add('hidden');
+    document.getElementById('import-step-2-panel').classList.remove('hidden');
+    
+    document.getElementById('import-back-btn').classList.remove('hidden');
+    document.getElementById('import-next-btn').classList.add('hidden');
+    document.getElementById('import-submit-btn').classList.remove('hidden');
+    
+    document.getElementById('import-modal-subtitle').textContent = 'Step 2 of 2: Map Columns';
+    
+    const s1Ind = document.getElementById('import-step-1-indicator');
+    const s2Ind = document.getElementById('import-step-2-indicator');
+    s1Ind.className = 'flex items-center gap-1.5 text-slate-400';
+    s1Ind.querySelector('span').className = 'w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px]';
+    s2Ind.className = 'flex items-center gap-1.5 text-teal-600';
+    s2Ind.querySelector('span').className = 'w-5 h-5 rounded-full bg-teal-500 text-white flex items-center justify-center text-[10px]';
+    
+    renderCSVMappingTable();
+}
+
+function goToImportStep1() {
+    document.getElementById('import-step-1-panel').classList.remove('hidden');
+    document.getElementById('import-step-2-panel').classList.add('hidden');
+    
+    document.getElementById('import-back-btn').classList.add('hidden');
+    document.getElementById('import-next-btn').classList.remove('hidden');
+    document.getElementById('import-submit-btn').classList.add('hidden');
+    
+    document.getElementById('import-modal-subtitle').textContent = 'Step 1 of 2: Upload & Configurations';
+    
+    const s1Ind = document.getElementById('import-step-1-indicator');
+    const s2Ind = document.getElementById('import-step-2-indicator');
+    s1Ind.className = 'flex items-center gap-1.5 text-teal-600';
+    s1Ind.querySelector('span').className = 'w-5 h-5 rounded-full bg-teal-500 text-white flex items-center justify-center text-[10px]';
+    s2Ind.className = 'flex items-center gap-1.5 text-slate-400';
+    s2Ind.querySelector('span').className = 'w-5 h-5 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-[10px]';
+}
+
+function renderCSVMappingTable() {
+    const tbody = document.getElementById('csv-mapping-table-body');
+    tbody.innerHTML = '';
+    
+    const crmFields = [
+        { value: 'name', label: 'Name' },
+        { value: 'mobile', label: 'Mobile' },
+        { value: 'email', label: 'Email' },
+        { value: 'company', label: 'Company' },
+        { value: 'segment', label: 'Segment' },
+        { value: 'followup', label: 'Follow-up Date' },
+        { value: 'address', label: 'Address' },
+        { value: 'city', label: 'City' },
+        { value: 'state', label: 'State' },
+        { value: 'pincode', label: 'Pincode' },
+        { value: 'user', label: 'User' },
+        { value: 'source', label: 'Source' },
+        { value: 'status', label: 'Status' }
+    ];
+    
+    parsedCSVHeaders.forEach((header, idx) => {
+        const tr = document.createElement('tr');
+        tr.className = 'hover:bg-transparent transition-colors';
+        
+        let selectedField = '';
+        const lowerHeader = header.toLowerCase();
+        if (lowerHeader.includes('name')) selectedField = 'name';
+        else if (lowerHeader.includes('phone') || lowerHeader.includes('mobile') || lowerHeader.includes('contact') || lowerHeader.includes('number')) selectedField = 'mobile';
+        else if (lowerHeader.includes('email') || lowerHeader.includes('mail')) selectedField = 'email';
+        else if (lowerHeader.includes('company') || lowerHeader.includes('firm') || lowerHeader.includes('organization')) selectedField = 'company';
+        else if (lowerHeader.includes('segment')) selectedField = 'segment';
+        else if (lowerHeader.includes('follow') || lowerHeader.includes('date')) selectedField = 'followup';
+        else if (lowerHeader.includes('address')) selectedField = 'address';
+        else if (lowerHeader.includes('city')) selectedField = 'city';
+        else if (lowerHeader.includes('state')) selectedField = 'state';
+        else if (lowerHeader.includes('pincode') || lowerHeader.includes('zip') || lowerHeader.includes('postal')) selectedField = 'pincode';
+        else if (lowerHeader.includes('user') || lowerHeader.includes('owner') || lowerHeader.includes('assign')) selectedField = 'user';
+        else if (lowerHeader.includes('source')) selectedField = 'source';
+        else if (lowerHeader.includes('status') || lowerHeader.includes('stage')) selectedField = 'status';
+        
+        let selectOptionsHtml = '<option value="">Do Not Import</option>';
+        crmFields.forEach(field => {
+            const isSel = field.value === selectedField ? 'selected' : '';
+            selectOptionsHtml += `<option value="${field.value}" ${isSel}>${field.label}</option>`;
+        });
+        
+        tr.innerHTML = `
+            <td class="py-2.5 px-4 font-bold text-slate-800">${header}</td>
+            <td class="py-2.5 px-4">
+                <div class="relative flex items-center">
+                    <select data-header-index="${idx}" class="csv-mapper-select w-full px-2.5 py-1.5 bg-transparent border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:outline-none focus:ring-1 focus:ring-teal-500 appearance-none pr-8">
+                        ${selectOptionsHtml}
+                    </select>
+                    <span class="material-symbols-outlined text-[16px] text-slate-400 absolute right-2.5 pointer-events-none">expand_more</span>
+                </div>
+            </td>
+        `;
+        tbody.appendChild(tr);
+    });
+}
+
+function executeLeadsImport() {
+    const selects = document.querySelectorAll('.csv-mapper-select');
+    let mapping = {};
+    selects.forEach(sel => {
+        const val = sel.value;
+        const idx = parseInt(sel.getAttribute('data-header-index'));
+        if (val) {
+            mapping[val] = idx;
+        }
+    });
+    
+    if (!mapping['name'] && !mapping['mobile'] && !mapping['email']) {
+        showToast('Please map at least Name, Mobile, or Email to import.', 'error');
+        return;
+    }
+    
+    const defaultSegment = document.getElementById('csv-default-segment').value;
+    const defaultUserGroup = document.getElementById('csv-default-usergroup').value;
+    const defaultUser = document.getElementById('csv-default-user').value;
+    const defaultStage = document.getElementById('csv-default-stage').value;
+    const defaultSource = document.getElementById('csv-default-source').value;
+    
+    let importCount = 0;
+    const batchSeenNames = new Set();
+    const batchSeenMobiles = new Set();
+    
+    parsedCSVRows.forEach(row => {
+        const nameVal = mapping['name'] !== undefined ? row[mapping['name']] : '';
+        const mobileVal = mapping['mobile'] !== undefined ? row[mapping['mobile']] : '';
+        const emailVal = mapping['email'] !== undefined ? row[mapping['email']] : '';
+        const companyVal = mapping['company'] !== undefined ? row[mapping['company']] : '';
+        const segmentVal = mapping['segment'] !== undefined ? row[mapping['segment']] : '';
+        const followupVal = mapping['followup'] !== undefined ? row[mapping['followup']] : '';
+        const addressVal = mapping['address'] !== undefined ? row[mapping['address']] : '';
+        const cityVal = mapping['city'] !== undefined ? row[mapping['city']] : '';
+        const stateVal = mapping['state'] !== undefined ? row[mapping['state']] : '';
+        const pincodeVal = mapping['pincode'] !== undefined ? row[mapping['pincode']] : '';
+        const userVal = mapping['user'] !== undefined ? row[mapping['user']] : '';
+        const sourceVal = mapping['source'] !== undefined ? row[mapping['source']] : '';
+        const statusVal = mapping['status'] !== undefined ? row[mapping['status']] : '';
+        
+        if (!nameVal && !mobileVal && !emailVal) return;
+        
+        const cleanName = (nameVal || '').trim();
+        const cleanMobile = (mobileVal || '').trim();
+        
+        // Check for duplicates in existing database or in this current import batch
+        const nameExists = cleanName && (
+            leadsData.some(l => l.name && l.name.trim().toLowerCase() === cleanName.toLowerCase()) ||
+            batchSeenNames.has(cleanName.toLowerCase())
+        );
+        const mobileExists = cleanMobile && cleanMobile !== '-' && (
+            leadsData.some(l => l.mobile && l.mobile !== '-' && l.mobile.trim() === cleanMobile) ||
+            batchSeenMobiles.has(cleanMobile)
+        );
+        
+        if (nameExists || mobileExists) {
+            // Skip duplicate
+            return;
+        }
+        
+        // Mark as seen
+        if (cleanName) batchSeenNames.add(cleanName.toLowerCase());
+        if (cleanMobile && cleanMobile !== '-') batchSeenMobiles.add(cleanMobile);
+        
+        const now = new Date().toLocaleDateString('en-GB') + " " + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
+        
+        const newLead = {
+            id: 'LD-' + Math.floor(100000 + Math.random() * 900000),
+            name: cleanName || 'CSV Lead',
+            mobile: cleanMobile || '-',
+            email: emailVal ? emailVal.trim() : '-',
+            company: companyVal ? companyVal.trim() : (defaultSegment || '-'),
+            segment: segmentVal ? segmentVal.trim() : (defaultSegment || 'Enterprise'),
+            followupDate: followupVal ? followupVal.trim() : '',
+            address: addressVal ? addressVal.trim() : '-',
+            city: cityVal ? cityVal.trim() : '-',
+            state: stateVal ? stateVal.trim() : '-',
+            pincode: pincodeVal ? pincodeVal.trim() : '-',
+            user: userVal ? userVal.trim() : (defaultUser || '-'),
+            userGroup: defaultUserGroup || 'Sales Team',
+            source: sourceVal ? sourceVal.trim() : (defaultSource || 'Direct Sales'),
+            stage: statusVal ? statusVal.trim().toUpperCase() : (defaultStage || 'LEAD'),
+            amount: '0.00',
+            score: 0,
+            gender: 'Male',
+            priority: 'Medium',
+            customFields: {},
+            creationDate: now,
+            modifiedDate: now,
+            date: Date.now(),
+            callsCount: 0,
+            smsCount: 0,
+            whatsappCount: 0
+        };
+        
+        leadsData.push(newLead);
+        importCount++;
+    });
+    
+    const totalRecords = parsedCSVRows.length;
+    const createdRecords = importCount;
+    const invalidRecords = totalRecords - createdRecords;
+    
+    saveImportHistoryLog(currentCSVFileName || 'imported_leads.csv', totalRecords, createdRecords, invalidRecords, 'CSV');
+    
+    if (importCount > 0) {
+        saveLeadsData();
+        renderLeads();
+        showToast(`Successfully imported ${importCount} leads!`, 'success');
+    } else {
+        showToast('No leads were imported.', 'error');
+    }
+    
+    closeImportLeadsModal();
+}
+
+// ─── Import History Modal Logic ───
+let historyPageSize = 10;
+let historyCurrentPage = 1;
+let historySearchQuery = '';
+
+function openImportHistoryModal() {
+    const utilDropdown = document.getElementById('utilities-dropdown');
+    if (utilDropdown) utilDropdown.classList.add('hidden');
+    
+    document.getElementById('import-history-search').value = '';
+    historySearchQuery = '';
+    historyCurrentPage = 1;
+    
+    const hPagesDropdown = document.getElementById('history-pages-dropdown');
+    if (hPagesDropdown) hPagesDropdown.classList.add('hidden');
+    
+    renderImportHistory();
+    
+    document.getElementById('import-history-modal').classList.remove('hidden');
+}
+
+function closeImportHistoryModal() {
+    document.getElementById('import-history-modal').classList.add('hidden');
+}
+
+function seedMockImportHistory() {
+    return [];
+}
+
+function getImportHistoryData() {
+    let history = [];
+    try {
+        const stored = localStorage.getItem('crmImportHistory');
+        if (stored) {
+            history = JSON.parse(stored);
+        }
+    } catch(e) {}
+    
+    if (Array.isArray(history)) {
+        const mockFileNames = [
+            'leads_q1_campaign.csv',
+            'facebook_ads_leads.csv',
+            'invalid_data_test.csv',
+            'cold_outreach_list.csv'
+        ];
+        history = history.filter(item => item && item.fileName && !mockFileNames.includes(item.fileName));
+    } else {
+        history = [];
+    }
+    return history;
+}
+
+function saveImportHistoryLog(fileName, total, created, invalid, type) {
+    try {
+        let history = getImportHistoryData();
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        const username = session ? session.username : 'Admin User';
+        
+        const nowStr = new Date().toLocaleDateString('en-GB') + " " + new Date().toLocaleTimeString('en-US', {hour: '2-digit', minute:'2-digit'});
+        
+        let status = 'Completed';
+        if (created === 0 && total > 0) {
+            status = 'Failed';
+        } else if (invalid > 0) {
+            status = 'Completed with errors';
+        }
+        
+        const newLog = {
+            id: 'IMP-' + Math.floor(100000 + Math.random() * 900000),
+            fileName: fileName,
+            totalRecords: total,
+            createdRecords: created,
+            invalidRecords: invalid,
+            date: nowStr,
+            status: status,
+            uploadedBy: username,
+            importType: type
+        };
+        
+        history.unshift(newLog);
+        localStorage.setItem('crmImportHistory', JSON.stringify(history));
+    } catch(e) {
+        console.error("Error saving import log:", e);
+    }
+}
+
+function renderImportHistory() {
+    const historyData = getImportHistoryData();
+    
+    let filtered = historyData;
+    if (historySearchQuery) {
+        const query = historySearchQuery.toLowerCase();
+        filtered = historyData.filter(log => 
+            log.fileName.toLowerCase().includes(query) ||
+            log.status.toLowerCase().includes(query) ||
+            log.uploadedBy.toLowerCase().includes(query) ||
+            log.importType.toLowerCase().includes(query)
+        );
+    }
+    
+    const total = filtered.length;
+    const totalPages = Math.max(1, Math.ceil(total / historyPageSize));
+    
+    if (historyCurrentPage > totalPages) {
+        historyCurrentPage = totalPages;
+    }
+    
+    const startIdx = (historyCurrentPage - 1) * historyPageSize;
+    const endIdx = Math.min(startIdx + historyPageSize, total);
+    
+    const paginated = filtered.slice(startIdx, endIdx);
+    
+    const tbody = document.getElementById('import-history-table-body');
+    const emptyState = document.getElementById('history-empty-state');
+    
+    tbody.innerHTML = '';
+    
+    if (paginated.length === 0) {
+        emptyState.classList.remove('hidden');
+    } else {
+        emptyState.classList.add('hidden');
+        paginated.forEach((log, index) => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-transparent transition-colors border-b border-slate-100';
+            
+            let statusBadge = '';
+            if (log.status === 'Completed') {
+                statusBadge = '<span class="px-2.5 py-1 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-[10px] font-bold">Completed</span>';
+            } else if (log.status === 'Completed with errors') {
+                statusBadge = '<span class="px-2.5 py-1 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-[10px] font-bold">Completed with errors</span>';
+            } else {
+                statusBadge = '<span class="px-2.5 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-full text-[10px] font-bold">Failed</span>';
+            }
+            
+            const srNo = startIdx + index + 1;
+            
+            tr.innerHTML = `
+                <td class="py-3 px-4 text-center font-bold text-slate-500">${srNo}</td>
+                <td class="py-3 px-4 font-bold text-slate-800 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[18px] text-indigo-500">description</span>
+                    <span>${log.fileName}</span>
+                </td>
+                <td class="py-3 px-4 text-right font-semibold text-slate-600">${log.totalRecords}</td>
+                <td class="py-3 px-4 text-right font-bold text-emerald-600">${log.createdRecords}</td>
+                <td class="py-3 px-4 text-right font-bold ${log.invalidRecords > 0 ? 'text-rose-500' : 'text-slate-400'}">${log.invalidRecords}</td>
+                <td class="py-3 px-4 text-slate-500 font-semibold">${log.date}</td>
+                <td class="py-3 px-4 text-center">${statusBadge}</td>
+                <td class="py-3 px-4 text-slate-700 font-bold">${log.uploadedBy}</td>
+                <td class="py-3 px-4 text-center">
+                    <span class="px-2 py-0.5 bg-slate-100 text-slate-600 border border-slate-200 rounded text-[10px] font-extrabold uppercase">${log.importType}</span>
+                </td>
+                <td class="py-3 px-4 text-center">
+                    <button onclick="deleteHistoryLog('${log.id}', event)" class="p-1 hover:bg-rose-50 text-rose-500 hover:text-rose-700 rounded transition-colors border-none bg-transparent cursor-pointer flex items-center justify-center mx-auto" title="Delete log">
+                        <span class="material-symbols-outlined text-[16px]">delete</span>
+                    </button>
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    }
+    
+    document.getElementById('history-pagination-info').textContent = total > 0 
+        ? `Showing ${startIdx + 1}-${endIdx} of ${total} entries` 
+        : 'Showing 0-0 of 0 entries';
+        
+    document.getElementById('history-current-page').textContent = `Page ${historyCurrentPage} of ${totalPages}`;
+    
+    document.getElementById('history-prev-btn').disabled = (historyCurrentPage === 1);
+    document.getElementById('history-next-btn').disabled = (historyCurrentPage === totalPages);
+}
+
+function filterImportHistory() {
+    historySearchQuery = document.getElementById('import-history-search').value;
+    historyCurrentPage = 1;
+    renderImportHistory();
+}
+
+function historyPageChange(direction) {
+    historyCurrentPage += direction;
+    renderImportHistory();
+}
+
+function toggleHistoryPageSizeDropdown(event) {
+    event.stopPropagation();
+    const dropdown = document.getElementById('history-pages-dropdown');
+    if (dropdown) dropdown.classList.toggle('hidden');
+}
+
+function changeHistoryPageSize(size) {
+    historyPageSize = size;
+    const label = document.getElementById('history-pages-label');
+    if (label) label.textContent = `${size} / Page`;
+    const dropdown = document.getElementById('history-pages-dropdown');
+    if (dropdown) dropdown.classList.add('hidden');
+    historyCurrentPage = 1;
+    renderImportHistory();
+}
+
+function triggerImportFromHistory() {
+    closeImportHistoryModal();
+    openImportLeadsModal();
+}
+
+function triggerRefreshHistory() {
+    renderImportHistory();
+    showToast("Import history logs refreshed successfully!", "success");
+}
+
+function deleteHistoryLog(id, event) {
+    if (event) event.stopPropagation();
+    if (!confirm("Are you sure you want to delete this import log?")) return;
+    
+    let history = [];
+    try {
+        const stored = localStorage.getItem('crmImportHistory');
+        if (stored) {
+            history = JSON.parse(stored);
+        }
+    } catch(e) {}
+    
+    if (Array.isArray(history)) {
+        history = history.filter(item => item.id !== id);
+        localStorage.setItem('crmImportHistory', JSON.stringify(history));
+    }
+    
+    renderImportHistory();
+    showToast("Import log deleted successfully!", "success");
+}
+
+function clearAllHistory(event) {
+    if (event) event.stopPropagation();
+    if (!confirm("Are you sure you want to delete ALL import history logs? This cannot be undone.")) return;
+    
+    localStorage.setItem('crmImportHistory', JSON.stringify([]));
+    
+    renderImportHistory();
+    showToast("All import logs cleared!", "success");
+}
+
+
+--- 
+

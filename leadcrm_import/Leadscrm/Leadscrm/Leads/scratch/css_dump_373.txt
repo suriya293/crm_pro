@@ -1,0 +1,118 @@
+Created At: 2026-05-23T11:42:50Z
+Completed At: 2026-05-23T11:42:50Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 29897
+Showing lines 1 to 110
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: $files = @("c:\Users\YUVEHA\OneDrive\Documents\Leads\code.html", "c:\Users\YUVEHA\OneDrive\Documents\Leads\listview.html")
+2: foreach ($f in $files) {
+3:     $c = [System.IO.File]::ReadAllText($f)
+4:     $c = $c -replace "document\.getElementById\('limit-dropdown-container'\)\.classList\.(add|remove)\('hidden'\);", ""
+5:     [System.IO.File]::WriteAllText($f, $c)
+6: }
+7: Write-Output "Fixed classList error!"
+8: 
+9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+11:     <style>
+12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13: 
+14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+15:         #kanban-view {
+16:             flex: 1 1 0;
+17:             min-height: 0;
+18:             display: flex;
+19:             flex-direction: column;
+20:             overflow-x: auto;
+21:             overflow-y: hidden;
+22:             scrollbar-width: auto;
+23:             scrollbar-color: #4A85F6 #dde4ef;
+24:         }
+25:         #kanban-view::-webkit-scrollbar      { height: 10px; }
+26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+27:         #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border-radius: 5px; min-width: 40px; }
+28:         #kanban-view::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+29: 
+30:         /* Inner r
+31: 
+32: 
+33: 
+34: 
+35: 
+36: 
+37: 
+38: 
+39: 
+40: 
+41: 
+42: 
+43: 
+44: 
+45: 
+46: 
+47: 
+48: 
+49: 
+50: 
+51: 
+52: 
+53: 
+54: 
+55: 
+56: 
+57: 
+58: 
+59: 
+60: 
+61: 
+62: 
+63: 
+64: 
+65: 
+66: 
+67: 
+68: 
+69: 
+70: 
+71: 
+72: 
+73: 
+74: 
+75: 
+76: 
+77: 
+78: 
+79: 
+80: 
+81: 
+82: 
+83: 
+84: 
+85: 
+86: 
+87: 
+88: 
+89: 
+90: 
+91: 
+92: 
+93: 
+94: 
+95: 
+96: 
+97: 
+98: 
+99: 
+100:         main::-webkit-scrollbar-thumb {
+101:             background-color: #64748b;
+102:             border-radius: 4px;
+103:         }
+104:         main::-webkit-scrollbar-thumb:hover {
+105:             background-color: #475569;
+106:         }
+107:     </style>
+108: </head>
+109: <body class="bg-background text-on-surface font-sans overflow-hidden flex h-screen">
+110: 
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,28 @@
+{
+  "doctype": "Company",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "COMP-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "company_name", "fieldtype": "Data", "label": "Company Name", "reqd": 1},
+    {"fieldname": "address", "fieldtype": "Text", "label": "Address"},
+    {"fieldname": "industry", "fieldtype": "Data", "label": "Industry"},
+    {"fieldname": "website", "fieldtype": "Data", "label": "Website"},
+    {"fieldname": "account_manager", "fieldtype": "Link", "label": "Account Manager", "options": "User"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"},
+    {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company"},
+    {"fieldname": "territory", "fieldtype": "Link", "label": "Territory", "options": "Territory"},
+    {"fieldname": "team", "fieldtype": "Link", "label": "Team", "options": "Team"}
+  ],
+  "indexes": [
+    {"fields": ["company_name"]},
+    {"fields": ["industry"]}
+  ],
+  "workflow": "Company Workflow"
+}

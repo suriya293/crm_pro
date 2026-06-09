@@ -1,0 +1,70 @@
+Created At: 2026-05-23T11:43:48Z
+Completed At: 2026-05-23T11:43:48Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/css_dump_21.txt`
+Total Lines: 73
+Total Bytes: 4193
+Showing lines 1 to 73
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: Created At: 2026-05-23T11:17:21Z
+2: Completed At: 2026-05-23T11:17:21Z
+3: File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+4: Total Lines: 2305
+5: Total Bytes: 138224
+6: Showing lines 1 to 800
+7: The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+8: 1: <!DOCTYPE html>
+9: 2: 
+10: 3: <html class="light" lang="en"><head>
+11: 4: <meta charset="utf-8"/>
+12: 5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+13: 6: <title>LEADS - CRM Pipeline</title>
+14: 7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+15: 8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+16: 9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+17: 10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+18: 11:     <style>
+19: 12:         /* KANBAN LAYOUT - Visible Scrollbars */
+20: 13: 
+21: 14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+22: 15:         #kanban-view {
+23: 16:             flex: 1 1 0;
+24: 17:             min-height: 0;
+25: 18:             display: flex;
+26: 19:             flex-direction: co
+<truncated 915 bytes>
+ap">Import History</button>
+40: 593: 
+41: 594:                     <button onclick="openAddLeadModal()" class="flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 hover:from-[#4A85F6] hover:to-[#4A85F6]/50 text-white rounded-full text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+42: 595:                         <span class="material-symbols-outlined text-[16px]">add</span> Add Lead
+43: 596:                     </button>
+44: 597:                     <button onclick="handleRefreshLeads()" class="p-2 bg-[#4A85F6] hover:bg-[#3b71ca] text-white border-none rounded-full transition-all shadow-sm flex items-center justify-center">
+45: 598:                         <span class="material-symbols-outlined text-[16px]">refresh</span>
+46: 599:                     </button>
+47: 600:             </div>
+48: 601:         </section>
+49: 602: 
+50: 603: <style>
+51: 604: .hide-scrollbar::-webkit-scrollbar { display: none !important; }
+52: 605: .hide-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+53: 606: .chevron-header {
+54: 607:     transition: all 0.2s ease-in-out;
+55: 608:     cursor: pointer;
+56: 609: }
+57: 610: .chevron-header:hover {
+58: 611:     filter: brightness(0.95);
+59: 612: }
+60: 613: .chevron-header.active-pink {
+61: 614:     background-color: #FEE2E2 !important;
+62: 615:     background-image: none !important;
+63: 616:     color: #991B1B !important;
+64: 617: }
+65: 618: .chevron-header.active-pink span {
+66: 619:     color: #991B1B !important;
+67: 620: }
+68: 621: .chevron-header.active-pink div {
+69: 622:     background-color: rgba(153, 27, 27, 0.1) !important;
+70: 623:     color: #99
+71: <truncated 14161 bytes>
+72: 
+73: NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.
+The above content shows the entire, complete file contents of the requested file.

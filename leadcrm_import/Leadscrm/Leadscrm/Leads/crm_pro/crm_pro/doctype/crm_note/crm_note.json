@@ -1,0 +1,42 @@
+{
+  "name": "CRM Note",
+  "doctype": "DocType",
+  "module": "CRM Pro",
+  "fields": [
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "deal",
+      "fieldtype": "Link",
+      "options": "CRM Deal",
+      "label": "Associated Deal"
+    },
+    {
+      "fieldname": "content",
+      "fieldtype": "Text",
+      "label": "Note Content",
+      "reqd": 1
+    },
+    {
+      "fieldname": "added_by",
+      "fieldtype": "Link",
+      "options": "User",
+      "label": "Added By",
+      "in_list_view": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

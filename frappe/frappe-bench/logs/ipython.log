@@ -1,0 +1,1384 @@
+2026-06-05 19:30:16,615 INFO ipython === bench console session ===
+2026-06-05 19:30:16,616 INFO ipython bench --site crm.local console
+2026-06-05 19:30:16,616 INFO ipython bench --site crm.local console
+2026-06-05 19:30:16,616 INFO ipython === session end ===
+2026-06-06 04:46:28,696 INFO ipython === bench console session ===
+2026-06-06 04:46:28,702 INFO ipython import frappe
+
+frappe.get_value("User", "Administrator", "name")
+2026-06-06 04:46:28,702 INFO ipython     frappe.db.get_single_value("System Settings", "setup_complete")
+2026-06-06 04:46:28,702 INFO ipython frappe.db.set_single_value(
+    "System Settings",
+    "setup_complete",
+    1
+)
+
+frappe.db.commit()
+2026-06-06 04:46:28,702 INFO ipython === session end ===
+2026-06-06 05:50:40,307 INFO ipython === bench console session ===
+2026-06-06 05:50:40,308 INFO ipython import frappe
+
+if frappe.db.exists("Custom Field", "User-territory"):
+    frappe.delete_doc("Custom Field", "User-territory", force=True)
+
+frappe.db.commit()
+2026-06-06 05:50:40,309 INFO ipython === session end ===
+2026-06-06 06:23:41,190 INFO ipython === bench console session ===
+2026-06-06 06:23:41,192 INFO ipython import frappe
+print(frappe.get_all("Module Def", pluck="name"))
+2026-06-06 06:23:41,192 INFO ipython find ~/leadcrm_import/Leadscrm/Leadscrm/Leads/precision_crm/precision_crm -maxdepth 1 -type d
+2026-06-06 06:23:41,192 INFO ipython exit;
+2026-06-06 06:23:41,192 INFO ipython === session end ===
+2026-06-06 06:49:18,136 INFO ipython === bench console session ===
+2026-06-06 06:49:18,143 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module": "Precision CRM"},
+    pluck="name"
+)
+2026-06-06 06:49:18,144 INFO ipython frappe.get_all("Module Def", pluck="name")
+2026-06-06 06:49:18,144 INFO ipython === session end ===
+2026-06-06 06:53:42,796 INFO ipython === bench console session ===
+2026-06-06 06:53:42,796 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":"Precision CRM"},
+    pluck="name"
+)
+2026-06-06 06:53:42,796 INFO ipython ls -la ~/leadcrm_import/Leadscrm/Leadscrm/Leads/precision_crm/precision_crm/doctype/lead
+2026-06-06 06:53:42,796 INFO ipython exit;
+2026-06-06 06:53:42,796 INFO ipython === session end ===
+2026-06-06 06:59:16,592 INFO ipython === bench console session ===
+2026-06-06 06:59:16,595 INFO ipython frappe.db.exists("DocType", "Lead")
+2026-06-06 06:59:16,595 INFO ipython frappe.db.exists("DocType", "Contact")
+2026-06-06 06:59:16,595 INFO ipython frappe.db.exists("DocType", "Deal")
+2026-06-06 06:59:16,595 INFO ipython frappe.get_all("DocType", pluck="name")[:20]
+2026-06-06 06:59:16,596 INFO ipython exit;
+2026-06-06 06:59:16,596 INFO ipython === session end ===
+2026-06-06 07:01:14,602 INFO ipython === bench console session ===
+2026-06-06 07:01:14,608 INFO ipython import frappe
+
+frappe.get_all(
+    "DocType",
+    filters={"module": "Precision CRM"},
+    fields=["name","module"]
+)
+2026-06-06 07:01:14,608 INFO ipython frappe.db.get_value(
+    "Module Def",
+    "Precision CRM",
+    "app_name"
+)
+2026-06-06 07:01:14,608 INFO ipython exit;
+2026-06-06 07:01:14,609 INFO ipython === session end ===
+2026-06-06 08:10:37,650 INFO ipython === bench console session ===
+2026-06-06 08:10:37,716 INFO ipython import crm_pro
+import crm_pro.hooks
+2026-06-06 08:10:37,717 INFO ipython exit;
+2026-06-06 08:10:37,717 INFO ipython === session end ===
+2026-06-06 08:18:14,468 INFO ipython === bench console session ===
+2026-06-06 08:18:14,468 INFO ipython import crm_pro
+import crm_pro.hooks
+2026-06-06 08:18:14,469 INFO ipython import frappe
+
+frappe.get_installed_apps()
+2026-06-06 08:18:14,469 INFO ipython frappe.db.exists("DocType", "CRM Lead")
+frappe.db.exists("DocType", "CRM Deal")
+2026-06-06 08:18:14,469 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module": ["like", "%CRM%"]},
+    pluck="name"
+)
+2026-06-06 08:18:14,469 INFO ipython exit;
+2026-06-06 08:18:14,469 INFO ipython === session end ===
+2026-06-06 08:28:06,085 INFO ipython === bench console session ===
+2026-06-06 08:28:06,085 INFO ipython import frappe
+
+frappe.db.exists("DocType","CRM Lead")
+
+frappe.db.exists("DocType","CRM Deal")
+2026-06-06 08:28:06,085 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":["like","%CRM%"]},
+    pluck="name"
+)
+2026-06-06 08:28:06,086 INFO ipython exit;
+2026-06-06 08:28:06,086 INFO ipython === session end ===
+2026-06-06 08:36:53,669 INFO ipython === bench console session ===
+2026-06-06 08:36:53,670 INFO ipython import frappe
+
+frappe.db.exists("Module Def", "CRM Pro")
+2026-06-06 08:36:53,670 INFO ipython import frappe
+
+if not frappe.db.exists("Module Def", "CRM Pro"):
+    doc = frappe.get_doc({
+        "doctype": "Module Def",
+        "module_name": "CRM Pro",
+        "app_name": "crm_pro"
+    })
+    doc.insert(ignore_permissions=True)
+
+frappe.db.commit()
+2026-06-06 08:36:53,670 INFO ipython === session end ===
+2026-06-06 08:51:09,937 INFO ipython === bench console session ===
+2026-06-06 08:51:09,938 INFO ipython import frappe
+
+frappe.db.exists("DocType", "CRM Lead")
+frappe.db.exists("DocType", "CRM Deal")
+frappe.db.exists("Module Def", "CRM Pro")
+2026-06-06 08:51:09,938 INFO ipython import frappe
+
+print("Module Def:", frappe.db.exists("Module Def", "CRM Pro"))
+print("CRM Lead:", frappe.db.exists("DocType", "CRM Lead"))
+print("CRM Deal:", frappe.db.exists("DocType", "CRM Deal"))
+2026-06-06 08:51:09,938 INFO ipython cd ~/frappe/frappe-bench
+
+find apps/crm_pro -type f | sort | grep -E "hooks.py|modules.txt|__init__.py|pyproject.toml"
+2026-06-06 08:51:09,938 INFO ipython === session end ===
+2026-06-06 08:55:12,655 INFO ipython === bench console session ===
+2026-06-06 08:55:12,656 INFO ipython import frappe
+
+print(frappe.db.exists("DocType","CRM Lead"))
+print(frappe.db.exists("DocType","CRM Deal"))
+2026-06-06 08:55:12,656 INFO ipython echo "CRM Pro" > ~/frappe/frappe-bench/apps/crm_pro/crm_pro/modules.txt
+
+bench --site crm.local migrate
+2026-06-06 08:55:12,656 INFO ipython === session end ===
+2026-06-06 09:28:40,895 INFO ipython === bench console session ===
+2026-06-06 09:28:40,898 INFO ipython import frappe
+
+# Check module definitions
+print(frappe.get_all(
+    "Module Def",
+    fields=["name","app_name"]
+))
+
+# Check if CRM Pro module exists
+print(frappe.db.get_value("Module Def", "CRM Pro", ["name","app_name"]))
+
+# Check doctypes assigned to CRM Pro
+print(
+    frappe.get_all(
+        "DocType",
+        filters={"module":"CRM Pro"},
+        fields=["name","module"]
+    )[:20]
+)
+2026-06-06 09:28:40,898 INFO ipython import frappe
+
+from frappe.modules.utils import get_module_app
+
+print(get_module_app("CRM Pro"))
+2026-06-06 09:28:40,898 INFO ipython === session end ===
+2026-06-06 09:43:39,311 INFO ipython === bench console session ===
+2026-06-06 09:43:39,317 INFO ipython import frappe
+
+module = frappe.get_doc("Module Def", "CRM Pro")
+
+print("Module Name:", module.name)
+
+print("App Name:", getattr(module, "app_name", None))
+
+print(module.as_dict())
+2026-06-06 09:43:39,318 INFO ipython frappe.db.sql("""
+select name, app_name
+from `tabModule Def`
+where name='CRM Pro'
+""", as_dict=True)
+2026-06-06 09:43:39,318 INFO ipython frappe.db.sql("""
+select name, app_name
+from `tabModule Def`
+where name='CRM Pro'
+""", as_dict=True)
+2026-06-06 09:43:39,318 INFO ipython import frappe
+
+for d in frappe.get_all("Module Def", fields=["name","app_name"]):
+    print(d)
+   
+2026-06-06 09:43:39,318 INFO ipython import frappe
+
+for d in frappe.get_all("Module Def", fields=["name","app_name"]):
+    print(d)
+    
+2026-06-06 09:43:39,318 INFO ipython import crm_pro.<module_name>
+2026-06-06 09:43:39,319 INFO ipython === session end ===
+2026-06-06 10:02:01,030 INFO ipython === bench console session ===
+2026-06-06 10:02:01,031 INFO ipython import frappe
+
+print(frappe.get_module_list("crm_pro"))
+2026-06-06 10:02:01,031 INFO ipython import crm_pro
+
+print(crm_pro.__file__)
+2026-06-06 10:02:01,031 INFO ipython import crm_pro.doctype.crm_lead.crm_lead
+2026-06-06 10:02:01,031 INFO ipython print("doctype import ok")
+2026-06-06 10:02:01,031 INFO ipython cd ~/frappe/frappe-bench
+
+./env/bin/python - <<'PY'
+import crm_pro
+import crm_pro.doctype.crm_lead.crm_lead
+
+print("APP OK")
+print("DOCTYPE OK")
+PY
+2026-06-06 10:02:01,031 INFO ipython === session end ===
+2026-06-06 10:06:30,518 INFO ipython === bench console session ===
+2026-06-06 10:06:30,519 INFO ipython import frappe
+
+frappe.get_hooks("after_install")
+2026-06-06 10:06:30,519 INFO ipython frappe.get_hooks("scheduler_events")
+2026-06-06 10:06:30,519 INFO ipython frappe.get_hooks("doc_events")
+2026-06-06 10:06:30,519 INFO ipython import frappe
+
+print(frappe.get_module_list("crm_pro"))
+2026-06-06 10:06:30,519 INFO ipython === session end ===
+2026-06-06 10:16:20,207 INFO ipython === bench console session ===
+2026-06-06 10:16:20,208 INFO ipython import frappe
+
+print(frappe.get_module_list("crm_pro"))
+print(frappe.get_hooks("after_install"))
+2026-06-06 10:16:20,208 INFO ipython === session end ===
+2026-06-06 10:54:00,285 INFO ipython === bench console session ===
+2026-06-06 10:54:00,288 INFO ipython import frappe
+
+frappe.get_all(
+    "DocType",
+    filters={"module": "CRM Pro"},
+    fields=["name"]
+)
+2026-06-06 10:54:00,288 INFO ipython === session end ===
+2026-06-06 11:11:53,695 INFO ipython === bench console session ===
+2026-06-06 11:11:53,704 INFO ipython import frappe
+
+frappe.db.exists(
+    "Module Def",
+    "CRM Pro"
+)
+2026-06-06 11:11:53,704 INFO ipython import frappe
+
+frappe.delete_doc(
+    "Module Def",
+    "CRM Pro",
+    force=1
+)
+
+frappe.db.commit()
+
+print("Deleted")
+2026-06-06 11:11:53,704 INFO ipython frappe.db.exists(
+    "Module Def",
+    "CRM Pro"
+)
+2026-06-06 11:11:53,704 INFO ipython cd ~/frappe/frappe-bench
+
+bench --site crm.local mariadb
+2026-06-06 11:11:53,704 INFO ipython === session end ===
+2026-06-06 11:22:34,071 INFO ipython === bench console session ===
+2026-06-06 11:22:34,078 INFO ipython import frappe
+
+print(
+    frappe.get_all(
+        "Module Def",
+        fields=["name", "app_name"]
+    )
+)
+2026-06-06 11:22:34,078 INFO ipython import frappe
+
+print(frappe.get_module_list("crm_pro"))
+2026-06-06 11:22:34,078 INFO ipython import os
+
+for root, dirs, files in os.walk("apps/crm_pro"):
+    if "modules.txt" in files:
+        print(os.path.join(root, "modules.txt"))
+        
+2026-06-06 11:22:34,078 INFO ipython === session end ===
+2026-06-06 11:29:04,146 INFO ipython === bench console session ===
+2026-06-06 11:29:04,150 INFO ipython import frappe
+
+print("Installed Apps:")
+print(frappe.get_installed_apps())
+
+print("\nCRM Pro Module Def:")
+print(
+    frappe.db.sql("""
+        SELECT name, app_name
+        FROM `tabModule Def`
+        WHERE app_name='crm_pro'
+    """, as_dict=True)
+)
+2026-06-06 11:29:04,150 INFO ipython === session end ===
+2026-06-06 12:13:45,117 INFO ipython === bench console session ===
+2026-06-06 12:13:45,120 INFO ipython import frappe
+
+print(frappe.db.exists("DocType", "CRM Lead"))
+print(frappe.db.exists("DocType", "CRM Deal"))
+print(frappe.db.exists("DocType", "CRM Company"))
+2026-06-06 12:13:45,121 INFO ipython bench --site crm.local migrate
+
+bench --site crm.local clear-cache
+
+bench --site crm.local clear-website-cache
+
+bench restart
+2026-06-06 12:13:45,121 INFO ipython exit;
+2026-06-06 12:13:45,121 INFO ipython === session end ===
+2026-06-06 12:32:40,480 INFO ipython === bench console session ===
+2026-06-06 12:32:40,487 INFO ipython import frappe
+
+for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Company",
+    "CRM Contact",
+    "CRM Pipeline",
+    "CRM Role Configuration"
+]:
+    print(dt, "=>", frappe.db.exists("DocType", dt))
+    
+2026-06-06 12:32:40,487 INFO ipython cd ~/frappe/frappe-bench
+
+ls -la apps/crm_pro/crm_pro/crm_pro/doctype/crm_role_configuration
+2026-06-06 12:32:40,488 INFO ipython exit;
+2026-06-06 12:32:40,488 INFO ipython === session end ===
+2026-06-06 12:47:11,956 INFO ipython === bench console session ===
+2026-06-06 12:47:11,957 INFO ipython import frappe
+
+dt = frappe.get_doc({
+    "doctype": "DocType",
+    "name": "CRM Role Configuration",
+    "module": "CRM Pro",
+    "custom": 0,
+    "fields": [
+        {
+            "fieldname": "role_name",
+            "fieldtype": "Data",
+            "label": "Role Name",
+            "reqd": 1
+        }
+    ]
+})
+
+dt.insert()
+frappe.db.commit()
+2026-06-06 12:47:11,957 INFO ipython import frappe
+
+dt = frappe.get_doc({
+    "doctype": "DocType",
+    "name": "CRM Role Configuration",
+    "module": "CRM Pro",
+    "custom": 0,
+    "fields": [
+        {
+            "fieldname": "role_name",
+            "fieldtype": "Data",
+            "label": "Role Name",
+            "reqd": 1
+        }
+    ]
+})
+
+dt.insert()
+frappe.db.commit()
+2026-06-06 12:47:11,957 INFO ipython bench --site crm.local export-fixtures
+2026-06-06 12:47:11,958 INFO ipython === session end ===
+2026-06-07 04:30:59,611 INFO ipython === bench console session ===
+2026-06-07 04:30:59,613 INFO ipython import frappe
+
+frappe.db.count("CRM Deal")
+frappe.db.count("CRM Contact")
+frappe.db.count("CRM Company")
+
+frappe.get_all(
+    "DocType",
+    filters={"module": "CRM Pro"},
+    pluck="name"
+)
+2026-06-07 04:30:59,613 INFO ipython === session end ===
+2026-06-07 04:33:35,222 INFO ipython === bench console session ===
+2026-06-07 04:33:35,223 INFO ipython import frappe
+
+for d in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Contact",
+    "CRM Company",
+    "CRM Task",
+    "CRM Reminder"
+]:
+    print(d, frappe.db.exists("DocType", d))
+    
+2026-06-07 04:33:35,223 INFO ipython grep -R "@frappe.whitelist" apps/crm_pro
+2026-06-07 04:33:35,223 INFO ipython === session end ===
+2026-06-07 04:53:31,335 INFO ipython === bench console session ===
+2026-06-07 04:53:31,341 INFO ipython import frappe
+frappe.get_doc("CRM Settings")
+2026-06-07 04:53:31,341 INFO ipython === session end ===
+2026-06-07 06:48:10,975 INFO ipython === bench console session ===
+2026-06-07 06:48:10,977 INFO ipython import crm_pro.verify_all
+dir(crm_pro.verify_all)
+2026-06-07 06:48:10,977 INFO ipython === session end ===
+2026-06-07 06:57:26,426 INFO ipython === bench console session ===
+2026-06-07 06:57:26,433 INFO ipython frappe.db.set_single_value(
+    "System Settings",
+    "enable_scheduler",
+    1
+)
+
+frappe.db.commit()
+2026-06-07 06:57:26,433 INFO ipython === session end ===
+2026-06-07 07:01:00,696 INFO ipython === bench console session ===
+2026-06-07 07:01:00,698 INFO ipython import crm_pro.verify_all
+
+dir(crm_pro.verify_all)
+2026-06-07 07:01:00,698 INFO ipython env/bin/python
+2026-06-07 07:01:00,698 INFO ipython === session end ===
+2026-06-07 09:11:10,318 INFO ipython === bench console session ===
+2026-06-07 09:11:10,324 INFO ipython frappe.get_all("CRM Lead")
+2026-06-07 09:11:10,324 INFO ipython frappe.get_doc("CRM Lead", "CRM-LEAD-0001").as_dict()
+2026-06-07 09:11:10,325 INFO ipython frappe.get_doc("CRM Lead", "olbgnl74fv").as_dict()
+2026-06-07 09:11:10,325 INFO ipython lead = frappe.get_doc("CRM Lead", "olbgnl74fv")
+lead
+2026-06-07 09:11:10,325 INFO ipython frappe.db.get_value(
+    "CRM Lead",
+    "olbgnl74fv",
+    "*",
+    as_dict=True
+)
+2026-06-07 09:11:10,325 INFO ipython for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Task",
+    "CRM Reminder",
+    "CRM Note",
+]:
+    print(dt, frappe.db.count(dt))
+    
+2026-06-07 09:11:10,325 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"name": ["like", "CRM%"]},
+    pluck="name"
+)
+2026-06-07 09:11:10,325 INFO ipython bench doctor
+2026-06-07 09:11:10,325 INFO ipython === session end ===
+2026-06-07 09:14:21,747 INFO ipython === bench console session ===
+2026-06-07 09:14:21,748 INFO ipython frappe.get_all("Workspace", pluck="name")
+2026-06-07 09:14:21,748 INFO ipython === session end ===
+2026-06-07 09:17:44,477 INFO ipython === bench console session ===
+2026-06-07 09:17:44,477 INFO ipython frappe.get_all("CRM Lead")
+2026-06-07 09:17:44,477 INFO ipython frappe.get_all("Workspace", pluck="6gklho2n9a")
+2026-06-07 09:17:44,478 INFO ipython frappe.db.count("CRM Lead")
+2026-06-07 09:17:44,478 INFO ipython frappe.get_all("6gklho2n9a'", pluck="name")
+2026-06-07 09:17:44,478 INFO ipython frappe.get_all("Workspace", pluck="name")
+2026-06-07 09:17:44,478 INFO ipython frappe.db.count("CRM Lead")
+2026-06-07 09:17:44,478 INFO ipython frappe.get_all("Workspace", pluck="name")
+2026-06-07 09:17:44,478 INFO ipython === session end ===
+2026-06-07 09:22:50,133 INFO ipython === bench console session ===
+2026-06-07 09:22:50,133 INFO ipython frappe.get_all("CRM Lead")
+2026-06-07 09:22:50,138 INFO ipython lead = frappe.get_doc("CRM Lead", "6gklho2n9a")
+
+lead.as_dict()
+2026-06-07 09:22:50,139 INFO ipython frappe.get_all("CRM Deal")
+2026-06-07 09:22:50,139 INFO ipython frappe.db.count("CRM Deal")
+2026-06-07 09:22:50,139 INFO ipython frappe.get_all("CRM Task")
+2026-06-07 09:22:50,139 INFO ipython frappe.db.count("CRM Task")
+2026-06-07 09:22:50,139 INFO ipython bench --site crm.local execute crm_pro.api.get_dashboard_metrics
+2026-06-07 09:22:50,139 INFO ipython === session end ===
+2026-06-07 09:33:14,951 INFO ipython === bench console session ===
+2026-06-07 09:33:14,952 INFO ipython frappe.new_doc("Workspace")
+2026-06-07 09:33:14,952 INFO ipython frappe.get_all("Workspace")
+2026-06-07 09:33:14,952 INFO ipython frappe.get_all("Module Def", pluck="name")
+2026-06-07 09:33:14,952 INFO ipython bench --site crm.local console
+2026-06-07 09:33:14,953 INFO ipython === session end ===
+2026-06-07 09:36:09,513 INFO ipython === bench console session ===
+2026-06-07 09:36:09,514 INFO ipython frappe.new_doc("Workspace")
+2026-06-07 09:36:09,514 INFO ipython frappe.get_all("Workspace")
+2026-06-07 09:36:09,514 INFO ipython === session end ===
+2026-06-07 09:36:39,089 INFO ipython === bench console session ===
+2026-06-07 09:36:39,089 INFO ipython workspace = frappe.new_doc("Workspace")
+
+workspace.title = "CRM Pro"
+workspace.label = "CRM Pro"
+workspace.module = "CRM Pro"
+workspace.public = 1
+
+workspace.insert(ignore_permissions=True)
+
+frappe.db.commit()
+
+print("CRM Workspace Created")
+2026-06-07 09:36:39,089 INFO ipython === session end ===
+2026-06-07 09:37:28,910 INFO ipython === bench console session ===
+2026-06-07 09:37:28,910 INFO ipython frappe.get_all("Workspace", pluck="name")
+2026-06-07 09:37:28,910 INFO ipython === session end ===
+2026-06-07 09:39:59,111 INFO ipython === bench console session ===
+2026-06-07 09:39:59,112 INFO ipython frappe.get_all(
+    "CRM Lead",
+    fields=["name","lead_name","email","mobile_no"]
+)
+2026-06-07 09:39:59,112 INFO ipython === session end ===
+2026-06-07 09:44:06,805 INFO ipython === bench console session ===
+2026-06-07 09:44:06,806 INFO ipython meta = frappe.get_meta("CRM Lead")
+
+[(f.fieldname, f.label) for f in meta.fields]
+2026-06-07 09:44:06,806 INFO ipython frappe.get_doc("CRM Lead", "6gklho2n9a").as_dict()
+2026-06-07 09:44:06,806 INFO ipython meta = frappe.get_meta("CRM Lead")
+2026-06-07 09:44:06,806 INFO ipython === session end ===
+2026-06-07 10:02:53,625 INFO ipython === bench console session ===
+2026-06-07 10:02:53,629 INFO ipython [(f.fieldname, f.label) for f in frappe.get_meta("CRM Lead").fields]
+2026-06-07 10:02:53,630 INFO ipython === session end ===
+2026-06-07 10:04:21,226 INFO ipython === bench console session ===
+2026-06-07 10:04:21,226 INFO ipython [(f.fieldname, f.label) for f in frappe.get_meta("CRM Lead").fields]
+2026-06-07 10:04:21,226 INFO ipython cd ~/frappe/frappe-bench/apps/crm_pro/crm_pro
+
+ls
+2026-06-07 10:04:21,227 INFO ipython === session end ===
+2026-06-07 11:10:38,309 INFO ipython === bench console session ===
+2026-06-07 11:10:38,310 INFO ipython frappe.get_all("Workspace")
+2026-06-07 11:10:38,310 INFO ipython meta = frappe.get_meta("CRM Lead")
+
+[(f.fieldname, f.label) for f in meta.fields]
+2026-06-07 11:10:38,310 INFO ipython === session end ===
+2026-06-07 11:15:00,280 INFO ipython === bench console session ===
+2026-06-07 11:15:00,281 INFO ipython frappe.db.count("CRM Lead")
+frappe.get_all("CRM Lead")
+frappe.get_meta("CRM Lead")
+2026-06-07 11:15:00,281 INFO ipython tabCRM Lead
+2026-06-07 11:15:00,281 INFO ipython frappe.db.count("CRM Lead")
+2026-06-07 11:15:00,281 INFO ipython === session end ===
+2026-06-07 11:22:45,554 INFO ipython === bench console session ===
+2026-06-07 11:22:45,554 INFO ipython frappe.db.count("CRM Lead")
+2026-06-07 11:22:45,554 INFO ipython frappe.get_all(
+    "CRM Lead",
+    fields=["name","lead_name","email","mobile"]
+)
+2026-06-07 11:22:45,555 INFO ipython META_ACCESS_TOKEN
+PHONE_NUMBER_ID
+WEBHOOK_VERIFY_TOKEN
+2026-06-07 11:22:45,555 INFO ipython === session end ===
+2026-06-07 11:49:05,050 INFO ipython === bench console session ===
+2026-06-07 11:49:05,051 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+len(ws.shortcuts)
+len(ws.links)
+len(ws.quick_lists)
+2026-06-07 11:49:05,051 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module": "CRM Pro"},
+    pluck="name"
+)
+2026-06-07 11:49:05,052 INFO ipython CRM Lead
+CRM Deal
+CRM Note
+CRM Settings
+CRM WhatsApp Log
+2026-06-07 11:49:05,052 INFO ipython === session end ===
+2026-06-07 13:22:40,681 INFO ipython === bench console session ===
+2026-06-07 13:22:40,687 INFO ipython for w in [
+    "CRM Pro",
+    "Leads Workspace",
+    "Deals Workspace",
+    "Reports Workspace",
+    "Dashboard Workspace"
+]:
+    ws = frappe.get_doc("Workspace", w)
+
+    print("\n", w)
+    print("Links:", len(ws.links))
+    print("Shortcuts:", len(ws.shortcuts))
+    print("Quick Lists:", len(ws.quick_lists))
+    
+2026-06-07 13:22:40,688 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":"CRM Pro"},
+    pluck="name"
+)
+2026-06-07 13:22:40,688 INFO ipython === session end ===
+2026-06-07 13:25:04,324 INFO ipython === bench console session ===
+2026-06-07 13:25:04,324 INFO ipython frappe.db.count("CRM Deal")
+2026-06-07 13:25:04,324 INFO ipython frappe.db.count("CRM Note")
+2026-06-07 13:25:04,325 INFO ipython frappe.get_all(
+    "CRM Dashboard Metrics",
+    fields=["name"]
+)
+2026-06-07 13:25:04,325 INFO ipython frappe.get_all(
+    "CRM Pipeline Stage",
+    fields=["name"]
+)
+2026-06-07 13:25:04,325 INFO ipython === session end ===
+2026-06-07 13:27:44,478 INFO ipython === bench console session ===
+2026-06-07 13:27:44,479 INFO ipython deal = frappe.get_doc({
+    "doctype": "CRM Deal",
+    "deal_name": "Demo Deal",
+    "stage": "LEAD"
+})
+
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print("Created:", deal.name)
+2026-06-07 13:27:44,479 INFO ipython note = frappe.get_doc({
+    "doctype": "CRM Note",
+    "title": "Demo Note",
+    "content": "CRM Testing"
+})
+
+note.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print("Created:", note.name)
+2026-06-07 13:27:44,479 INFO ipython deal = frappe.get_doc({
+    "doctype": "CRM Deal",
+    "deal_name": "Demo Deal",
+    "stage": "LEAD"
+})
+
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print("Created:", deal.name)
+2026-06-07 13:27:44,479 INFO ipython note = frappe.get_doc({
+    "doctype": "CRM Note",
+    "title": "Demo Note",
+    "content": "CRM Testing"
+})
+
+note.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print("Created:", note.name)
+2026-06-07 13:27:44,479 INFO ipython print("Leads:", frappe.db.count("CRM Lead"))
+print("Deals:", frappe.db.count("CRM Deal"))
+print("Notes:", frappe.db.count("CRM Note"))
+2026-06-07 13:27:44,479 INFO ipython ws = frappe.get_doc("Workspace","CRM Pro")
+
+for row in ws.links:
+    print(row.label, row.link_to)
+    
+2026-06-07 13:27:44,480 INFO ipython frappe.get_doc(
+    "CRM Dashboard Metrics",
+    "2026-06-07"
+).as_dict()
+2026-06-07 13:27:44,480 INFO ipython === session end ===
+2026-06-07 13:31:05,441 INFO ipython === bench console session ===
+2026-06-07 13:31:05,442 INFO ipython deal = frappe.get_doc({
+    "doctype":"CRM Deal",
+    "deal_name":"Demo Deal",
+    "deal_value":1000,
+    "stage":"LEAD"
+})
+
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print(deal.name)
+2026-06-07 13:31:05,442 INFO ipython print("Deals:", frappe.db.count("CRM Deal"))
+2026-06-07 13:31:05,442 INFO ipython frappe.db.count("CRM Deal")
+2026-06-07 13:31:05,442 INFO ipython === session end ===
+2026-06-07 13:35:40,876 INFO ipython === bench console session ===
+2026-06-07 13:35:40,877 INFO ipython deal = frappe.get_doc({
+    "doctype": "CRM Deal",
+    "deal_name": "Demo Deal",
+    "deal_value": 1000,
+    "stage": "LEAD"
+})
+
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print(deal.name)
+2026-06-07 13:35:40,877 INFO ipython print("Leads:", frappe.db.count("CRM Lead"))
+print("Deals:", frappe.db.count("CRM Deal"))
+print("Notes:", frappe.db.count("CRM Note"))
+2026-06-07 13:35:40,877 INFO ipython === session end ===
+2026-06-07 13:50:08,405 INFO ipython === bench console session ===
+2026-06-07 13:50:08,410 INFO ipython deal = frappe.get_doc({
+    "doctype": "CRM Deal",
+    "deal_name": "Demo Deal",
+    "deal_value": 1000,
+    "stage": "LEAD"
+})
+
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+
+print(deal.name)
+2026-06-07 13:50:08,410 INFO ipython print("Leads:", frappe.db.count("CRM Lead"))
+print("Deals:", frappe.db.count("CRM Deal"))
+print("Notes:", frappe.db.count("CRM Note"))
+2026-06-07 13:50:08,410 INFO ipython === session end ===
+2026-06-07 14:26:50,127 INFO ipython === bench console session ===
+2026-06-07 14:26:50,136 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Content length:", len(ws.content or ""))
+print(ws.content)
+2026-06-07 14:26:50,136 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+print(ws.content)
+2026-06-07 14:26:50,136 INFO ipython for w in [
+    "CRM Pro",
+    "Leads Workspace",
+    "Deals Workspace",
+    "Reports Workspace",
+    "Dashboard Workspace"
+]:
+    ws = frappe.get_doc("Workspace", w)
+    print("\n", w)
+    print(ws.content)
+    
+2026-06-07 14:26:50,136 INFO ipython for w in [
+    "CRM Pro",
+    "Leads Workspace",
+    "Deals Workspace",
+    "Reports Workspace",
+    "Dashboard Workspace"
+]:
+    ws = frappe.get_doc("Workspace", w)
+    print("\n========")
+    print(w)
+    print(ws.content)
+    
+2026-06-07 14:26:50,136 INFO ipython bench --site crm.local console
+2026-06-07 14:26:50,137 INFO ipython === session end ===
+2026-06-07 14:28:16,052 INFO ipython === bench console session ===
+2026-06-07 14:28:16,052 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print(len(ws.links))
+print(ws.content)
+2026-06-07 14:28:16,053 INFO ipython CRM Pro Workspace
+2026-06-07 14:28:16,053 INFO ipython === session end ===
+2026-06-07 14:42:29,440 INFO ipython === bench console session ===
+2026-06-07 14:42:29,441 INFO ipython for w in ["CRM Pro","Leads Workspace","Deals Workspace","Reports Workspace","Dashboard Workspace"]:
+    doc = frappe.get_doc("Workspace", w)
+    doc.content = """[
+      {
+        "id":"section_1",
+        "type":"header",
+        "data":{"text":"Workspace"}
+      }
+    ]"""
+    doc.save(ignore_permissions=True)
+
+frappe.db.commit()
+print("Done")
+2026-06-07 14:42:29,441 INFO ipython === session end ===
+2026-06-07 17:22:13,963 INFO ipython === bench console session ===
+2026-06-07 17:22:13,970 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Content length:", len(ws.content or ""))
+print(ws.content)
+2026-06-07 17:22:13,970 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+print(ws.content)
+2026-06-07 17:22:13,971 INFO ipython === session end ===
+2026-06-07 17:22:39,220 INFO ipython === bench console session ===
+2026-06-07 17:22:39,220 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+ws.content = """
+[
+ {
+  "id":"header1",
+  "type":"header",
+  "data":{"text":"Leads Workspace"}
+ },
+ {
+  "id":"shortcut1",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Lead",
+   "link_to":"CRM Lead",
+   "type":"DocType"
+  }
+ }
+]
+"""
+
+ws.save(ignore_permissions=True)
+frappe.db.commit()
+
+print("Done")
+2026-06-07 17:22:39,220 INFO ipython === session end ===
+2026-06-07 17:31:17,561 INFO ipython === bench console session ===
+2026-06-07 17:31:17,562 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print(ws.content)
+print("Links:", len(ws.links))
+2026-06-07 17:31:17,562 INFO ipython [
+ {
+   "type":"header",
+   "data":{"text":"Workspace"}
+ }
+]
+2026-06-07 17:31:17,562 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print(ws.content)
+print("Links:", len(ws.links))
+2026-06-07 17:31:17,562 INFO ipython CRM Lead
+CRM Deal
+CRM Contact
+CRM Company
+CRM Task
+CRM Settings
+2026-06-07 17:31:17,562 INFO ipython === session end ===
+2026-06-07 17:33:03,840 INFO ipython === bench console session ===
+2026-06-07 17:33:03,840 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+ws.content = """
+[
+ {
+  "id":"header_1",
+  "type":"header",
+  "data":{"text":"CRM Pro"}
+ },
+ {
+  "id":"shortcut_1",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Lead",
+   "link_to":"CRM Lead",
+   "type":"DocType"
+  }
+ },
+ {
+  "id":"shortcut_2",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Deal",
+   "link_to":"CRM Deal",
+   "type":"DocType"
+  }
+ },
+ {
+  "id":"shortcut_3",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Contact",
+   "link_to":"CRM Contact",
+   "type":"DocType"
+  }
+ },
+ {
+  "id":"shortcut_4",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Company",
+   "link_to":"CRM Company",
+   "type":"DocType"
+  }
+ },
+ {
+  "id":"shortcut_5",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Task",
+   "link_to":"CRM Task",
+   "type":"DocType"
+  }
+ },
+ {
+  "id":"shortcut_6",
+  "type":"shortcut",
+  "data":{
+   "shortcut_name":"CRM Settings",
+   "link_to":"CRM Settings",
+   "type":"DocType"
+  }
+ }
+]
+"""
+
+ws.save(ignore_permissions=True)
+frappe.db.commit()
+
+print("CRM Pro rebuilt")
+2026-06-07 17:33:03,841 INFO ipython === session end ===
+2026-06-07 17:37:50,821 INFO ipython === bench console session ===
+2026-06-07 17:37:50,821 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print("CONTENT:")
+print(ws.content)
+
+print("\nLINKS:")
+for row in ws.links:
+    print(row.label, row.link_to)
+
+print("\nSHORTCUTS:")
+for row in ws.shortcuts:
+    print(row.label, row.link_to)
+    
+2026-06-07 17:37:50,821 INFO ipython cat apps/crm_pro/crm_pro/workspace/crm_pro/crm_pro.json
+2026-06-07 17:37:50,821 INFO ipython === session end ===
+2026-06-07 17:40:21,763 INFO ipython === bench console session ===
+2026-06-07 17:40:21,763 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print("Shortcuts:", len(ws.shortcuts))
+print("Links:", len(ws.links))
+2026-06-07 17:40:21,764 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+ws.shortcuts = []
+
+for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Contact",
+    "CRM Company",
+    "CRM Task",
+    "CRM Settings"
+]:
+    ws.append("shortcuts", {
+        "label": dt,
+        "link_to": dt,
+        "type": "DocType"
+    })
+
+ws.save(ignore_permissions=True)
+frappe.db.commit()
+
+print("Done")
+2026-06-07 17:40:21,764 INFO ipython === session end ===
+2026-06-07 17:45:25,511 INFO ipython === bench console session ===
+2026-06-07 17:45:25,512 INFO ipython ws = frappe.get_doc("Workspace", "Deals Workspace")
+
+print("Links:", len(ws.links))
+print("Shortcuts:", len(ws.shortcuts))
+print(ws.content)
+2026-06-07 17:45:25,513 INFO ipython === session end ===
+2026-06-07 17:45:44,356 INFO ipython === bench console session ===
+2026-06-07 17:45:44,356 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Links:", len(ws.links))
+print("Shortcuts:", len(ws.shortcuts))
+print(ws.content)
+2026-06-07 17:45:44,356 INFO ipython === session end ===
+2026-06-07 17:49:11,400 INFO ipython === bench console session ===
+2026-06-07 17:49:11,401 INFO ipython print("Leads:", frappe.db.count("CRM Lead"))
+print("Deals:", frappe.db.count("CRM Deal"))
+print("Contacts:", frappe.db.count("CRM Contact"))
+print("Companies:", frappe.db.count("CRM Company"))
+print("Tasks:", frappe.db.count("CRM Task"))
+2026-06-07 17:49:11,401 INFO ipython === session end ===
+2026-06-07 17:53:32,079 INFO ipython === bench console session ===
+2026-06-07 17:53:32,079 INFO ipython import frappe
+
+workspaces = {
+    "Leads Workspace": "CRM Lead",
+    "Deals Workspace": "CRM Deal",
+    "Reports Workspace": "CRM Lead",
+    "Dashboard Workspace": "CRM Lead"
+}
+
+for workspace_name, doctype_name in workspaces.items():
+
+    ws = frappe.get_doc("Workspace", workspace_name)
+
+    ws.content = f"""
+[
+ {{
+  "id":"header1",
+  "type":"header",
+  "data":{{"text":"{workspace_name}"}}
+ }},
+ {{
+  "id":"shortcut1",
+  "type":"shortcut",
+  "data":{{
+   "shortcut_name":"{doctype_name}",
+   "link_to":"{doctype_name}",
+   "type":"DocType"
+  }}
+ }}
+]
+"""
+
+    ws.save(ignore_permissions=True)
+
+frappe.db.commit()
+
+print("All workspaces fixed")
+2026-06-07 17:53:32,079 INFO ipython bench --site crm.local clear-cache
+bench --site crm.local clear-website-cache
+2026-06-07 17:53:32,080 INFO ipython === session end ===
+2026-06-07 18:30:09,691 INFO ipython === bench console session ===
+2026-06-07 18:30:09,695 INFO ipython frappe.get_all("Report")
+2026-06-07 18:30:09,696 INFO ipython frappe.get_all("Dashboard Chart")
+2026-06-07 18:30:09,697 INFO ipython frappe.get_all("Number Card")
+2026-06-07 18:30:09,698 INFO ipython === session end ===
+2026-06-08 04:39:09,650 INFO ipython === bench console session ===
+2026-06-08 04:39:09,656 INFO ipython frappe.get_all("Workspace")
+2026-06-08 04:39:09,657 INFO ipython frappe.get_all("Number Card")
+2026-06-08 04:39:09,657 INFO ipython frappe.get_all("Dashboard Chart")
+2026-06-08 04:39:09,657 INFO ipython frappe.get_all("Report")
+2026-06-08 04:39:09,657 INFO ipython /api/method/crm_pro.api.get_leads
+2026-06-08 04:39:09,657 INFO ipython === session end ===
+2026-06-08 04:42:22,382 INFO ipython === bench console session ===
+2026-06-08 04:42:22,382 INFO ipython import crm_pro.api
+
+dir(crm_pro.api)
+2026-06-08 04:42:22,382 INFO ipython get_leads
+create_lead
+get_deals
+create_deal
+2026-06-08 04:42:22,382 INFO ipython curl -X POST \
+http://127.0.0.1:8000/api/method/crm_pro.api.create_lead \
+-H "Content-Type: application/json" \
+-d '{
+"name":"Test Lead",
+"email":"test@example.com",
+"phone":"9876543210"
+}'
+2026-06-08 04:42:22,383 INFO ipython === session end ===
+2026-06-08 04:47:48,201 INFO ipython === bench console session ===
+2026-06-08 04:47:48,202 INFO ipython for ws in frappe.get_all("Workspace"):
+    doc = frappe.get_doc("Workspace", ws.name)
+    print("\n", doc.name)
+    print(doc.content)
+    
+2026-06-08 04:47:48,202 INFO ipython [
+  {
+    "type":"header"
+  }
+]
+2026-06-08 04:47:48,202 INFO ipython === session end ===
+2026-06-08 04:49:30,329 INFO ipython === bench console session ===
+2026-06-08 04:49:30,330 INFO ipython frappe.get_meta("CRM Lead").name
+2026-06-08 04:49:30,330 INFO ipython ws = frappe.get_doc("Workspace","CRM Pro")
+
+print(len(ws.links))
+print(len(ws.charts))
+print(len(ws.number_cards))
+print(len(ws.shortcuts))
+2026-06-08 04:49:30,330 INFO ipython ws = frappe.get_doc("Workspace","Dashboard Workspace")
+
+print(ws.charts)
+print(ws.number_cards)
+2026-06-08 04:49:30,330 INFO ipython for card in frappe.get_all("Number Card"):
+    print(card.name)
+    
+2026-06-08 04:49:30,330 INFO ipython === session end ===
+2026-06-08 04:50:16,020 INFO ipython === bench console session ===
+2026-06-08 04:50:16,020 INFO ipython for w in [
+    "CRM Pro",
+    "Leads Workspace",
+    "Deals Workspace",
+    "Reports Workspace",
+    "Dashboard Workspace"
+]:
+    ws = frappe.get_doc("Workspace", w)
+    ws.public = 1
+    ws.save(ignore_permissions=True)
+
+frappe.db.commit()
+2026-06-08 04:50:16,020 INFO ipython bench --site crm.local clear-cache
+bench --site crm.local clear-website-cache
+2026-06-08 04:50:16,020 INFO ipython === session end ===
+2026-06-08 04:59:25,402 INFO ipython === bench console session ===
+2026-06-08 04:59:25,404 INFO ipython ws = frappe.get_doc("Workspace", "CRM Pro")
+
+print("Links:", len(ws.links))
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+2026-06-08 04:59:25,404 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Links:", len(ws.links))
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+2026-06-08 04:59:25,404 INFO ipython frappe.get_all(
+    "Workspace Number Card",
+    fields=["parent", "number_card_name"]
+)
+2026-06-08 04:59:25,405 INFO ipython frappe.get_all(
+    "Workspace Chart",
+    fields=["parent", "chart_name"]
+).as_dict()
+2026-06-08 04:59:25,405 INFO ipython frappe.get_all(
+    "Workspace Chart",
+    fields=["parent", "chart_name"]
+)
+2026-06-08 04:59:25,405 INFO ipython frappe.get_all(
+    "Workspace Shortcut",
+    fields=["parent", "link_to"]
+)
+2026-06-08 04:59:25,405 INFO ipython EXIT
+2026-06-08 04:59:25,405 INFO ipython === session end ===
+2026-06-08 05:05:58,172 INFO ipython === bench console session ===
+2026-06-08 05:05:58,172 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print(ws.content)
+2026-06-08 05:05:58,172 INFO ipython for d in ws.number_cards:
+    print(d.number_card_name)
+    
+2026-06-08 05:05:58,172 INFO ipython for d in ws.charts:
+    print(d.chart_name)
+    
+2026-06-08 05:05:58,172 INFO ipython /app/workspace/Leads Workspace
+2026-06-08 05:05:58,173 INFO ipython === session end ===
+2026-06-08 05:09:21,353 INFO ipython === bench console session ===
+2026-06-08 05:09:21,353 INFO ipython frappe.get_doc("Number Card", "Total Leads")
+2026-06-08 05:09:21,354 INFO ipython frappe.get_doc("Dashboard Chart", "Lead Sources")
+2026-06-08 05:09:21,354 INFO ipython frappe.get_doc("Dashboard Chart", "Lead Sources")
+2026-06-08 05:09:21,354 INFO ipython frappe.get_doc("Workspace", "Leads Workspace").content
+2026-06-08 05:09:21,354 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Links:", len(ws.links))
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+2026-06-08 05:09:21,354 INFO ipython card = frappe.get_doc("Number Card", "Total Leads")
+card.as_dict()
+2026-06-08 05:09:21,354 INFO ipython card.document_type
+card.function
+card.aggregate_function_based_on
+2026-06-08 05:09:21,354 INFO ipython document_type = CRM Lead
+function = Count
+2026-06-08 05:09:21,354 INFO ipython === session end ===
+2026-06-08 05:19:25,902 INFO ipython === bench console session ===
+2026-06-08 05:19:25,903 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+print(ws.content)
+
+frappe.get_doc("Dashboard Chart", "Lead Sources").as_dict()
+
+frappe.get_doc("Number Card", "Total Leads").as_dict()
+2026-06-08 05:19:25,903 INFO ipython bench --site crm.local execute "
+frappe.get_doc('Workspace','Leads Workspace').as_dict()
+"
+2026-06-08 05:19:25,904 INFO ipython bench --site crm.local execute "
+frappe.get_doc('Workspace','Leads Workspace').as_dict()
+"
+2026-06-08 05:19:25,904 INFO ipython === session end ===
+2026-06-08 05:23:16,769 INFO ipython === bench console session ===
+2026-06-08 05:23:16,769 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+print("Links:", len(ws.links))
+
+print(ws.content)
+2026-06-08 05:23:16,770 INFO ipython for c in frappe.get_all("Dashboard Chart"):
+    print(c.name)
+    
+2026-06-08 05:23:16,770 INFO ipython frappe.db.exists("Dashboard Chart", "Lead Sources")
+frappe.db.exists("Dashboard Chart", "Lead Status")
+2026-06-08 05:23:16,770 INFO ipython frappe.db.exists("Number Card", "Total Leads")
+frappe.db.exists("Number Card", "Revenue")
+2026-06-08 05:23:16,770 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print(ws.content)
+2026-06-08 05:23:16,770 INFO ipython ws = frappe.get_doc("Workspace","Leads Workspace")
+print(ws.content)
+2026-06-08 05:23:16,770 INFO ipython === session end ===
+2026-06-08 05:27:57,683 INFO ipython === bench console session ===
+2026-06-08 05:27:57,685 INFO ipython frappe.get_doc("Number Card", "Total Leads").as_dict()
+2026-06-08 05:27:57,685 INFO ipython frappe.get_doc("Dashboard Chart", "Lead Sources").as_dict()
+2026-06-08 05:27:57,686 INFO ipython === session end ===
+2026-06-08 05:33:19,916 INFO ipython === bench console session ===
+2026-06-08 05:33:19,916 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Links:", len(ws.links))
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+2026-06-08 05:33:19,916 INFO ipython frappe.get_doc("Workspace","Leads Workspace").content
+2026-06-08 05:33:19,916 INFO ipython frappe.get_doc("Workspace","Build").content
+2026-06-08 05:33:19,917 INFO ipython frappe.get_doc("Workspace","Users").content
+2026-06-08 05:33:19,917 INFO ipython === session end ===
+2026-06-08 06:07:50,497 INFO ipython === bench console session ===
+2026-06-08 06:07:50,507 INFO ipython ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+print("Links:", len(ws.links))
+print("Cards:", len(ws.number_cards))
+print("Charts:", len(ws.charts))
+print("Shortcuts:", len(ws.shortcuts))
+2026-06-08 06:07:50,507 INFO ipython frappe.get_doc("Number Card", "Total Leads").as_dict()
+2026-06-08 06:07:50,508 INFO ipython frappe.get_doc("Dashboard Chart", "Lead Sources").as_dict()
+2026-06-08 06:07:50,508 INFO ipython frappe.get_doc("Number Card", "Total Leads").as_dict()
+2026-06-08 06:07:50,509 INFO ipython frappe.get_doc("Dashboard Chart", "Lead Sources").as_dict()
+2026-06-08 06:07:50,509 INFO ipython for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Task",
+    "CRM Activity"
+]:
+    doc = frappe.get_meta(dt)
+
+    print("\n")
+    print("="*50)
+    print(dt)
+    print("="*50)
+
+    for f in doc.fields:
+        print(
+            f.fieldname,
+            "|",
+            f.fieldtype,
+            "|",
+            getattr(f, "options", "")
+        )
+        
+2026-06-08 06:07:50,509 INFO ipython === session end ===
+2026-06-08 06:12:46,188 INFO ipython === bench console session ===
+2026-06-08 06:12:46,188 INFO ipython for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Task",
+    "CRM Activity"
+]:
+    doc = frappe.get_meta(dt)
+
+    print("\n")
+    print(dt)
+
+    for f in doc.fields:
+        if f.fieldtype=="Link":
+            print(f.fieldname,"->",f.options)
+            
+2026-06-08 06:12:46,188 INFO ipython === session end ===
+2026-06-08 06:41:18,399 INFO ipython === bench console session ===
+2026-06-08 06:41:18,404 INFO ipython import frappe
+
+for dt in [
+    "CRM Lead",
+    "CRM Deal",
+    "CRM Task",
+    "CRM Activity"
+]:
+    print("\n")
+    print("="*50)
+    print(dt)
+
+    meta = frappe.get_meta(dt)
+
+    for f in meta.fields:
+        print(
+            f.fieldname,
+            f.fieldtype,
+            f.options
+        )
+        
+2026-06-08 06:41:18,404 INFO ipython === session end ===
+2026-06-08 07:08:49,063 INFO ipython === bench console session ===
+2026-06-08 07:08:49,065 INFO ipython import json
+
+ws = frappe.get_doc("Workspace", "Leads Workspace")
+
+for item in json.loads(ws.content):
+    print(item["type"])
+    
+2026-06-08 07:08:49,065 INFO ipython for item in json.loads(ws.content):
+    print(item["type"])
+    
+2026-06-08 07:08:49,065 INFO ipython frappe.db.count("CRM Lead")
+2026-06-08 07:08:49,065 INFO ipython frappe.db.count("CRM Deal")
+2026-06-08 07:08:49,066 INFO ipython frappe.db.count("CRM Task")
+2026-06-08 07:08:49,066 INFO ipython frappe.get_doc("Workspace","Leads Workspace").public
+2026-06-08 07:08:49,066 INFO ipython frappe.get_doc("Workspace","CRM Pro").public
+2026-06-08 07:08:49,066 INFO ipython frappe.db.count("CRM Lead")
+frappe.db.count("CRM Deal")
+frappe.db.count("CRM Task")
+
+frappe.get_doc("Workspace","Leads Workspace").public
+frappe.get_doc("Workspace","CRM Pro").public
+2026-06-08 07:08:49,066 INFO ipython deal = frappe.get_doc({
+    "doctype":"CRM Deal",
+    "deal_name":"Test Deal",
+    "deal_value":10000,
+    "deal_status":"Open"
+})
+deal.insert(ignore_permissions=True)
+frappe.db.commit()
+2026-06-08 07:08:49,066 INFO ipython frappe.db.count("CRM Deal")
+2026-06-08 07:08:49,066 INFO ipython import json
+
+ws = frappe.get_doc("Workspace","CRM Pro")
+
+for item in json.loads(ws.content):
+    print(item)
+    
+2026-06-08 07:08:49,066 INFO ipython === session end ===
+2026-06-08 07:16:34,354 INFO ipython === bench console session ===
+2026-06-08 07:16:34,354 INFO ipython frappe.get_doc("Dashboard Chart","Lead Sources").is_public
+2026-06-08 07:16:34,354 INFO ipython frappe.get_doc("Dashboard Chart","Lead Status").is_public
+2026-06-08 07:16:34,354 INFO ipython chart = frappe.get_doc("Dashboard Chart","Lead Sources")
+chart.is_public = 1
+chart.save()
+
+chart = frappe.get_doc("Dashboard Chart","Lead Status")
+chart.is_public = 1
+chart.save()
+
+frappe.db.commit()
+2026-06-08 07:16:34,355 INFO ipython frappe.get_doc("Number Card","Total Leads").is_public
+2026-06-08 07:16:34,355 INFO ipython frappe.get_doc("Number Card","Total Leads").is_public
+2026-06-08 07:16:34,355 INFO ipython card = frappe.get_doc("Number Card","Total Leads")
+card.is_public = 1
+card.save()
+
+card = frappe.get_doc("Number Card","Revenue")
+card.is_public = 1
+card.save()
+
+frappe.db.commit()
+2026-06-08 07:16:34,355 INFO ipython bench --site crm.local clear-cache
+bench --site crm.local clear-website-cache
+bench restart
+2026-06-08 07:16:34,355 INFO ipython === session end ===
+2026-06-08 07:21:06,708 INFO ipython === bench console session ===
+2026-06-08 07:21:06,710 INFO ipython deal = frappe.get_doc(...)
+2026-06-08 07:21:06,711 INFO ipython frappe.get_doc("Dashboard Chart","Lead Sources").is_public
+
+frappe.get_doc("Dashboard Chart","Lead Status").is_public
+
+frappe.get_doc("Number Card","Total Leads").is_public
+
+frappe.get_doc("Number Card","Revenue").is_public
+2026-06-08 07:21:06,711 INFO ipython === session end ===
+2026-06-08 08:31:33,641 INFO ipython === bench console session ===
+2026-06-08 08:31:33,648 INFO ipython frappe.get_single("System Settings")
+2026-06-08 08:31:33,648 INFO ipython frappe.get_all("Role", pluck="name")
+2026-06-08 08:31:33,649 INFO ipython frappe.get_all(
+    "Custom DocPerm",
+    fields=["parent","role","read","write","create","delete"]
+)
+2026-06-08 08:31:33,649 INFO ipython grep -R "@frappe.whitelist" apps/crm_pro
+2026-06-08 08:31:33,649 INFO ipython === session end ===
+2026-06-08 10:13:14,869 INFO ipython === bench console session ===
+2026-06-08 10:13:14,876 INFO ipython frappe.get_all("DocType", limit=5)
+2026-06-08 10:13:14,876 INFO ipython frappe.get_doc("DocType", "API Key")
+frappe.get_doc("DocType", "Auth Audit Log")
+frappe.get_doc("DocType", "Password History")
+frappe.get_doc("DocType", "User Session")
+frappe.get_doc("DocType", "MFA Settings")
+2026-06-08 10:13:14,876 INFO ipython === session end ===
+2026-06-08 10:13:51,652 INFO ipython === bench console session ===
+2026-06-08 10:13:51,653 INFO ipython grep validate_password crm_pro/hooks.py
+2026-06-08 10:13:51,653 INFO ipython frappe.get_hooks("validate_password")
+2026-06-08 10:13:51,653 INFO ipython === session end ===
+2026-06-08 10:27:21,431 INFO ipython === bench console session ===
+2026-06-08 10:27:21,432 INFO ipython import frappe
+frappe.get_all("DocType", limit=5)
+2026-06-08 10:27:21,432 INFO ipython === session end ===
+2026-06-08 10:38:02,759 INFO ipython === bench console session ===
+2026-06-08 10:38:02,760 INFO ipython frappe.get_all("DocType",
+    filters={"module":"CRM Pro"},
+    pluck="name")
+2026-06-08 10:38:02,760 INFO ipython === session end ===
+2026-06-08 10:54:07,241 INFO ipython === bench console session ===
+2026-06-08 10:54:07,244 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":"CRM Pro"},
+    pluck="name"
+)
+2026-06-08 10:54:07,245 INFO ipython === session end ===
+2026-06-08 11:04:20,130 INFO ipython === bench console session ===
+2026-06-08 11:04:20,131 INFO ipython from crm_pro.meta import facebook_webhook
+2026-06-08 11:04:20,131 INFO ipython from crm_pro.meta import send_whatsapp_message
+2026-06-08 11:04:20,131 INFO ipython === session end ===
+2026-06-08 11:09:49,417 INFO ipython === bench console session ===
+2026-06-08 11:09:49,417 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":"CRM Pro"},
+    pluck="name"
+)
+2026-06-08 11:09:49,418 INFO ipython === session end ===
+2026-06-08 11:37:38,676 INFO ipython === bench console session ===
+2026-06-08 11:37:38,677 INFO ipython frappe.get_all(
+    "DocType",
+    filters={"module":"CRM Pro"},
+    pluck="name"
+)
+2026-06-08 11:37:38,677 INFO ipython === session end ===

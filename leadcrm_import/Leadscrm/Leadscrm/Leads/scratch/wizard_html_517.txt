@@ -1,0 +1,62 @@
+Created At: 2026-05-23T11:49:11Z
+Completed At: 2026-05-23T11:49:11Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/wizard_html_45.txt`
+Total Lines: 55
+Total Bytes: 3773
+Showing lines 1 to 55
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: Created At: 2026-05-23T11:18:09Z
+2: Completed At: 2026-05-23T11:18:09Z
+3: File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+4: Total Lines: 2305
+5: Total Bytes: 138224
+6: Showing lines 1130 to 1175
+7: The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+8: 1130:                     <button type="submit" id="wizard-save-btn" class="px-5 py-2 bg-[#00B496] hover:bg-[#00967D] text-white font-bold rounded-xl shadow-sm transition-colors hidden">Save</button>
+9: 1131:                 </div>
+10: 1132:             </footer>
+11: 1133:         </form>
+12: 1134:     </div>
+13: 1135: </div>
+14: 1136: 
+15: 1137:     <!-- List View (Table Layout) -->
+16: 1138:     <div id="table-view" class="hidden flex-1 p-6 overflow-y-auto w-full flex flex-col gap-4">
+17: 1139:         <div class="max-w-7xl mx-auto w-full bg-white border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between">
+18: 1140:             <div class="overflow-x-auto w-full">
+19: 1141:                 <table class="w-full text-left border-collapse">
+20: 1142:                     <thead>
+21: 1143:                         <tr class="bg-gradient-to-r from-primary to-tertiary border-none shadow-md text-[11px] font-bold text-white uppercase tracking-wider">
+22: 1144:                             <th class="py-3 px-4 w-12 text-center">
+23: 1145: 
+<truncated 426 bytes>
+h>
+27: 1149:                             <th class="py-3 px-6 col-modified">Modified Date</th>
+28: 1150:                             <th class="py-3 px-6 col-name">Name</th>
+29: 1151:                             <th class="py-3 px-6 col-mobile">Mobile</th>
+30: 1152:                             <th class="py-3 px-6 col-email">Email</th>
+31: 1153:                             <th class="py-3 px-6 col-user">User</th>
+32: 1154:                             <th class="py-3 px-6 col-source">Source</th>
+33: 1155:                             <th class="py-3 px-6 col-status">Status</th>
+34: 1156:                             <th class="py-3 px-6 text-right">Action</th>
+35: 1157:                         </tr>
+36: 1158:                     </thead>
+37: 1159:                     <tbody id="leads-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700">
+38: 1160:                         <!-- Rendered dynamically -->
+39: 1161:                     </tbody>
+40: 1162:                 </table>
+41: 1163:             </div>
+42: 1164:             
+43: 1165: 
+44: 1166:         </div>
+45: 1167:         
+46: 1168:         <!-- Scroll to top floating button (bottom right) -->
+47: 1169:         <button onclick="scrollToTop()" class="fixed bottom-6 right-6 w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white transition-all shadow-md flex items-center justify-center hover:scale-105 active:scale-95 z-30">
+48: 1170:             <span class="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
+49: 1171:         </button>
+50: 1172:     </div>
+51: 1173: </div>
+52: 1174: </main>
+53: 1175: <script>
+54: The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+55: 
+The above content shows the entire, complete file contents of the requested file.

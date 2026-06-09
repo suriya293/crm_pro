@@ -1,0 +1,29 @@
+Created At: 2026-05-23T11:17:58Z
+Completed At: 2026-05-23T11:17:58Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 138224
+Showing lines 1175 to 1195
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1175: <script>
+1176: document.querySelectorAll('.chevron-header').forEach(header => {
+1177:     header.addEventListener('click', () => {
+1178:         header.classList.toggle('active-pink');
+1179:     });
+1180: });
+1181: 
+1182: let viewMode = 'grid';
+1183: let sortBy = 'date';
+1184: let sortOrder = 'desc';
+1185: let pageLimit = 10;
+1186: 
+1187: // Dynamic leads database extracted from the initial HTML DOM
+1188: let leadsData = [];
+1189: 
+1190: // Alert (red) stages
+1191: const ALERT_STAGES = new Set(['PROPOSAL SENT','OTHERS','TRIAL AC','DUPLICATE']);
+1192: 
+1193: const DEFAULT_LEADS = [
+1194:     { name: 'AMMU', stage: 'LOST', email: '-', mobile: '+91 7337035078', status: 'LOST', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1195:     { name: 'mamtadavi419', stage: 'LOST', email: '-', mobile: '+91 8178656912', status: 'JOB LEAD', source: '-', amount: '0', user: '-', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

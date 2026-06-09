@@ -1,0 +1,1 @@
+I will write a python script `scratch/extract_clean_text.py` to extract and clean the content from `scratch/css_dump_21.txt` so we can get the uncorrupted head and style section.

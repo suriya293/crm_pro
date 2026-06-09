@@ -1,0 +1,14 @@
+{
+  "doctype": "MFA Settings",
+  "module": "CRM Pro",
+  "fields": [
+    {"fieldname": "user", "fieldtype": "Link", "options": "User", "label": "User", "reqd": 1, "unique": 1},
+    {"fieldname": "enabled", "fieldtype": "Check", "label": "MFA Enabled", "default": 0},
+    {"fieldname": "secret", "fieldtype": "Data", "label": "TOTP Secret", "hidden": 1},
+    {"fieldname": "backup_codes", "fieldtype": "Text", "label": "Backup Codes", "hidden": 1}
+  ],
+  "permissions": [
+    {"role": "System Manager", "read": 1, "write": 1, "create": 1, "delete": 1},
+    {"role": "User", "read": 1, "if_owner": 1}
+  ]
+}

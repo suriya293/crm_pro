@@ -1,0 +1,38 @@
+Created At: 2026-05-23T11:55:48Z
+Completed At: 2026-05-23T11:55:49Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/extract_clean_text.py`
+Total Lines: 30
+Total Bytes: 888
+Showing lines 1 to 30
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: import re
+2: 
+3: with open("scratch/css_dump_21.txt", "r", encoding="utf-8") as f:
+4:     content = f.read()
+5: 
+6: # Match lines of the form: "  12:         /* KANBAN LAYOUT - Visible Scrollbars */"
+7: # and extract the actual content.
+8: lines = content.splitlines()
+9: clean_lines = []
+10: 
+11: for line in lines:
+12:     m = re.match(r'^\s*(\d+):\s?(.*)$', line)
+13:     if m:
+14:         line_num = int(m.group(1))
+15:         line_val = m.group(2)
+16:         clean_lines.append((line_num, line_val))
+17: 
+18: # Sort by line number
+19: clean_lines.sort()
+20: 
+21: # Print the range we got
+22: if clean_lines:
+23:     print(f"Cleaned lines from {clean_lines[0][0]} to {clean_lines[-1][0]}")
+24:     with open("scratch/clean_head_reconstructed.html", "w", encoding="utf-8") as out:
+25:         for num, val in clean_lines:
+26:             out.write(val + "\n")
+27:     print("Wrote clean head to scratch/clean_head_reconstructed.html")
+28: else:
+29:     print("No matching lines found.")
+30: 
+The above content shows the entire, complete file contents of the requested file.

@@ -1,0 +1,90 @@
+Created At: 2026-05-23T11:49:07Z
+Completed At: 2026-05-23T11:49:07Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/wizard_html_43.txt`
+Total Lines: 100
+Total Bytes: 4219
+Showing lines 1 to 100
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: Created At: 2026-05-23T11:18:05Z
+2: Completed At: 2026-05-23T11:18:05Z
+3: File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+4: Total Lines: 2305
+5: Total Bytes: 138224
+6: Showing lines 1500 to 1800
+7: The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+8: 1500: 
+9: 1501: function toggleDropdown(event, id) {
+10: 1502:     event.stopPropagation();
+11: 1503:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+12: 1504:         if (menu.id !== id) {
+13: 1505:             menu.classList.add('hidden');
+14: 1506:         }
+15: 1507:     });
+16: 1508:     const dropdown = document.getElementById(id);
+17: 1509:     dropdown.classList.toggle('hidden');
+18: 1510: }
+19: 1511: 
+20: 1512: document.addEventListener('click', () => {
+21: 1513:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+22: 1514:         menu.classList.add('hidden');
+23: 1515:     });
+24: 1516: });
+25: 1517: 
+26: 1518: 
+27: 1519: 
+28: 1520: const hiddenColumns = new Set();
+29: 1521: let searchQuery = '';
+30: 1522: 
+31: 1523: function toggleTableColumn(checkbox) {
+32: 1524:     const colClass = checkbox.value;
+33: 1525:     if (checkbox.checked) {
+34: 1526:         hiddenColumns.delete(colClass);
+35: 1527:     } else {
+36: 1528:         hiddenColumns.add(colClass);
+37: 1529:     }
+38: 1530:     applyColu
+<truncated 1055 bytes>
+ px-3 rounded-lg text-xs font-semibold transition-all text-center bg-white border border-slate-100 text-slate-400";
+59: 1761:             }
+60: 1762:         }
+61: 1763:     }
+62: 1764: 
+63: 1765:     // Update footer buttons
+64: 1766:     const backBtn = document.getElementById('wizard-back-btn');
+65: 1767:     const cancelBtn = document.getElementById('wizard-cancel-btn');
+66: 1768:     const nextBtn = document.getElementById('wizard-next-btn');
+67: 1769:     const saveBtn = document.getElementById('wizard-save-btn');
+68: 1770: 
+69: 1771:     if (stepIndex === 1) {
+70: 1772:         backBtn.classList.add('hidden');
+71: 1773:         cancelBtn.classList.remove('hidden');
+72: 1774:         nextBtn.classList.remove('hidden');
+73: 1775:         saveBtn.classList.add('hidden');
+74: 1776:     } else if (stepIndex === 2) {
+75: 1777:         backBtn.classList.remove('hidden');
+76: 1778:         cancelBtn.classList.add('hidden');
+77: 1779:         nextBtn.classList.remove('hidden');
+78: 1780:         saveBtn.classList.add('hidden');
+79: 1781:     } else if (stepIndex === 3) {
+80: 1782:         backBtn.classList.remove('hidden');
+81: 1783:         cancelBtn.classList.add('hidden');
+82: 1784:         nextBtn.classList.add('hidden');
+83: 1785:         saveBtn.classList.remove('hidden');
+84: 1786:     }
+85: 1787: }
+86: 1788: 
+87: 1789: function nextWizardStep() {
+88: 1790:     if (currentWizardStep < 3) {
+89: 1791:         setWizardTab(currentWizardStep + 1);
+90: 1792:     }
+91: 1793: }
+92: 1794: 
+93: 1795: function prevWizardStep() {
+94: 1796:     if (currentWizardStep > 1) {
+95: 1797:         setWizardTab(currentWizardStep - 1);
+96: 1798:     }
+97: 1799: }
+98: 1800: 
+99: The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.
+100: 
+The above content shows the entire, complete file contents of the requested file.

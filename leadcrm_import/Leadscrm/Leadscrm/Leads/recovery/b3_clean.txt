@@ -1,0 +1,135 @@
+function scrollToTop() {
+    const tableView = document.getElementById('table-view');
+    if (tableView) {
+        tableView.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+}
+
+function renderLeads() {
+    // 1. Update dropdown visual indicators
+    document.getElementById('active-view-label').textContent = viewMode === 'grid' ? 'Grid View' : 'List View';
+    document.getElementById('grid-check').classList.toggle('hidden', viewMode !== 'grid');
+    document.getElementById('list-check').classList.toggle('hidden', viewMode !== 'list');
+
+    document.getElementById('active-sort-label').textContent = sortBy === 'date' ? 'Created Date' : 'Company Name';
+    document.getElementById('sort-date-check').classList.toggle('hidden', sortBy !== 'date');
+    document.getElementById('sort-name-check').classList.toggle('hidden', sortBy !== 'name');
+
+    document.getElementById('active-order-label').textContent = sortOrder === 'desc' ? 'Descending' : 'Ascending';
+    document.getElementById('order-desc-check').classList.toggle('hidden', sortOrder !== 'desc');
+    document.getElementById('order-asc-check').classList.toggle('hidden', sortOrder !== 'asc');
+
+
+
+    // 2. Toggle main view containers
+    const kanban = document.getElementById('kanban-view');
+    const table = documen
+    document.getElementById('original-header-container').classList.add('hidden');
+    document.getElementById('list-header-container').classList.remove('hidden');
+
+
+    if (viewMode === 'grid') {
+        kanban.classList.remove('hidden');
+        tab
+
+    document.getElementById('active-order-label').textContent = sortOrder === 'desc' ? 'Descending' : 'Ascending';
+        document.getElementById('sort-dropdown-container').classList.remove('hidden');
+        document.getElementById('order-dropdown-container').classList.remove('hidden');
+        document.getElementById('limit-dropdown-container').classList.remove('hidden');
+    } else {
+        kanban.classList.add('hidden');
+        table.classList.remove('hidden');
+        document.getElementById('bulk-action-container').classList.remove('hidden');
+        document.getElementById('customize-table-container').classList.remove('hidden');
+        document.getElementById('sort-dropdown-container').classList.add('hidden');
+        document.getElementById('order-dropdown-container').classList.add('hidden');
+        document.getElementById('limit-dropdown-container').classList.add('hidden');
+
+        // Render List Table
+        const filterStage = document.getElementById('filter-stage')?.value || '';
+        const filterSource = document.getElementById('filter-source')?.value || '';
+        const filterUser = document.getElementById('filter-user')?.value || '';
+
+        let processed = [...leadsData];
+        if (searchQuery) {
+            processed = processed.filter(lead => {
+                return lead.name.toLowerCase().includes(searchQuery) ||
+                       lead.email.toLowerCase().includes(searchQuery) ||
+                       lead.mobile.toLowerCase().includes(searchQuery) ||
+                       lead.user.toLowerCase().includes(searchQuery) ||
+                       lead.source.toLowerCase().includes(searchQuery) ||
+                       lead.stage.toLowerCase().includes(searchQuery);
+            });
+        }
+        if (filterStage) {
+        if (filterStage) {
+            processed = processed.filter(lead => lead.stage.toUpperCase() === filterStage.toUpperCase());
+        }
+        if (filterSource) {
+            processed = processed.filter(lead => lead.source.toUpperCase() === filterSource.toUpperCase());
+        }
+        if (filterUser) {
+            processed = processed.filter(lead => lead.user.toUpperCase() === filterUser.toUpperCase());
+        }
+
+                    </td>
+                </tr>
+            `;
+        } else {
+            processed.forEach((lead, i) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-slate-50 transition-colors border-b border-slate-100";
+                tr.innerHTML = `
+                    <td class="py-3.5 px-4 text-center">
+                        <input type="checkbox" onchange="handleLeadCheckboxChange()" class="lead-checkbox rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer" value="${lead.name.replace(/"/g, '&quot;')}">
+                    </td>
+                    <td class="py-3.5 px-6 font-bold text-slate-400 text-center">${i + 1}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-creation">${lead.creationDate}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-modified">${lead.modifiedDate}</td>
+                    <td class="py-3.5 px-6 font-bold text-slate-800 col-name">${lead.name}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-mobile">${lead.mobile}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-email">${lead.email}</td>
+                    <td class="py-3.5 px-6 text-slate-600 font-bold col-user">${lead.user}</td>
+                    <td class="py-3.5 px-6 text-slate-600 col-source">${lead.source}</td>
+                    <td class="py-3.5 px-6 col-status">
+                        <span class="px-2.5 py-0.5 bg-sky-50 text-sky-700 text-[10px] font-bold rounded-full uppercase border border-sky-100">${lead.stage}</span>
+                    </td>
+                    <td class="py-3.5 px-6 text-right">
+                        <div class="flex justify-end gap-2">
+                            <button onclick="openEditLeadModal('${lead.name.replace(/'/g, "\\'")}')" class="text-blue-500 hover:text-blue-700 transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px]">edit</span>
+                            </button>
+                            <button onclick="deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors flex items-center">
+                                <span class="material-symbols-outlined text-[18px]">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+        applyColumnVisibility();
+
+
+    }
+}
+
+function setViewMode(mode) {
+    viewMode = mode;
+    renderLeads();
+}
+
+function setSortField(field) {
+    sortBy = field;
+    renderLeads();
+}
+
+function setSortOrder(order) {
+    sortOrder = order;
+    renderLeads();
+}
+
+function setPageLimit(limitVal) {
+    pageLimit = limitVal;
+    renderLeads();
+}

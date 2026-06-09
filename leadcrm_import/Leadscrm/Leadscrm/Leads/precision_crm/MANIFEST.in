@@ -1,0 +1,13 @@
+include directory.txt
+include LICENSE
+include README.md
+recursive-include precision_crm *.txt
+recursive-include precision_crm *.csv
+recursive-include precision_crm *.html
+recursive-include precision_crm *.js
+recursive-include precision_crm *.css
+recursive-include precision_crm *.png
+recursive-include precision_crm *.jpg
+recursive-include precision_crm *.svg
+recursive-include precision_crm *.json
+recursive-include precision_crm *.py

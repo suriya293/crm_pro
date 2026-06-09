@@ -1,0 +1,100 @@
+<!-- List View Header & Summary Cards (visible in list view) -->
+<div id="list-header-container" class="hidden flex flex-col shrink-0">
+    <header class="flex justify-between items-center w-full px-container-padding h-12 bg-white border-b border-outline-variant z-10">
+        <div class="flex items-center gap-2">
+            <a href="settings.html" class="text-slate-600 hover:text-slate-900 transition-colors flex items-center">
+                <span class="material-symbols-outlined text-[20px] font-bold">arrow_back</span>
+            </a>
+            <h2 class="text-sm font-black text-slate-800 tracking-wide">LEADS</h2>
+        </div>
+        <div class="text-[11px] font-bold text-slate-400">
+            CRM &nbsp;&gt;&nbsp; <span class="text-slate-600">Leads</span>
+        </div>
+    </header>
+</div>
+<section class="relative flex items-end justify-between gap-4 p-container-padding bg-surface min-h-[72px] pb-3">
+            <!-- Left side: Dropdowns -->
+            <div class="flex items-end gap-2.5">
+<truncated 12743 bytes>
+                <div class="relative">
+                    <button onclick="toggleDropdown(event, 'view-dropdown')" class="flex items-center gap-2 px-4 py-2 bg-[#111827] text-white rounded-full text-xs font-bold hover:bg-[#1f2937] transition-all shadow-sm">
+                        <span id="active-view-label">Grid View</span>
+                        <span class="material-symbols-outlined text-[14px]">expand_more</span
+Step 2182: MODEL | CODE_ACTION
+  Content: Created At: 2026-05-21T07:04:59Z Completed At: 2026-05-21T07:05:00Z Created file file:///C:/Users/YUVEHA/.gemini/antigravity/scratch/read_logs.py with requested content. If relevant, proactively run terminal commands to execute this code for the USER. Don't ask for permission.
+
+
+                <!-- Customize table Dropdown Container (visible in list view) -->
+                <div id="customize-table-container" class="flex flex-col hidden relative">
+                    <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider mb-0.5">Customize table</span>
+                    <button onclick="toggleDropdown(event, 'customize-dropdown')" class="flex items-center justify-between gap-2 px-3 py-1.5 bg-white border border-slate-200 rounded-xl text-xs font-bold text-slate-700 min-w-[145px] focus:ring-2 focus:ring-primary focus:outline-none shadow-sm">
+                        <span id="customize-label">8 items selected</span>
+                        <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                    </button>
+                    <div id="customize-dropdown" class="absolute left-0 mt-12 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-2 px-3 z-20 hidden dropdown-menu flex flex-col gap-1.5 text-xs font-semibold text-slate-700" onclick="event.stopPropagation()">
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-creation" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Creation Date</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-modified" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Modified Date</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-name" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Name</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-mobile" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Mobile</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-email" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Email</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-user" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> User</label>
+                        <label class="flex items-center gap-2 cursor-pointer py-1 hover:bg-slate-50 rounded px-1.5"><input type="checkbox" checked value="col-source" onchange="toggleTableColumn(this)" class="rounded text-primary focus:ring-primary"> Source</label>
+                        <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                    </button>
+                    <div id="order-dropdown" class="absolute left-0 mt-1.5 w-36 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                        <button onclick="setSortOrder('desc')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                            Descending <span id="order-desc-check" class="material-symbols-outlined text-[16px] text-teal-600">check</span>
+                        </button>
+                        <button onclick="setSortOrder('asc')" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                            Ascending <span id="order-asc-check" class="material-symbols-outlined text-[16px] text-teal-600 hidden">check</span>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Page Size Dropdown -->
+                <div class="relative" id="limit-dropdown-container">
+                    <button onclick="toggleDropdown(event, 'limit-dropdown')" class="flex items-center gap-2 px-4 py-2 bg-[#111827] text-white rounded-full text-xs font-bold hover:bg-[#1f2937] transition-all shadow-sm">
+                        <span id="active-limit-label">Show: 10</span>
+                        <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                    </button>
+                    <div id="limit-dropdown" class="absolute left-0 mt-1.5 w-32 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                        <button onclick="setPageLimit(10)" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                            Show: 10 <span id="limit-10-check" class="material-symbols-outlined text-[16px] text-teal-600">check</span>
+                        </button>
+                        <button onclick="setPageLimit(25)" class="w-full text-left px-4 py-2 text-xs font-semibold text-slate-700 hover:bg-slate-50 transition-colors flex items-center justify-between">
+                            Show: 25 <span id="limit-25-check" class="material-symbols-outlined text-[16px] text-teal-600 hidden">check</span>
+                        </button>
+                        <button onclick="toggleDropdown(event, 'filters-dropdown')" class="flex items-center gap-1 px-4 py-2 bg-[#f05232] hover:bg-[#d84324] text-white rounded-xl text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[16px]">filter_alt</span> Filters
+                        </button>
+                        <div id="filters-dropdown" class="absolute right-0 mt-1.5 w-64 bg-white border border-slate-100 rounded-xl shadow-lg p-4 z-20 hidden dropdown-menu flex flex-col gap-3" onclick="event.stopPropagation()">
+                            <h4 class="text-xs font-bold text-slate-800 border-b pb-1.5">Filter Leads</h4>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Stage</span>
+                                <select id="filter-stage" onchange="handleFilterChange()" class="px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-semibold text-slate-700 focus:ring-1 focus:ring-primary focus:outline-none">
+                                    <option value="">All Stages</option>
+                                </select>
+                            </div>
+                            <div class="flex flex-col gap-1">
+                                <span class="text-[10px] font-bold text-slate-500 uppercase tracking-wider">Source</span>
+                                <select id="filter-source"
+                    <button class="px-4 py-2 bg-[#3b4b72] hover:bg-[#2e3b5a] text-white rounded-xl text-xs font-bold transition-all shadow-sm whitespace-nowrap">Import</button>
+                    <button class="px-4 py-2 bg-[#3b4b72] hover:bg-[#2e3b5a] text-white rounded-xl text-xs font-bold transition-all shadow-sm whitespace-nowrap">Import History</button>
+                    <div class="relative">
+                        <button onclick="toggleDropdown(event, 'filters-dropdown')" class="flex items-center gap-1 px-4 py-2 bg-[#f05232] hover:bg-[#d84324] text-white rounded-xl text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+                            <span class="material-symbols-outlined text-[16px]">filter_alt</span> Filters
+                        </button>
+                                    <option value="">All Users</option>
+                                </select>
+                            </div>
+                            <button onclick="resetFilters()" class="mt-1 py-1.5 bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold rounded-lg text-xs transition-colors">Reset Filters</button>
+                        </div>
+                    </div>
+                    <button onclick="openAddLeadModal()" class="flex items-center gap-1.5 px-5 py-2 bg-[#0284c7] hover:bg-[#0369a1] text-white rounded-xl text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+                        <span class="material-symbols-outlined text-[16px]">add</span> Add Lead
+                    </button>
+                    <button onclick="handleRefreshLeads()" class="p-2 bg-[#eab308] hover:bg-[#ca8a04] text-white rounded-xl transition-all shadow-sm flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[16px]">refresh</span>
+                    </button>
+            </div>
+        </section>

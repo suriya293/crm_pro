@@ -1,0 +1,43 @@
+The USER performed the following action:
+Show the contents of file c:\Users\YUVEHA\OneDrive\Documents\Leads\code.html from lines 1177 to 1213
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2306
+Total Bytes: 138251
+Showing lines 1177 to 1213
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1177:     header.addEventListener('click', () => {
+1178:         header.classList.toggle('active-pink');
+1179:     });
+1180: });
+1181: 
+1182: let viewMode = 'grid';
+1183: let sortBy = 'date';
+1184: let sortOrder = 'desc';
+1185: let pageLimit = 10;
+1186: let statusFilter = 'All';
+1187: 
+1188: // Dynamic leads database extracted from the initial HTML DOM
+1189: let leadsData = [];
+1190: 
+1191: // Alert (red) stages
+1192: const ALERT_STAGES = new Set(['PROPOSAL SENT','OTHERS','TRIAL AC','DUPLICATE']);
+1193: 
+1194: const DEFAULT_LEADS = [
+1195:     { name: 'AMMU', stage: 'LOST', email: '-', mobile: '+91 7337035078', status: 'LOST', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1196:     { name: 'mamtadavi419', stage: 'LOST', email: '-', mobile: '+91 8178656912', status: 'JOB LEAD', source: '-', amount: '0', user: '-', creationDate: '21-May-2026 05:12 PM', modifiedDate: '21-May-2026 05:12 PM', date: Date.now() - 86400000 * 2, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1197:     { name: 'Ranjith', stage: 'FOLLOW UP', email: '-', mobile: '+91 9949492581', status: 'Follow Up', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '20-May-2026 09:05 AM', modifiedDate: '20-May-2026 09:05 AM', date: Date.now() - 86400000 * 3, callsCount: 3, smsCount: 0, whatsappCou
+<truncated 1142 bytes>
+: 'Sunil Kumar', stage: 'OTHERS', email: '-', mobile: '+91 8433725068', status: 'COLD', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 4, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1202:     { name: 'Ravindran T D', stage: 'OTHERS', email: 'tdravindran6@gmail.com', mobile: '+91 9849809115', status: 'COLD', source: 'RCS CAMPAIGN 2026 MA...', amount: '0', user: '-', creationDate: '21-May-2026 06:13 PM', modifiedDate: '21-May-2026 06:13 PM', date: Date.now() - 86400000 * 2, callsCount: 11, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1203:     { name: 'Siva Prakash', stage: 'HOT', email: '-', mobile: '+91 8754442997', status: 'HOT', source: 'MAY IVR 2026', amount: '0', user: 'aysha', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1204:     { name: 'Anbu', stage: 'HOT', email: '-', mobile: '+91', status: 'HOT', source: '-', amount: '0', user: '-', creationDate: '12-May-2026 10:06 AM', modifiedDate: '12-May-2026 10:06 AM', date: Date.now() - 86400000 * 11, callsCount: 0, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' },
+1205:     { name: 'CloudScale Solutions', stage: 'DEMO SCHEDULE', email: '-', mobile: '-', status: 'Active', source: '-', amount: '-', user: 'Mark Taylor', creationDate: 'Oct 24, 2023', modifiedDate: 'Oct 24, 2023', date: Date.now() - 86400000 * 900, callsCount: 1, smsCount: 0, whatsappCount: 0, priority: 'Low', completedDate: '-' }
+1206: ];
+1207: 
+1208: function parseLeadsFromDOM() {
+1209:     leadsData = [];
+1210:     document.querySelectorAll('.kanban-column').forEach(column => {
+1211:         const stageSpan = column.querySelector('.chevron-header span.text-xs');
+1212:         if (!stageSpan) return;
+1213:         const stage = stageSpan.textContent.trim();
+

@@ -1,0 +1,54 @@
+Created At: 2026-05-23T11:18:09Z
+Completed At: 2026-05-23T11:18:09Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 138224
+Showing lines 1130 to 1175
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1130:                     <button type="submit" id="wizard-save-btn" class="px-5 py-2 bg-[#00B496] hover:bg-[#00967D] text-white font-bold rounded-xl shadow-sm transition-colors hidden">Save</button>
+1131:                 </div>
+1132:             </footer>
+1133:         </form>
+1134:     </div>
+1135: </div>
+1136: 
+1137:     <!-- List View (Table Layout) -->
+1138:     <div id="table-view" class="hidden flex-1 p-6 overflow-y-auto w-full flex flex-col gap-4">
+1139:         <div class="max-w-7xl mx-auto w-full bg-white border border-outline-variant rounded-2xl shadow-sm overflow-hidden flex flex-col justify-between">
+1140:             <div class="overflow-x-auto w-full">
+1141:                 <table class="w-full text-left border-collapse">
+1142:                     <thead>
+1143:                         <tr class="bg-gradient-to-r from-primary to-tertiary border-none shadow-md text-[11px] font-bold text-white uppercase tracking-wider">
+1144:                             <th class="py-3 px-4 w-12 text-center">
+1145:                                 <input type="checkbox" id="select-all-leads" onchange="toggleSelectAll(this)" class="rounded border-slate-300 text-primary focus:ring-primary w-4 h-4 cursor-pointer">
+1146:                             </th>
+1147:                             <th class="py-3 px-6 w-16 text-center">Sr.No</th>
+1148:                             <th class="py-3 px-6 col-creation">Creation Date</th>
+1149:                             <th class="py-3 px-6 col-modified">Modified Date</th>
+1150:                             <th class="py-3 px-6 col-name">Name</th>
+1151:                             <th class="py-3 px-6 col-mobile">Mobile</th>
+1152:                             <th class="py-3 px-6 col-email">Email</th>
+1153:                             <th class="py-3 px-6 col-user">User</th>
+1154:                             <th class="py-3 px-6 col-source">Source</th>
+1155:                             <th class="py-3 px-6 col-status">Status</th>
+1156:                             <th class="py-3 px-6 text-right">Action</th>
+1157:                         </tr>
+1158:                     </thead>
+1159:                     <tbody id="leads-table-body" class="divide-y divide-slate-100 text-xs font-semibold text-slate-700">
+1160:                         <!-- Rendered dynamically -->
+1161:                     </tbody>
+1162:                 </table>
+1163:             </div>
+1164:             
+1165: 
+1166:         </div>
+1167:         
+1168:         <!-- Scroll to top floating button (bottom right) -->
+1169:         <button onclick="scrollToTop()" class="fixed bottom-6 right-6 w-10 h-10 rounded-xl bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white transition-all shadow-md flex items-center justify-center hover:scale-105 active:scale-95 z-30">
+1170:             <span class="material-symbols-outlined text-[20px] font-bold">arrow_upward</span>
+1171:         </button>
+1172:     </div>
+1173: </div>
+1174: </main>
+1175: <script>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

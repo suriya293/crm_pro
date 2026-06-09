@@ -1,0 +1,70 @@
+Created At: 2026-05-23T11:53:25Z
+Completed At: 2026-05-23T11:53:25Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/clean_head_reconstructed.html`
+Total Lines: 62
+Total Bytes: 2950
+Showing lines 1 to 62
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: 
+3: <html class="light" lang="en"><head>
+4: <meta charset="utf-8"/>
+5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+6: <title>LEADS - CRM Pipeline</title>
+7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+11:     <style>
+12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13: 
+14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+15:         #kanban-view {
+16:             flex: 1 1 0;
+17:             min-height: 0;
+18:             display: flex;
+19:             flex-direction: column;
+20:             overflow-x: auto;
+21:             overflow-y: hidden;
+22:             scrollbar-width: auto;
+23:             scrollbar-color: #4A85F6 #dde4ef;
+24:         }
+25:         #kanban-view::-webkit-scrollbar      { height: 10px; }
+26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+27:         #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border-radius: 5px; min-width: 40px; }
+28:         #kanban-view::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+29: 
+30:         /* Inner r
+31: 
+32:                     <button onclick="openAddLeadModal()" class="flex items-center gap-1.5 px-5 py-2 bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 hover:from-[#4A85F6] hover:to-[#4A85F6]/50 text-white rounded-full text-xs font-bold transition-all shadow-sm whitespace-nowrap">
+33:                         <span class="material-symbols-outlined text-[16px]">add</span> Add Lead
+34:                     </button>
+35:                     <button onclick="handleRefreshLeads()" class="p-2 bg-[#4A85F6] hover:bg-[#3b71ca] text-white border-none rounded-full transition-all shadow-sm flex items-center justify-center">
+36:                         <span class="material-symbols-outlined text-[16px]">refresh</span>
+37:                     </button>
+38:             </div>
+39:         </section>
+40: 
+41: <style>
+42: .hide-scrollbar::-webkit-scrollbar { display: none !important; }
+43: .hide-scrollbar { -ms-overflow-style: none !important; scrollbar-width: none !important; }
+44: .chevron-header {
+45:     transition: all 0.2s ease-in-out;
+46:     cursor: pointer;
+47: }
+48: .chevron-header:hover {
+49:     filter: brightness(0.95);
+50: }
+51: .chevron-header.active-pink {
+52:     background-color: #FEE2E2 !important;
+53:     background-image: none !important;
+54:     color: #991B1B !important;
+55: }
+56: .chevron-header.active-pink span {
+57:     color: #991B1B !important;
+58: }
+59: .chevron-header.active-pink div {
+60:     background-color: rgba(153, 27, 27, 0.1) !important;
+61:     color: #99
+62: 
+The above content shows the entire, complete file contents of the requested file.

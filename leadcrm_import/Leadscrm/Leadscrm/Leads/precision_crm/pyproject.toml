@@ -1,0 +1,18 @@
+[project]
+name = "precision_crm"
+version = "0.0.1"
+authors = [
+    { name = "Administrator", email = "admin@example.com" }
+]
+description = "Enterprise-grade CRM built on Frappe Framework"
+requires-python = ">=3.10"
+dependencies = [
+    "frappe"
+]
+
+[tool.bench]
+app_title = "Precision CRM"
+app_publisher = "Administrator"
+app_description = "Enterprise-grade CRM built on Frappe Framework"
+app_email = "admin@example.com"
+app_license = "mit"

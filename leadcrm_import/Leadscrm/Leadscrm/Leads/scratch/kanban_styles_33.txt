@@ -1,0 +1,72 @@
+Created At: 2026-05-23T11:17:45Z
+Completed At: 2026-05-23T11:17:45Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 138224
+Showing lines 620 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+620: }
+621: .chevron-header.active-pink div {
+622:     background-color: rgba(153, 27, 27, 0.1) !important;
+623:     color: #991B1B !important;
+624: }
+625: /* Drag and drop styles */
+626: .kanban-card {
+627:     transition: opacity 0.2s, transform 0.15s, box-shadow 0.15s;
+628: }
+629: .kanban-card.dragging {
+630:     opacity: 0.45;
+631:     transform: scale(0.97);
+632:     box-shadow: 0 8px 24px rgba(0,0,0,0.18) !important;
+633: }
+634: .kanban-cards-container.drag-over {
+635:     background: rgba(37, 99, 235, 0.04);
+636:     border-radius: 10px;
+637:     outline: 2px dashed #2563EB;
+638:     outline-offset: -3px;
+639: }
+640: </style>
+641: <div id="content-view-container" class="flex-1 overflow-hidden flex flex-col">
+642: <!-- Horizontal Scroller -->
+643: <div id="kanban-view">
+644: <div id="kanban-inner-row">
+645: 
+646: <!-- 1. LEAD -->
+647: <div class="kanban-column">
+648: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+649: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+650: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">info</span>
+651: </div>
+652: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">LEAD</span>
+653: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+654: </header>
+655: <div 
+<truncated 10640 bytes>
+ban-subheader green" data-subheader></div>
+775: <div class="kanban-cards-container" data-stage="DEMO DONE"></div>
+776: </div>
+777: 
+778: <!-- 10. RNR -->
+779: <div class="kanban-column">
+780: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+781: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+782: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_disabled</span>
+783: </div>
+784: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">RNR</span>
+785: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+786: </header>
+787: <div class="kanban-subheader green" data-subheader></div>
+788: <div class="kanban-cards-container" data-stage="RNR"></div>
+789: </div>
+790: 
+791: <!-- 11. CALL BACK -->
+792: <div class="kanban-column">
+793: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+794: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+795: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_callback</span>
+796: </div>
+797: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">CALL BACK</span>
+798: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+799: </header>
+800: <div class="kanban-subheader green" data-subheader></div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

@@ -1,0 +1,25 @@
+{
+  "doctype": "WhatsApp Message",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "WAMSG-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "conversation", "fieldtype": "Link", "label": "Conversation", "options": "WhatsApp Conversation", "reqd": 1},
+    {"fieldname": "direction", "fieldtype": "Select", "label": "Direction", "options": "Inbound\nOutbound", "default": "Inbound", "reqd": 1},
+    {"fieldname": "message_type", "fieldtype": "Select", "label": "Message Type", "options": "Text\nImage\nDocument\nTemplate", "reqd": 1},
+    {"fieldname": "content", "fieldtype": "Text", "label": "Content"},
+    {"fieldname": "timestamp", "fieldtype": "Datetime", "label": "Timestamp", "default": "Now"},
+    {"fieldname": "message_id", "fieldtype": "Data", "label": "Message ID"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"},
+    {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company"},
+    {"fieldname": "territory", "fieldtype": "Link", "label": "Territory", "options": "Territory"},
+    {"fieldname": "team", "fieldtype": "Link", "label": "Team", "options": "Team"}
+  ],
+  "indexes": [{"fields": ["conversation"]}, {"fields": ["message_id"]}]
+}

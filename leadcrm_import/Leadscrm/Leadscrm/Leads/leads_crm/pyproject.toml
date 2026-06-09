@@ -1,0 +1,18 @@
+[project]
+name = "leads_crm"
+version = "0.0.1"
+authors = [
+    { name = "Administrator", email = "admin@example.com" }
+]
+description = "Custom CRM App for Leads Management in Frappe"
+requires-python = ">=3.10"
+dependencies = [
+    "frappe"
+]
+
+[tool.bench]
+app_title = "Leads CRM"
+app_publisher = "Administrator"
+app_description = "Custom CRM App for Leads Management in Frappe"
+app_email = "admin@example.com"
+app_license = "mit"

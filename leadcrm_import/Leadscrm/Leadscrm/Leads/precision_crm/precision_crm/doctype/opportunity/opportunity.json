@@ -1,0 +1,29 @@
+{
+  "doctype": "Opportunity",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "OPP-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "opportunity_name", "fieldtype": "Data", "label": "Opportunity Name", "reqd": 1},
+    {"fieldname": "lead", "fieldtype": "Link", "label": "Lead", "options": "Lead", "reqd": 1},
+    {"fieldname": "value", "fieldtype": "Currency", "label": "Value"},
+    {"fieldname": "probability", "fieldtype": "Int", "label": "Probability"},
+    {"fieldname": "expected_closure", "fieldtype": "Date", "label": "Expected Closure"},
+    {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "Open\nDiscovery\nQualification\nProposal Sent\nNegotiation\nWon\nLost\nOn Hold", "default": "Open"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"},
+    {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company"},
+    {"fieldname": "territory", "fieldtype": "Link", "label": "Territory", "options": "Territory"},
+    {"fieldname": "team", "fieldtype": "Link", "label": "Team", "options": "Team"}
+  ],
+  "indexes": [
+    {"fields": ["status"]},
+    {"fields": ["lead"]}
+  ],
+  "workflow": "Opportunity Workflow"
+}

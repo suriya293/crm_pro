@@ -1,0 +1,55 @@
+Created At: 2026-05-23T11:53:22Z
+Completed At: 2026-05-23T11:53:22Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/reconstructed_head.txt`
+Total Lines: 205
+Total Bytes: 11233
+Showing lines 1 to 205
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: 1: <!DOCTYPE html>
+2: 2: 
+3: 3: <html class="light" lang="en"><head>
+4: 4: <meta charset="utf-8"/>
+5: 5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+6: 6: <title>LEADS - CRM Pipeline</title>
+7: 7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+8: 8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+9: 9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+10: 10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+11: 11:     <style>
+12: 12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13: 13: 
+14: 14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+15: 15:         #kanban-view {
+16: 16:             flex: 1 1 0;
+17: 17:             min-height: 0;
+18: 18:             display: flex;
+19: 19:             flex-direction: column;
+20: 20:             overflow-x: auto;
+21: 21:             overflow-y: hidden;
+22: 22:             scrollbar-width: auto;
+23: 23:             scrollbar-color: #4A85F6 #dde4ef;
+24: 24:         }
+25: 25:         #kanban-view::-webkit-scrollbar      { height: 10px; }
+26: 26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+27: 27:         #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border
+<truncated 8599 bytes>
+3:                 <p class="text-sm text-slate-500">Click any card below to open its dedicated settings dashboard page.</p>
+188: 204:             </div>
+189: 205: 
+190: 206:             <!-- PREMIUM HORIZONTAL CARDS (Clickable launch portal) -->
+191: 207:             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+192: 208:                 
+193: 209:                 <!-- Card 1: User -->
+194: 210:                 <div onclick="window.location.href = 'user.html'" id="card-user" class="settings-card bg-gradient-to-r from-primary to-tertiary text-white border-none rounded-2xl p-6 flex items-center justify-between h-[110px] shadow-lg shadow-[#93c5fd]/20 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#1d4ed8]/40 hover:scale-105 transition-transform duration-300 transition-all duration-300 cursor-pointer border border-blue-400/30 relative overflow-hidden group">
+195: 211:                     <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-white/10 transition-all"></div>
+196: 212:                     <div class="relative z-10">
+197: 213:                         <h4 class="text-[18px] font-black text-white tracking-tight">User Profile</h4>
+198: 214:                         <p class="text-xs text-white/90 font-medium mt-1">Configure your personal settings & credentials</p>
+199: 215:                     </div>
+200: 216:                     <div class="relative z-10 w-12 h-12 rounded-full bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#2563EB] shrink-0 ml-4 border-2 border-white group-hover:scale-125 group-hover:-translate-y-2 group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out">
+201: 217:                         <span class="material-symbols-outlined material-symbols-filled text-[24px]">person</span>
+202: 218:                     </div>
+203: 219:                 </div>
+204: 220: 
+205: 
+The above content shows the entire, complete file contents of the requested file.

@@ -1,0 +1,61 @@
+Created At: 2026-05-23T11:52:31Z
+Completed At: 2026-05-23T11:52:31Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/scratch/code_html_reconstructed_full.html`
+Total Lines: 2305
+Total Bytes: 58353
+Showing lines 1 to 800
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: $files = Get-ChildItem -Path 'c:\Users\YUVEHA\OneDrive\Documents\Leads' -Filter '*.html'
+2: foreach ($f in $files) {
+3:     $content = [System.IO.File]::ReadAllText($f.FullName)
+4: <meta charset="utf-8"/>
+5:     # Kanban Headers
+6:     $content = $content.Replace('bg-[#E6F4EA]', 'bg-[#e0e7ff]')
+7:     $content = $content.Replace('bg-[#D1FAE5]', 'bg-[#dbeafe]')
+8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+9:     # Additional tailwind classes
+10:     $content = $content.Replace('border-green-200', 'border-indigo-200')
+11:     $content = $content.Replace('border-green-300', 'border-indigo-300')
+12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13:     # Active states
+14:     $content = $content.Replace('text-[#10b981]', 'text-[#8b5cf6]')
+15:     $content = $content.Replace('border-[#10b981]', 'border-[#8b5cf6]')
+16:     $content = $content.Replace('ring-[#10b981]', 'ring-[#8b5cf6]')
+17:             min-height: 0;
+18:     # Backgrounds
+19:     $content = $content.Replace('bg-[#e2e8f0]', 'bg-[#dbeafe]')
+20:     $content = $content.Replace('bg-[#2d3748]', 'bg-[#1e3a8a]')
+21:     $content = $content.Replace('hover:bg-[#1a202c]', 'hover:bg-[#1e40af]')
+22:             scrollbar-width: auto;
+23:     # Cyan colors
+24:     $content = $content.Replace('bg-[#00b4d8]', 'bg-[#7c3aed]')
+25:     $content = $content.Replace('hover:bg-[#0077b6]', 'hover:bg-[#6d28d9]')
+26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 
+<truncated 38876 bytes>
+v>
+776: </div>
+777:             e.preventDefault();
+778: <!-- 10. RNR -->
+779: <div class="kanban-column">
+780: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+781: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+782: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_disabled</span>
+783: </div>
+784: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">RNR</span>
+785: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+786: </header>
+787: <div class="kanban-subheader green" data-subheader></div>
+788: <div class="kanban-cards-container" data-stage="RNR"></div>
+789: </div>
+790:             if (!targetStage || !currentDragName) return;
+791: <!-- 11. CALL BACK -->
+792: <div class="kanban-column">
+793: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+794: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+795: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">phone_callback</span>
+796: </div>
+797: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">CALL BACK</span>
+798: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+799: </header>
+800: <div class="kanban-subheader green" data-subheader></div>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

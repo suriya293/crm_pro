@@ -1,0 +1,49 @@
+{
+  "name": "CRM User Profile",
+  "doctype": "DocType",
+  "module": "CRM Pro",
+  "autoname": "field:user",
+  "fields": [
+    {
+      "fieldname": "user",
+      "fieldtype": "Link",
+      "options": "User",
+      "label": "User Link",
+      "reqd": 1,
+      "unique": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "phone_number",
+      "fieldtype": "Data",
+      "label": "Phone Number",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "profile_picture",
+      "fieldtype": "Attach Image",
+      "label": "Profile Picture"
+    },
+    {
+      "fieldname": "designation",
+      "fieldtype": "Data",
+      "label": "Designation"
+    },
+    {
+      "fieldname": "team",
+      "fieldtype": "Link",
+      "options": "CRM Team",
+      "label": "Associated Team",
+      "in_list_view": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

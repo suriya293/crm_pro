@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LEADS - Users Manager</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Outfit', sans-serif !important;
+        }
+        body, .font-body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #0d9488 transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #99f6e4;
+            border-radius: 3px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #0d9488;
+        }
+        .material-symbols-filled {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        /* Ensure cursor pointer on interactive elements */
+        button, a, select, input[type="checkbox"], input[type="radio"], .cursor-pointer {
+            cursor: pointer;
+        }
+        /* Clean gradient hover transition to solid theme color */
+        button.bg-gradient-to-r:hover,
+        a.bg-gradient-to-r:hover,
+        div.bg-gradient-to-r:hover {
+            background-image: linear-gradient(to right, #0f766e, #0f766e) !important;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0D9488",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#ccfbf1",
+                        "secondary-container": "#fef3c7",
+                        "on-secondary-container": "#92400e",
+                        "surface": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff6ff",
+                        "surface-container": "#e5f3ff",
+                        "surface-container-high": "#dceeff",
+                        "outline-variant": "#cbd5e1",
+                        "background": "#f0fdfa",
+                        "on-surface": "#0f172a",
+                        "on-surface-variant": "#334155",
+                        "tertiary": "#06b6d4",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "1.5rem",
+                        "inner-padding": "1rem"
+                    },
+                    "fontFamily": {
+                        "sans": ["Inter", "sans-serif"],
+                        "headline": ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .dropdown-menu { display: none; }
+        .dropdown-menu:not(.hidden) { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu:not(.hidden) { animation: fadeIn 0.15s ease; }
+    </style>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+</head>
+<body class="bg-[#F0FDFA] bg-gradient-to-br from-[#F0FDFA] to-[#F8FAFC] text-slate-800 font-sans overflow-hidden flex h-screen">
+    <div id="vanta-bg" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-screen py-inner-padding bg-gradient-to-b from-[#0F766E] via-[#0D9488] to-[#115E59] border-r border-teal-500/10 w-64 shadow-2xl shrink-0 text-white">
+    <div class="px-container-padding mb-8">
+        <h1 class="text-headline-sm font-headline-sm font-black text-white leading-tight">LEADS</h1>
+        <p class="text-label-md font-label-md text-white/70">CRM ADMIN</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="dashboard.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">dashboard</span>
+            <span class="text-label-md font-label-md text-white/80">Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="code.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">filter_list</span>
+            <span class="text-label-md font-label-md text-white/80">Leads</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="reports.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">bar_chart</span>
+            <span class="text-label-md font-label-md text-white/80">Reports</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-[#1E90FF] text-white rounded-xl font-bold shadow-md shadow-blue-900/20 hover:bg-white/25 transition-all duration-300" href="settings.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white">settings</span>
+            <span class="text-label-md font-label-md text-white font-bold">Settings</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="app.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">apps</span>
+            <span class="text-label-md font-label-md text-white/80">Apps</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-4 space-y-3 border-t border-white/15 pt-5 pb-2">
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="#">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">help</span>
+            <span class="text-[13px] font-bold tracking-wider">Help</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="signin.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">logout</span>
+            <span class="text-[13px] font-bold tracking-wider">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0 overflow-hidden">
+    
+    <!-- Top Header -->
+    <header class="flex justify-between items-center w-full px-container-padding h-14 bg-white border-b border-slate-100 z-10 shrink-0">
+        <div class="flex items-center">
+            <h2 class="text-[20px] font-black text-[#0D9488] tracking-wide">SETTINGS</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Live Clock -->
+            <div id="clock-container" class="flex items-center gap-1.5 px-3 py-1 bg-teal-50/50 border border-teal-100/50 rounded-xl text-xs font-bold text-slate-600 shadow-sm whitespace-nowrap">
+                <span class="material-symbols-outlined text-[15px] text-[#0D9488]">schedule</span>
+                <span id="live-clock">--:--:--</span>
+                        </div>
+            
+            <!-- Fullscreen Button -->
+            <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Fullscreen">
+                <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+            </button>
+            <!-- Dark Mode -->
+            <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Dark Mode">
+                <span class="material-symbols-outlined text-[20px]">dark_mode</span>
+            </button>
+            
+            <!-- Profile / Admin Settings Capsule Button -->
+                        <!-- Profile -->
+                        <!-- Profile -->
+            <div class="relative">
+                <button onclick="toggleAdminMenu(event)" class="flex items-center gap-2 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-[#0D9488] rounded-full border border-teal-100 text-xs font-bold transition-all shadow-sm">
+                    
+                    
+                    <div class="w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                        <span class="material-symbols-outlined text-[16px] font-bold">person</span>
+                    </div>
+                    <span>Admin</span>
+                    <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                </button>
+                <!-- Admin Menu dropdown -->
+                <div id="admin-menu" class="absolute right-0 mt-1.5 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                    <a href="profile.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> Profile
+                    </a>
+                    <a href="login_activity.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Login Activity
+                    </a>
+                    <a href="client_secret.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">key</span> Client & Secret
+                    </a>
+                    <a href="change_password.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">lock</span> Change Password
+                    </a>
+                    <button onclick="alert('Activity Log shows 14 successful operations in last 24h.')" class="w-full text-left px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 border-b border-slate-50 pb-1.5 mb-1 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Activity Log
+                    </button>
+                    <a href="signin.html" class="px-4 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors flex items-center gap-2 text-xs font-bold">
+                        <span class="material-symbols-outlined text-[16px] text-red-500">logout</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header Bar -->
+    <div class="bg-white px-6 py-3 flex items-center justify-between border-b border-slate-200/80 shadow-sm z-10 shrink-0">
+        <div class="flex items-center gap-1.5">
+            <button onclick="window.location.href = 'settings.html'" class="flex items-center gap-1 text-[13px] font-extrabold text-slate-700 hover:text-slate-900 transition-colors uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px] font-bold">arrow_back</span> Users
+            </button>
+        </div>
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 text-[11px] font-semibold text-slate-400">
+                <span>Settings</span>
+                <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+                <span class="text-slate-600 font-bold">Users</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Content Scroller -->
+    <div class="flex-1 overflow-y-auto bg-[#f8fafc] p-6 custom-scrollbar">
+        <div class="max-w-7xl mx-auto space-y-6 pb-12">
+            
+            <!-- Description & Licences Info Box -->
+            <div class="bg-white border border-slate-200/80 rounded-xl p-5 shadow-sm flex flex-col lg:flex-row justify-between lg:items-center gap-4">
+                <div class="space-y-3">
+                    <p class="text-[13px] font-medium text-slate-500 max-w-3xl leading-relaxed">
+                        Add and manage all your users from here. You can assign them a role, specify their contact details and put them in teams.
+                    </p>
+                    <div class="flex flex-wrap items-center gap-2 text-[11px] font-bold">
+                        <span class="px-2.5 py-1 bg-[#F3F4F6] border border-slate-100 rounded text-slate-500">
+                            Number of user licenses in your plan: <span class="text-slate-800">5</span>
+                        </span>
+                        <span class="px-2.5 py-1 bg-[#F3F4F6] border border-slate-100 rounded text-slate-500">
+                            Online: <span class="text-slate-800" id="active-licence-count">5</span>
+                        </span>
+                        <span class="px-2.5 py-1 bg-[#F3F4F6] border border-slate-100 rounded text-slate-500">
+                            Remaining: <span class="text-slate-800" id="remaining-licence-count">0</span>
+                        </span>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="toggleUserModal(true)" class="px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#0F766E] hover:to-[#0F766E] text-white rounded text-[12px] font-bold tracking-wider active:scale-95 transition-all shadow-sm">
+                        Add User
+                    </button>
+                    <button onclick="window.location.reload()" class="p-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#0F766E] hover:to-[#0F766E] text-white rounded flex items-center justify-center transition-all active:scale-95 shadow-sm">
+                        <span class="material-symbols-outlined text-[16px] font-bold">sync</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Online / Offline / Deleted Tabs -->
+            <div class="border-b border-slate-200 flex gap-8 text-[13px] font-bold text-slate-400 px-2 mt-4">
+                <button onclick="switchTab('online')" id="tab-online" class="pb-3 text-[#0D9488] border-b-2 border-[#0D9488] transition-all">Online</button>
+                <button onclick="switchTab('offline')" id="tab-offline" class="pb-3 hover:text-slate-600 transition-all">Offline</button>
+                <button onclick="switchTab('deleted')" id="tab-deleted" class="pb-3 hover:text-slate-600 transition-all">Deleted</button>
+            </div>
+
+            <!-- Users Table Container -->
+            <div class="bg-white border border-slate-200/80 rounded-xl shadow-sm overflow-hidden p-5 space-y-4">
+                
+                <!-- Table Search & Action Bar -->
+                <div class="flex justify-between items-center">
+                    <div class="relative w-72">
+                        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-[18px]">search</span>
+                        <input id="user-search" oninput="filterUsers()" class="w-full pl-9 pr-3 py-1.5 rounded border border-slate-200 bg-white focus:ring-1 focus:ring-slate-400 focus:outline-none text-[12px] placeholder-slate-400 font-medium" placeholder="Search......." type="text"/>
+                    </div>
+                    <button onclick="exportToExcel()" class="flex items-center gap-1.5 px-3 py-1.5 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#0F766E] hover:to-[#0F766E] text-white rounded text-11px font-bold transition-all shadow-sm">
+                        <span class="material-symbols-outlined text-[14px]">download</span> Excel
+                    </button>
+                </div>
+
+                <!-- Responsive Table Wrapper -->
+                <div class="overflow-x-auto custom-scrollbar">
+                    <table class="w-full text-[12px] text-left border-collapse">
+                        <thead>
+                            <tr class="bg-gradient-to-r from-primary to-tertiary border-b border-[#1E3A8A] text-white font-extrabold select-none">
+                                <th class="p-3">Sr.No</th>
+                                <th class="p-3">Userid</th>
+                                <th class="p-3">Username</th>
+                                <th class="p-3">Email</th>
+                                <th class="p-3">Mobile</th>
+                                <th class="p-3">Full Name</th>
+                                <th class="p-3">Login</th>
+                                <th class="p-3">Created Date</th>
+                                <th class="p-3">Mobile Verified</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="users-table-body" class="divide-y divide-slate-100 font-medium text-slate-600">
+                            <!-- Populated dynamically via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+
+
+            </div>
+
+        </div>
+    </div>
+</main>
+
+<!-- ADD USER DIALOG POPUP MODAL (Matched perfectly to the 2nd image) -->
+<div id="add-user-modal" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-50 flex items-center justify-center hidden transition-all duration-200">
+    <div class="bg-white rounded-xl shadow-2xl w-full max-w-4xl overflow-hidden border border-slate-100 transform scale-95 transition-transform duration-200">
+        
+        <!-- Modal Header -->
+        <div class="bg-gradient-to-r from-primary to-tertiary px-6 py-4 flex justify-between items-center shadow-sm">
+            <h3 class="text-white font-extrabold text-[15px] tracking-tight uppercase">Add User</h3>
+            <button onclick="toggleUserModal(false)" class="text-white hover:text-slate-100 transition-colors flex items-center justify-center p-1 rounded-lg hover:bg-white/20">
+                <span class="material-symbols-outlined text-[20px] font-bold">close</span>
+            </button>
+        </div>
+
+        <!-- Modal Body Form -->
+        <form id="add-user-form" onsubmit="handleUserSubmit(event)" class="p-6 space-y-6 text-[13px] font-semibold text-slate-700">
+            
+            <!-- Row 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                <!-- User Role -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">User Role</label>
+                    <select id="modal-role" class="w-full px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] bg-white">
+                        <option value="User">User</option>
+                        <option value="Admin">Admin</option>
+                        <option value="Agent">Agent</option>
+                    </select>
+                </div>
+                <!-- Username -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Username</label>
+                    <input type="text" id="modal-username" autocomplete="off" placeholder="Username" required class="w-full px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] placeholder-slate-300">
+                </div>
+                <!-- Password -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Password</label>
+                    <div class="relative">
+                        <span class="material-symbols-outlined absolute left-2.5 top-1/2 -translate-y-1/2 text-slate-600 text-[14px]">sync</span>
+                        <input type="password" id="modal-password" autocomplete="new-password" placeholder="Password" required class="w-full pl-8 pr-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] placeholder-slate-300">
+                    </div>
+                </div>
+                <!-- Email -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Email</label>
+                    <input type="email" id="modal-email" placeholder="Email" required class="w-full px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] placeholder-slate-300">
+                </div>
+            </div>
+
+            <!-- Row 2 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                <!-- Mobile -->
+                <div class="md:col-span-2">
+                    <label class="block text-slate-800 mb-1.5 font-bold">Mobile</label>
+                    <div class="flex gap-2">
+                        <div class="relative w-1/3">
+                            <select id="modal-country-code" class="w-full pl-2 pr-6 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] bg-white appearance-none">
+                                <option value="+91">India(+91)</option>
+                                <option value="+1">USA(+1)</option>
+                                <option value="+44">UK(+44)</option>
+                            </select>
+                            <span class="material-symbols-outlined absolute right-1.5 top-1/2 -translate-y-1/2 text-slate-400 text-[16px] pointer-events-none">expand_more</span>
+                        </div>
+                        <input type="tel" id="modal-mobile" placeholder="Mobile" required class="w-2/3 px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] placeholder-slate-300">
+                    </div>
+                </div>
+                <!-- Full Name -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Full Name</label>
+                    <input type="text" id="modal-fullname" placeholder="Full Name" required class="w-full px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] placeholder-slate-300">
+                </div>
+                <!-- Assign DID -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Assign DID</label>
+                    <div class="relative">
+                        <input type="text" id="modal-did" placeholder="Enter DID" class="w-full pl-3 pr-8 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] bg-white text-slate-800">
+                        <span class="material-symbols-outlined absolute right-2.5 top-1/2 -translate-y-1/2 text-slate-300 text-[14px] cursor-pointer hover:text-slate-500" onclick="document.getElementById('modal-did').value=''">close</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Row 3 -->
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-5">
+                <!-- VPN Support -->
+                <div>
+                    <label class="block text-slate-800 mb-2 font-bold">VPN Support</label>
+                    <div class="flex items-center gap-6">
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-600 font-bold select-none">
+                            <input type="radio" name="vpn" value="No" class="text-[#0D9488] border-slate-300 focus:ring-teal-900 w-4 h-4"> No
+                        </label>
+                        <label class="flex items-center gap-2 cursor-pointer text-slate-600 font-bold select-none">
+                            <input type="radio" name="vpn" value="Yes" checked class="text-[#0D9488] border-slate-300 focus:ring-teal-900 w-4 h-4"> Yes
+                        </label>
+                    </div>
+                </div>
+                <!-- Status -->
+                <div>
+                    <label class="block text-slate-800 mb-1.5 font-bold">Status</label>
+                    <select id="modal-status" class="w-full px-3 py-2 rounded border border-slate-200 focus:ring-1 focus:ring-[#0D9488] focus:outline-none text-[12px] bg-white">
+                        <option value="Online">Online</option>
+                        <option value="Offline">Offline</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Modal Action Buttons -->
+            <div class="flex justify-end gap-3 pt-4 border-t border-slate-100">
+                <button type="button" onclick="toggleUserModal(false)" class="px-5 py-2.5 bg-[#F3F4F6] hover:bg-slate-100 text-slate-700 rounded text-xs font-bold transition-all">Close</button>
+                <button type="submit" class="px-5 py-2.5 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#0F766E] hover:to-[#0F766E] text-white rounded text-xs font-bold transition-all shadow-sm">Submit</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<script>
+    // Live clock init function
+    function initClock() {
+        const clockEl = document.getElementById('live-clock');
+        if (!clockEl) return;
+        const updateTime = () => {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            clockEl.textContent = `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+        };
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+
+    // Fullscreen toggle function
+    function toggleFullscreen(button) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'enabled');
+            }).catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'disabled');
+            }).catch(e => {});
+        }
+    }
+
+    // Auto-restore fullscreen on first interaction if it was enabled
+    if (!window.hasFullscreenRestorer) {
+        window.hasFullscreenRestorer = true;
+        const restoreFullscreen = () => {
+            if (localStorage.getItem('fullscreen') === 'enabled' && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => {});
+            }
+            document.removeEventListener('click', restoreFullscreen);
+            document.removeEventListener('keydown', restoreFullscreen);
+        };
+        document.addEventListener('click', restoreFullscreen);
+        document.addEventListener('keydown', restoreFullscreen);
+    }
+
+    // Dark Mode Toggle functions
+    function initDarkMode() {
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    }
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', 'disabled');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('darkMode', 'enabled');
+        }
+    }
+
+    // Admin menu dropdown toggle
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        if (menu) {
+            menu.classList.toggle('hidden');
+        }
+    }
+
+    // Close admin menu when clicking outside
+    document.addEventListener('click', () => {
+        const menu = document.getElementById('admin-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+        }
+    });
+
+    // Auto init header functions
+    initClock();
+    initDarkMode();
+    // Live Users Array
+    let users = [];
+
+    // LocalStorage Version Control
+    try {
+        if (localStorage.getItem('crmVersion') !== 'v14') {
+            localStorage.removeItem('leadUsersData');
+            localStorage.setItem('crmVersion', 'v14');
+        }
+    } catch(e) {}
+
+    // Load users from localStorage
+    try {
+        const stored = localStorage.getItem('leadUsersData');
+        if (stored) {
+            users = JSON.parse(stored);
+            // Migrate status
+            users.forEach(u => {
+                if (u.status === 'Active') u.status = 'Online';
+                if (u.status === 'Inactive') u.status = 'Offline';
+            });
+        } else {
+            users = [];
+            localStorage.setItem('leadUsersData', JSON.stringify(users));
+        }
+    } catch(e) {
+        users = [];
+    }
+
+    let currentTab = "Online";
+
+    // Toggle Modal Overlay
+    function toggleUserModal(show) {
+        const modal = document.getElementById('add-user-modal');
+        if (show) {
+            modal.classList.remove('hidden');
+            setTimeout(() => {
+                modal.classList.remove('opacity-0');
+                modal.children[0].classList.remove('scale-95');
+            }, 10);
+        } else {
+            modal.classList.add('opacity-0');
+            modal.children[0].classList.add('scale-95');
+            setTimeout(() => {
+                modal.classList.add('hidden');
+            }, 200);
+            document.getElementById('add-user-form').reset();
+        }
+    }
+
+    function saveUsers() {
+        try {
+            localStorage.setItem('leadUsersData', JSON.stringify(users));
+        } catch(e) {}
+    }
+
+    // Dynamic Render Users
+    function renderUsers() {
+        const tbody = document.getElementById('users-table-body');
+        tbody.innerHTML = '';
+
+        const query = document.getElementById('user-search').value.toLowerCase();
+        
+        // Filter users
+        const filtered = users.filter(u => {
+            const matchesStatus = u.status.toLowerCase() === currentTab.toLowerCase();
+            const matchesSearch = u.username.toLowerCase().includes(query) || 
+                                  u.fullname.toLowerCase().includes(query) || 
+                                  u.email.toLowerCase().includes(query);
+            return matchesStatus && matchesSearch;
+        });
+
+        if (filtered.length === 0) {
+            tbody.innerHTML = `
+                <tr>
+                    <td colspan="10" class="p-8 text-center text-slate-400 font-semibold text-[13px] bg-white">
+                        No ${currentTab.toLowerCase()} users found.
+                    </td>
+                </tr>
+            `;
+
+        } else {
+            filtered.forEach((u, i) => {
+                const tr = document.createElement('tr');
+                tr.className = "hover:bg-transparent transition-colors user-row";
+                tr.innerHTML = `
+                    <td class="p-3 font-bold text-slate-800">${i + 1}</td>
+                    <td class="p-3">${u.userid}</td>
+                    <td class="p-3 text-slate-800">${u.username}</td>
+                    <td class="p-3">${u.email}</td>
+                    <td class="p-3">${u.mobile}</td>
+                    <td class="p-3 font-semibold text-slate-800">${u.fullname}</td>
+                    <td class="p-3">${u.login}</td>
+                    <td class="p-3">${u.created}</td>
+                    <td class="p-3 text-emerald-600 font-bold">${u.verified}</td>
+                    <td class="p-3 text-right">
+                        <div class="inline-flex items-center gap-1.5">
+                            <button onclick="editUser('${u.userid}')" class="p-1 rounded text-slate-400 hover:text-slate-700 transition-colors">
+                                <span class="material-symbols-outlined text-[16px]">edit</span>
+                            </button>
+                            <button onclick="deleteUser('${u.userid}')" class="p-1 rounded text-slate-400 hover:text-red-500 transition-colors">
+                                <span class="material-symbols-outlined text-[16px]">delete</span>
+                            </button>
+                        </div>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+        }
+
+        // Live Quota Badges counts
+        const activeCount = users.filter(u => u.status === 'Online').length;
+        document.getElementById('active-licence-count').textContent = activeCount;
+        document.getElementById('remaining-licence-count').textContent = Math.max(0, 5 - activeCount);
+    }
+
+    // Switch active status tab
+    function switchTab(tabType) {
+        currentTab = tabType === 'online' ? 'Online' : tabType === 'offline' ? 'Offline' : 'Deleted';
+        
+        const tabs = ['online', 'offline', 'deleted'];
+        tabs.forEach(t => {
+            const btn = document.getElementById('tab-' + t);
+            if (btn) {
+                if (t === tabType) {
+                    btn.className = "pb-3 text-[#0D9488] border-b-2 border-[#0D9488] transition-all";
+                } else {
+                    btn.className = "pb-3 hover:text-slate-600 transition-all text-slate-400";
+                }
+            }
+        });
+
+        renderUsers();
+    }
+
+    // Handle Form Submit
+    function handleUserSubmit(event) {
+        event.preventDefault();
+        
+        const activeCount = users.filter(u => u.status === 'Online').length;
+        const selectedStatus = document.getElementById('modal-status').value;
+
+        if (selectedStatus === 'Online' && activeCount >= 5) {
+            alert("You have reached your maximum online license count of 5! Please select Offline or click 'Buy more licenses' to expand your limit.");
+            toggleUserModal(false);
+            return;
+        }
+
+        const username = document.getElementById('modal-username').value;
+        const email = document.getElementById('modal-email').value;
+        const countryCode = document.getElementById('modal-country-code').value;
+        const mobileNum = document.getElementById('modal-mobile').value;
+        const fullName = document.getElementById('modal-fullname').value;
+        
+        const nextId = Math.floor(100000 + Math.random() * 900000).toString();
+
+        users.push({
+            userid: nextId,
+            username: username.toLowerCase(),
+            email: email,
+            mobile: countryCode + " " + mobileNum,
+            fullname: fullName,
+            login: "No",
+            created: new Date().toLocaleDateString('en-GB') + " 12:00 PM",
+            verified: "Yes",
+            status: selectedStatus
+        });
+
+        saveUsers();
+        renderUsers();
+        toggleUserModal(false);
+    }
+
+    // Search filtration
+    function filterUsers() {
+        renderUsers();
+    }
+
+    // Delete user
+    function deleteUser(userid) {
+        if (confirm("Are you sure you want to delete this user?")) {
+            const userIdx = users.findIndex(u => u.userid === userid);
+            if (userIdx !== -1) {
+                // Change status to deleted instead of pure removing
+                users[userIdx].status = "Deleted";
+                saveUsers();
+                renderUsers();
+            }
+        }
+    }
+
+    // Edit user row
+    function editUser(userid) {
+        const user = users.find(u => u.userid === userid);
+        if (!user) return;
+        
+        const newName = prompt("Edit Full Name:", user.fullname);
+        if (newName) user.fullname = newName;
+        
+        const newEmail = prompt("Edit Email:", user.email);
+        if (newEmail) user.email = newEmail;
+
+        saveUsers();
+        renderUsers();
+    }
+
+    // Excel Export mock alert
+    function exportToExcel() {
+        alert("Preparing Excel spreadsheet export for all active user profiles... Download started!");
+    }
+
+    // Initial Render
+    renderUsers();
+
+    // Injected Change Password Dropdown Logic
+    function toggleChangePasswordMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('change-password-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'change-password-menu') m.classList.add('hidden');
+        });
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function handleHeaderChangePassword(event) {
+        event.preventDefault();
+        const form = event.target;
+        const oldPass = form.querySelector('.header-old-pass').value;
+        const newPass = form.querySelector('.header-new-pass').value;
+        const confirmPass = form.querySelector('.header-confirm-pass').value;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) {
+            showToast('No active session found.', 'error');
+            return;
+        }
+
+        let users = [];
+        try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+        
+        const userIdx = users.findIndex(u => u.username.toLowerCase() === session.username.toLowerCase());
+        if (userIdx === -1) {
+            showToast('User not found.', 'error');
+            return;
+        }
+
+        if (oldPass !== users[userIdx].password) {
+            showToast('Incorrect old password!', 'error');
+            return;
+        }
+
+        if (newPass.length < 6) {
+            showToast('New password must be at least 6 characters!', 'error');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            showToast('New password and confirm password do not match!', 'error');
+            return;
+        }
+
+        if (newPass === oldPass) {
+            showToast('New password cannot be the same as old password!', 'error');
+            return;
+        }
+
+        users[userIdx].password = newPass;
+        localStorage.setItem('crmUsers', JSON.stringify(users));
+
+        showToast('Password updated successfully!');
+        form.reset();
+        
+        const menu = document.getElementById('change-password-menu');
+        if (menu) menu.classList.add('hidden');
+
+        if (typeof verifySession === 'function') {
+            verifySession();
+        }
+    }
+
+    if (typeof showForgotPasswordModal !== 'function') {
+        window.showForgotPasswordModal = function() {
+            const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+            if (!session) return;
+            let users = [];
+            try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+            const user = users.find(u => u.username.toLowerCase() === session.username.toLowerCase());
+            if (user) {
+                const modal = document.getElementById('forgot-password-modal');
+                if (modal) {
+                    document.getElementById('retrieved-password').textContent = user.password;
+                    document.getElementById('retrieved-email').textContent = user.email || 'your registered email';
+                    modal.classList.remove('hidden');
+                } else {
+                    alert('For sandbox testing, your current password is: ' + user.password);
+                }
+            }
+        };
+    }
+
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    if (typeof showToast !== 'function') {
+        window.showToast = function(message, type = 'success') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed top-4 right-4 z-50 flex flex-col gap-3';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-bold transition-all duration-300 transform translate-x-12 opacity-0';
+            
+            let icon = 'check_circle';
+            if (type === 'success') {
+                toast.className += ' bg-emerald-50 border-emerald-250 text-emerald-700';
+            } else if (type === 'error') {
+                toast.className += ' bg-red-50 border-red-250 text-red-750';
+                icon = 'error';
+            } else {
+                toast.className += ' bg-transparent border-slate-250 text-slate-700';
+                icon = 'info';
+            }
+
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px]">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+    }
+
+    document.addEventListener('click', () => {
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+    });
+
+
+    // Injected Login Activity Dropdown Logic
+    function toggleLoginActivityMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('login-activity-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'login-activity-menu') m.classList.add('hidden');
+        });
+        if (menu) {
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                renderHeaderLoginLogs();
+            }
+        }
+    }
+
+    function renderHeaderLoginLogs() {
+        const tbodies = document.querySelectorAll('.header-login-activity-tbody');
+        if (tbodies.length === 0) return;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) return;
+
+        let logs = [];
+        try {
+            logs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]');
+        } catch(e) {}
+
+        logs = logs.filter(a => a.username.toLowerCase() === session.username.toLowerCase());
+
+        if (logs.length === 0) {
+            logs = seedMockLoginLogsHeader(session.username);
+        }
+
+        const recent = logs.slice().reverse().slice(0, 5);
+
+        tbodies.forEach(tbody => {
+            tbody.innerHTML = '';
+            recent.forEach((log, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-transparent/50 transition-colors';
+                
+                const loginStr = formatHeaderDateTime(new Date(log.loginAt));
+                const logoutStr = log.logoutAt ? formatHeaderDateTime(new Date(log.logoutAt)) : '<span class="text-emerald-600 font-bold">Active</span>';
+                const durationStr = log.logoutAt ? log.duration : '--';
+                const serialNo = logs.length - index;
+
+                tr.innerHTML = `
+                    <td class="py-1.5 px-2 font-semibold text-slate-500">${serialNo}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-700">${loginStr}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-750">${logoutStr}</td>
+                    <td class="py-1.5 px-2 font-bold text-slate-650">${durationStr}</td>
+                    <td class="py-1.5 px-2 font-mono text-slate-500">${log.ip}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (recent.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400 text-xs">No records.</td></tr>';
+            }
+        });
+    }
+
+    function formatHeaderDateTime(date) {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${dd}-${mm} ${hh}:${min}`;
+    }
+
+    function seedMockLoginLogsHeader(username) {
+        const logs = [];
+        const ips = ['192.168.1.102', '192.168.1.15', '172.16.4.52', '10.0.0.15', '192.168.1.200', '198.51.100.24', '203.0.113.88'];
+        const now = Date.now();
+
+        for (let i = 15; i >= 1; i--) {
+            const loginOffset = i * 8 * 60 * 60 * 1000;
+            const loginTime = now - loginOffset;
+            const durationMin = Math.floor(Math.random() * 120) + 15;
+            const logoutTime = i === 1 ? null : loginTime + (durationMin * 60 * 1000);
+            
+            let durationStr = '--';
+            if (logoutTime) {
+                const hours = Math.floor(durationMin / 60);
+                const mins = durationMin % 60;
+                durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            }
+
+            logs.push({
+                username: username,
+                serial: 16 - i,
+                loginAt: loginTime,
+                logoutAt: logoutTime,
+                duration: durationStr,
+                ip: ips[Math.floor(Math.random() * ips.length)]
+            });
+        }
+
+        let allLogs = [];
+        try { allLogs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]'); } catch(e) {}
+        allLogs = allLogs.filter(a => a.username.toLowerCase() !== username.toLowerCase());
+        allLogs = [...allLogs, ...logs];
+        localStorage.setItem('crmLoginActivities', JSON.stringify(allLogs));
+
+        return logs;
+    }
+
+    window.toggleAdminMenu = function(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    };
+
+    document.addEventListener('click', () => {
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+    });
+
+</script>
+
+
+
+
+</body>
+
+
+
+
+</body>
+</html>

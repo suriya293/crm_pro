@@ -1,0 +1,51 @@
+
+Installing crm_pro...
+An error occurred while installing crm_pro: ('Module Def', 'CRM Pro', IntegrityError(1062, "Duplicate entry 'CRM Pro' for key 'PRIMARY'"))
+Traceback with variables (most recent call last):
+  File "apps/frappe/frappe/commands/site.py", line 494, in install_app
+    _install_app(app, verbose=context.verbose, force=force)
+      context = {'sites': ['crm.local'], 'force': False, 'verbose': False, 'profile': False}
+      apps = ('crm_pro',)
+      force = False
+      _install_app = <function install_app at 0x7fcc9b5cf600>
+      filelock = <function filelock at 0x7fcc9b58bec0>
+      exit_code = 0
+      site = 'crm.local'
+      app = 'crm_pro'
+      err = DuplicateEntryError('Module Def', 'CRM Pro', IntegrityError(1062, "Duplicate entry 'CRM Pro' for key 'PRIMARY'"))
+  File "apps/frappe/frappe/installer.py", line 316, in install_app
+    add_module_defs(name, ignore_if_duplicate=force)
+      name = 'crm_pro'
+      verbose = False
+      set_as_patched = True
+      force = False
+      sync_jobs = <function sync_jobs at 0x7fcc9a5adbc0>
+      sync_for = <function sync_for at 0x7fcc9a5aea20>
+      sync_customizations = <function sync_customizations at 0x7fcc9b8c3d80>
+      sync_fixtures = <function sync_fixtures at 0x7fcc9a5aed40>
+      app_hooks = {'after_install': ['crm_pro.install.after_install'], 'app_description': ['CRM Pro production-ready backend app for LeadsCRM using Frappe and PostgreSQL'], 'app_email': ['admin@crm.local'], 'app_license': ['mit'], 'app_name': ['crm_pro'], 'app_publisher': ['Administrator'], 'app_title': ['CRM Pro'], 'doc_events': {'CRM Lead': {'on_update': ['crm_pro.api.lead_on_update'], 'after_insert': ['crm_pro.api.lead_after_insert'], 'on_trash': ['crm_pro.api.lead_on_trash']}, 'CRM Deal': {'on_update': ['crm_pro.api.deal_on_update'], 'after_insert': ['crm_pro.api.deal_after_insert']}}, 'scheduler_events': {'all': ['crm_pro.jobs.process_pending_reminders'], 'daily': ['crm_pro.jobs.daily_backup_and_cleanup', 'crm_pro.jobs.recalculate_dashboard_metrics'], 'hourly': ['crm_pro.jobs.calculate_hourly_analytics']}}
+      installed_apps = ['frappe', 'precision_crm']
+  File "apps/frappe/frappe/installer.py", line 692, in add_module_defs
+    d.insert(ignore_permissions=True, ignore_if_duplicate=ignore_if_duplicate)
+      app = 'crm_pro'
+      ignore_if_duplicate = False
+      modules = ['CRM Pro']
+      module = 'CRM Pro'
+      d = <ModuleDef: CRM Pro>
+  File "apps/frappe/frappe/model/document.py", line 320, in insert
+    self.db_insert(ignore_if_duplicate=ignore_if_duplicate)
+      self = <ModuleDef: CRM Pro>
+      ignore_permissions = True
+      ignore_links = None
+      ignore_if_duplicate = False
+      ignore_mandatory = None
+      set_name = None
+      set_child_names = True
+  File "apps/frappe/frappe/model/base_document.py", line 606, in db_insert
+    raise frappe.DuplicateEntryError(self.doctype, self.name, e)
+      self = <ModuleDef: CRM Pro>
+      ignore_if_duplicate = False
+      conflict_handler = ''
+      d = {'name': 'CRM Pro', 'creation': '2026-06-06 16:31:57.877204', 'modified': '2026-06-06 16:31:57.877204', 'modified_by': 'Administrator', 'owner': 'Administrator', 'docstatus': 0, 'idx': 0, 'module_name': 'CRM Pro', 'custom': 0, 'package': None, 'app_name': 'crm_pro', 'restrict_to_domain': None, '_user_tags': None, '_comments': None, '_assign': None, '_liked_by': None}
+      columns = ['name', 'creation', 'modified', 'modified_by', 'owner', 'docstatus', 'idx', 'module_name', 'custom', 'package', 'app_name', 'restrict_to_domain', '_user_tags', '_comments', '_assign', '_liked_by']
+frappe.exceptions.DuplicateEntryError: ('Module Def', 'CRM Pro', IntegrityError(1062, "Duplicate entry 'CRM Pro' for key 'PRIMARY'"))

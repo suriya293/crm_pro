@@ -1,0 +1,9 @@
+{
+  "name": "precision-crm",
+  "version": "1.0.0",
+  "description": "Precision CRM lead management system served locally.",
+  "scripts": {
+    "dev": "npx live-server --port=8081 --no-browser",
+    "start": "npx live-server --port=8081"
+  }
+}

@@ -1,0 +1,66 @@
+Created At: 2026-05-23T11:52:29Z
+Completed At: 2026-05-23T11:52:29Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 33388
+Showing lines 1 to 200
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: Created At: 2026-05-23T11:17:21Z
+2: Completed At: 2026-05-23T11:17:21Z
+3: File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+4: Total Lines: 2305
+5: Total Bytes: 138224
+6: Showing lines 1 to 800
+7: The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+8: 1: <!DOCTYPE html>
+9: 2: 
+10: 3: <html class="light" lang="en"><head>
+11: 4: <meta charset="utf-8"/>
+12: 5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+13: 6: <title>LEADS - CRM Pipeline</title>
+14: 7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+15: 8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+16: 9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+17: 10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+18: 11:     <style>
+19: 12:         /* KANBAN LAYOUT - Visible Scrollbars */
+20: 13: 
+21: 14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+22: 15:         #kanban-view {
+23: 16:             flex: 1 1 0;
+24: 17:             min-height: 0;
+25: 18:             display: flex;
+26: 19:             fle
+<truncated 5819 bytes>
+0: 
+171: 
+172: 
+173: 
+174:                 <span class="material-symbols-outlined text-[20px] font-bold">arrow_back</span>
+175:             </a>
+176:             <h2 class="text-sm font-black text-slate-800 tracking-wide">LEADS</h2>
+177:         </div>
+178:                 <div class="flex items-center gap-2">
+179:             <!-- Fullscreen Button -->
+180:             <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-350" title="Toggle Fullscreen">
+181:                 <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+182:             </button>
+183:             
+184:             <div class="text-[11px] font-bold text-slate-400">
+185:                 CRM &nbsp;&gt;&nbsp; <span class="text-slate-600 dark:text-slate-350">Leads / List View</span>
+186:             </div>
+187:         </div>
+188:     </header>
+189: 
+190:     <!-- Toolbar -->
+191:     <section class="flex items-center justify-between gap-3 px-container-padding py-2.5 bg-surface border-b border-outline-variant shrink-0 flex-wrap">
+192:         <!-- Left: Controls -->
+193:         <div class="flex items-center gap-2 flex-wrap">
+194: 
+195:             <!-- View Toggle (back to Grid) -->
+196:             <div class="relative">
+197:                 <button onclick="toggleDropdown(event, 'view-dropdown')" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none shadow-md rounded-full text-xs font-bold hover:from-[#1d4ed8] hover:to-[#1d4ed8] transition-all shadow-sm">
+198:                     <span>List View</span>
+199:                     <span class="material-symbols-outlined text-[14px]">expand_more</span>
+200:                 </button>
+The above content does NOT show the entire file contents. If you need to view any lines of the file which were not shown to complete your task, call this tool again to view those lines.

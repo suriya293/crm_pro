@@ -1,0 +1,73 @@
+1800: 
+1801: function addCustomFieldRow(fieldName = '', fieldValue = '') {
+1802:     const container = document.getElementById('custom-fields-rows');
+1803:     if (!container) return;
+1804:     const row = document.createElement('div');
+1805:     row.className = "grid grid-cols-2 gap-2 border-b border-slate-100 p-2 px-3 items-center last:border-b-0 bg-white dark:bg-[#1e293b] dark:border-[#334155]";
+1806:     row.innerHTML = `
+1807:         <input type="text" placeholder="Field Name" value="${fieldName.replace(/"/g, '&quot;')}" class="custom-field-name px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none text-slate-800 dark:bg-[#0f172a] dark:border-[#334155] dark:text-[#f8fafc] font-normal">
+1808:         <div class="flex gap-2 items-center">
+1809:             <input type="text" placeholder="Field Value" value="${fieldValue.replace(/"/g, '&quot;')}" class="custom-field-value px-3 py-1.5 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none text-slate-800 dark:bg-[#0f172a] dark:border-[#334155] dark:text-[#f8fafc] flex-1 font-normal">
+1810:             <button type="button" onclick="this.closest('.grid').remove()" class="text-slate-400 hover:text-red-500 p-0.5 rounded transition-colors flex items-center justify-center">
+1811:                 <span class="material-symbols-outlined text-[16px]">delete</span>
+1812:             </button>
+1813:         </div>
+1814:     `;
+1815:     container.appendChild(row);
+1816: }
+1817: 
+1818: function openAddLeadModal() {
+1819:     document.getElementById('modal-title').textContent = 'Add 
+2253: }
+2254: 
+2255: function toggleDarkMode() {
+2256:     const isDark = document.documentElement.classList.toggle('dark');
+2257:     localStorage.setItem('theme', isDark ? 'dark' : 'light');
+2258: }
+2259: 
+2260: function initDarkMode() {
+2261:     const savedTheme = localStorage.getItem('theme');
+2262:     if (savedTheme === 'dark' || (!savedTheme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+2263:         document.documentElement.classList.add('dark');
+2264:     } else {
+2265:         document.documentElement.classList.remove('dark');
+2266:     }
+2267: }
+2268: 
+2269: function toggleNotificationsMenu(event) {
+2270:     toggleDropdown(event, 'noti-menu');
+2271: }
+2272: 
+2273: function clearNotifications(event) {
+2274:     event.stopPropagation();
+2275:     const list = document.getElementById('noti-list');
+2276:     if (list) {
+2277:         list.innerHTML = `
+2278:             <div class="px-4 py-6 text-center text-slate-400 flex flex-col items-center gap-2">
+2279:                 <span class="material-symbols-outlined text-[32px] text-slate-300">notifications_off</span>
+2280:                 <span>No new notifications</span>
+2281:             </div>`;
+2282:     }
+2283:     const badge = document.getElementById('noti-badge');
+2284:     if (badge) {
+2285:         badge.classList.add('hidden');
+2286:     }
+2287: }
+2288: 
+2289: function toggleAdminMenu(event) {
+2290:     toggleDropdown(event, 'admin-menu');
+2291: }
+2292: 
+2293: // statusFilter is already declared at the top of the script block
+2294: 
+2295: document.addEventListener('DOMContentLoaded', () => {
+2296:     initDarkMode();
+2297:     initClock();
+2298:     loadLeadsData();
+2299:     populateFilterDropdowns();
+2300:     renderLeads();
+2301: });
+2302: </script>
+2303: </body></html>
+2304: 
+2305: 

@@ -1,0 +1,21 @@
+{
+  "doctype": "API Log",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "API-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "endpoint", "fieldtype": "Data", "label": "Endpoint", "reqd": 1},
+    {"fieldname": "method", "fieldtype": "Data", "label": "Method", "reqd": 1},
+    {"fieldname": "ip_address", "fieldtype": "Data", "label": "IP Address"},
+    {"fieldname": "user", "fieldtype": "Link", "label": "User", "options": "User"},
+    {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "Success\nFailed", "default": "Success"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"}
+  ],
+  "indexes": [{"fields": ["endpoint"]}, {"fields": ["user"]}]
+}

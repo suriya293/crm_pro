@@ -1,0 +1,89 @@
+1500: 
+1501: function toggleDropdown(event, id) {
+1502:     event.stopPropagation();
+1503:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+1504:         if (menu.id !== id) {
+1505:             menu.classList.add('hidden');
+1506:         }
+1507:     });
+1508:     const dropdown = document.getElementById(id);
+1509:     dropdown.classList.toggle('hidden');
+1510: }
+1511: 
+1512: document.addEventListener('click', () => {
+1513:     document.querySelectorAll('.dropdown-menu').forEach(menu => {
+1514:         menu.classList.add('hidden');
+1515:     });
+1516: });
+1517: 
+1518: 
+1519: 
+1520: const hiddenColumns = new Set();
+1521: let searchQuery = '';
+1522: 
+1523: function toggleTableColumn(checkbox) {
+1524:     const colClass = checkbox.value;
+1525:     if (checkbox.checked) {
+1526:         hiddenColumns.delete(colClass);
+1527:     } else {
+1528:         hiddenColumns.add(colClass);
+1529:     }
+1530:     applyColumnVisibility();
+1531:     updateCustomizeLabel();
+1532: }
+1533: 
+1534: function applyColumnVisibility() {
+1535:     document.querySelectorAll('#table-view th').forEach(th => {
+1536:         const matchingClass = Array.from(th.classList).find(c => c.startsWith('col-'));
+1537:         if (matchingClass) {
+1538:             th.classList.toggle('hidden', hiddenColumns.has(matchingClass));
+1539:         }
+1540:     });
+1541:     document.querySelectorAll('#table-view td').forEach(td => {
+1542:         const matchingClass = Array.from(td.classList).find(c => c.startsWith('col-'));
+1543:         if (matchingClass) {
+1544: 
+1757:             } else if (i < stepIndex) {
+1758:                 btn.className = "py-2 px-3 rounded-lg text-xs font-bold transition-all text-center bg-slate-100 text-slate-700 hover:bg-[#DDE2EE]/50";
+1759:             } else {
+1760:                 btn.className = "py-2 px-3 rounded-lg text-xs font-semibold transition-all text-center bg-white border border-slate-100 text-slate-400";
+1761:             }
+1762:         }
+1763:     }
+1764: 
+1765:     // Update footer buttons
+1766:     const backBtn = document.getElementById('wizard-back-btn');
+1767:     const cancelBtn = document.getElementById('wizard-cancel-btn');
+1768:     const nextBtn = document.getElementById('wizard-next-btn');
+1769:     const saveBtn = document.getElementById('wizard-save-btn');
+1770: 
+1771:     if (stepIndex === 1) {
+1772:         backBtn.classList.add('hidden');
+1773:         cancelBtn.classList.remove('hidden');
+1774:         nextBtn.classList.remove('hidden');
+1775:         saveBtn.classList.add('hidden');
+1776:     } else if (stepIndex === 2) {
+1777:         backBtn.classList.remove('hidden');
+1778:         cancelBtn.classList.add('hidden');
+1779:         nextBtn.classList.remove('hidden');
+1780:         saveBtn.classList.add('hidden');
+1781:     } else if (stepIndex === 3) {
+1782:         backBtn.classList.remove('hidden');
+1783:         cancelBtn.classList.add('hidden');
+1784:         nextBtn.classList.add('hidden');
+1785:         saveBtn.classList.remove('hidden');
+1786:     }
+1787: }
+1788: 
+1789: function nextWizardStep() {
+1790:     if (currentWizardStep < 3) {
+1791:         setWizardTab(currentWizardStep + 1);
+1792:     }
+1793: }
+1794: 
+1795: function prevWizardStep() {
+1796:     if (currentWizardStep > 1) {
+1797:         setWizardTab(currentWizardStep - 1);
+1798:     }
+1799: }
+1800: 

@@ -1,0 +1,73 @@
+Created At: 2026-05-23T11:18:15Z
+Completed At: 2026-05-23T11:18:15Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/listview.html`
+Total Lines: 760
+Total Bytes: 53723
+Showing lines 1 to 760
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+1: <!DOCTYPE html>
+2: <html class="light" lang="en">
+3: <head>
+4: <meta charset="utf-8"/>
+5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+6: <title>Leads - List View</title>
+7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&display=swap" rel="stylesheet"/>
+9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+10: <script id="tailwind-config">
+11:     tailwind.config = {
+12:         darkMode: "class",
+13:         theme: {
+14:             extend: {
+15:                 "colors": {
+16:                     "on-primary": "#ffffff",
+17:                     "surface-dim": "#bfdbfe",
+18:                     "on-error-container": "#93000a",
+19:                     "surface-container-lowest": "#ffffff",
+20:                     "surface-container": "#dbeafe",
+21:                     "on-secondary-container": "#1e40af",
+22:                     "outline-variant": "#cbd5e1",
+23:                     "surface-bright": "#f8faff",
+24:                     "outline": "#94a3b8",
+25:                     "surface-container-high": "#bfdbfe",
+26:                     "primary-container": "#1e3a8a",
+27:                     "background": "#F3F4F6",
+28:                     "on-surface-variant": "#475569",
+29:                     "error": "#ba1a1a",
+30:                     "primary": "#2563eb",
+31:                     "surface-variant": "#dbeafe",
+32:                     "on-
+<truncated 45282 bytes>
+
+573:             <td class="py-3.5 px-6 col-status">
+574:                 <span class="px-2.5 py-0.5 bg-purple-50 text-[#2563EB] text-[10px] font-bold rounded-full uppercase border border-purple-100">${lead.stage}</span>
+575:             </td>
+576:             <td class="py-3.5 px-6 text-right">
+577:                 <div class="flex justify-end gap-2">
+578:                     <button onclick="openEditLeadModal('${lead.name.replace(/'/g, "\\'")}')" class="text-[#2563EB] hover:text-[#1d4ed8] transition-colors">
+579:                         <span class="material-symbols-outlined text-[18px]">edit</span>
+580:                     </button>
+581:                     <button onclick="deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors">
+582:                         <span class="material-symbols-outlined text-[18px]">delete</span>
+583:                     </button>
+584:                 </div>
+585:             </td>
+586:         `;
+587:         tbody.appendChild(tr);
+588:     });
+589: 
+590:     applyColumnVisibility();
+591: }
+592: 
+593: // ─── Controls ─────────────────────────────────────────────────────────────────
+594: function setStatusFilter(s) { statusFilter = s; renderLeads(); }
+595: function setSortField(f) { sortBy = f; renderLeads(); }
+596: function setSortOrder(o) { sortOrder = o; renderLeads(); }
+597: function setPageLimit(l) { pageLimit = l; renderLeads(); }
+598: function handleSearch(q) { searchQuery = q.toLowerCase().trim(); renderLeads(); }
+599: 
+600: // ─── Column Visibility ────────────────────────────────────────────────────────
+601: function 
+<truncated 8723 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

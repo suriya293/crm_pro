@@ -1,0 +1,26 @@
+{
+  "doctype": "Campaign",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "CAMP-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "campaign_name", "fieldtype": "Data", "label": "Campaign Name", "reqd": 1},
+    {"fieldname": "start_date", "fieldtype": "Date", "label": "Start Date", "reqd": 1},
+    {"fieldname": "end_date", "fieldtype": "Date", "label": "End Date"},
+    {"fieldname": "budget", "fieldtype": "Currency", "label": "Budget"},
+    {"fieldname": "target_audience", "fieldtype": "Data", "label": "Target Audience"},
+    {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "Draft\nActive\nCompleted\nCancelled", "default": "Draft"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"},
+    {"fieldname": "company", "fieldtype": "Link", "label": "Company", "options": "Company"},
+    {"fieldname": "territory", "fieldtype": "Link", "label": "Territory", "options": "Territory"},
+    {"fieldname": "team", "fieldtype": "Link", "label": "Team", "options": "Team"}
+  ],
+  "indexes": [{"fields": ["status"]}],
+  "workflow": "Campaign Workflow"
+}

@@ -1,0 +1,204 @@
+1: <!DOCTYPE html>
+2: 
+3: <html class="light" lang="en"><head>
+4: <meta charset="utf-8"/>
+5: <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+6: <title>LEADS - CRM Pipeline</title>
+7: <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+8: <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+9: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+10: <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+11:     <style>
+12:         /* KANBAN LAYOUT - Visible Scrollbars */
+13: 
+14:         /* The outer scroll rail - fills remaining height, scrolls horizontally */
+15:         #kanban-view {
+16:             flex: 1 1 0;
+17:             min-height: 0;
+18:             display: flex;
+19:             flex-direction: column;
+20:             overflow-x: auto;
+21:             overflow-y: hidden;
+22:             scrollbar-width: auto;
+23:             scrollbar-color: #4A85F6 #dde4ef;
+24:         }
+25:         #kanban-view::-webkit-scrollbar      { height: 10px; }
+26:         #kanban-view::-webkit-scrollbar-track { background: #dde4ef; border-radius: 5px; }
+27:         #kanban-view::-webkit-scrollbar-thumb { background: #4A85F6; border-radius: 5px; min-width: 40px; }
+28:         #kanban-view::-webkit-scrollbar-thumb:hover { background: #2563EB; }
+29: 
+30:         /* Inner r
+31: sorted_keys = sorted(lines_dict.keys())
+32: print(f"Reconstructed {len(sorted_keys)} lines.")
+33: 
+34: if len(sorted_keys) > 0:
+35:     min_k, max_k = sorted_keys[0], sorted_keys[-1]
+36:     print(f"Range: {min_k} to {max_k}")
+37:     
+38:     reconstructed_content = []
+39:     for k in range(1, max_k + 1):
+40:         if k in lines_dict:
+41:             reconstructed_content.append(lines_dict[k])
+42:         else:
+43:             print(f"Missing line {k}!")
+44:             reconstructed_content.append("")
+45:             
+46:     # Write output to code.html
+47:     # Note: Use CRLF line endings as it is a Windows environment
+48:     with open(r"c:\Users\YUVEHA\OneDrive\Documents\Leads\code.html", 'w', encoding='utf-8', newline='\r\n') as out_f:
+49:         out_f.write("\n".join(reconstructed_content))
+50:     print("code.html successfully reconstructed!")
+51: else:
+52:     print("No lines found to reconstruct.")
+53: 
+54: 
+55: 
+56: 
+57: 
+58: 
+59: 
+60: 
+61: 
+62: 
+63: 
+64: 
+65: 
+66: 
+67: 
+68: 
+69: 
+70: 
+71: 
+72: 
+73: 
+74: 
+75: 
+76: 
+77: 
+78: 
+79: 
+80: 
+81: 
+82: 
+83: 
+84: 
+85: 
+86: 
+87: 
+88: 
+89: 
+90: 
+91: 
+92: 
+93: 
+94: 
+95: 
+96: 
+97: 
+98: 
+99: 
+100:         main::-webkit-scrollbar-thumb {
+101:             background-color: #64748b;
+102:             border-radius: 4px;
+103:         }
+104:         main::-webkit-scrollbar-thumb:hover {
+105:             background-color: #475569;
+106:         }
+107:     </style>
+108: </head>
+109: <body class="bg-background text-on-surface font-sans overflow-hidden flex h-screen">
+110: 
+111: <!-- Sidebar Navigation -->
+112: <aside class="hidden md:flex flex-col h-screen py-inner-padding bg-gradient-to-b from-primary to-tertiary w-64 border-none shadow-2xl shrink-0">
+113:     <div class="px-container-padding mb-8">
+114:         <h1 class="text-[18px] font-black text-white leading-tight">LEADS</h1>
+115:         <p class="text-[12px] font-semibold tracking-wider text-white/80">CRM ADMIN</p>
+116:     </div>
+117:     <nav class="flex-1 px-4 space-y-1">
+118:         <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/20 hover:text-white transition-all rounded-xl" href="code.html">
+119:             <span class="material-symbols-outlined mr-3 text-[20px]">filter_list</span>
+120:             <span class="text-[12px] font-semibold tracking-wider">Leads</span>
+121:         </a>
+122:         <a class="flex items-center px-4 py-3 bg-white/20 text-white backdrop-blur-md shadow-lg border border-white/20 rounded-xl font-bold translate-x-1 duration-200" href="settings.html">
+123:             <span class="material-symbols-outlined mr-3 text-[20px]">settings</span>
+124:             <span class="text-[12px] font-semibold tracking-wider">Settings</span>
+125:         </a>
+126:     </nav>
+127:         <div class="mt-auto px-4 space-y-3 border-t border-white/20 pt-5 pb-2">
+128:         <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white text-white hover:text-[#2563EB] rounded-2xl shadow-lg border border-white/30 hover:border-white hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/20 transition-all duration-300 group backdrop-blur-md" href="#">
+129:             <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">help</span>
+130:             <span class="text-[13px] font-bold tracking-wider">Help</span>
+131:         </a>
+132:         <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white text-white hover:text-[#2563EB] rounded-2xl shadow-lg border border-white/30 hover:border-white hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/20 transition-all duration-300 group backdrop-blur-md" href="signin.html">
+133:             <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">logout</span>
+134:             <span class="text-[13px] font-bold tracking-wider">Logout</span>
+135:         </a>
+136:     </div>
+137: </aside>
+138: 
+139: <!-- Main Content Canvas -->
+140: <main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+141: 
+146: <!-- Sidebar Navigation -->
+147: <aside class="hidden md:flex flex-col h-screen py-inner-padding bg-gradient-to-b from-primary to-tertiary w-64 border-none shadow-2xl shrink-0">
+148:     <div class="px-container-padding mb-8">
+149:         <h1 class="text-[18px] font-black text-white leading-tight">LEADS</h1>
+150:         <p class="text-[12px] font-semibold tracking-wider text-white/80">CRM ADMIN</p>
+151:     </div>
+152:     <nav class="flex-1 px-4 space-y-1">
+153:         <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/20 hover:text-white transition-all rounded-xl" href="code.html">
+154:             <span class="material-symbols-outlined mr-3 text-[20px]">filter_list</span>
+155:             <span class="text-[12px] font-semibold tracking-wider">Leads</span>
+156:         </a>
+157:         <a class="flex items-center px-4 py-3 bg-white/20 text-white backdrop-blur-md shadow-lg border border-white/20 rounded-xl font-bold shadow-md shadow-blue-500/30 translate-x-1 duration-200" href="settings.html">
+158:             <span class="material-symbols-outlined mr-3 text-[20px] text-white">settings</span>
+159:             <span class="text-[12px] font-semibold tracking-wider text-white">Settings</span>
+160:         </a>
+161:     </nav>
+162:         <div class="mt-auto px-4 space-y-3 border-t border-white/20 pt-5 pb-2">
+163:         <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white text-white hover:text-[#2563EB] rounded-2xl shadow-lg border border-white/30 hover:border-white hover:-translate-y-1 hover:shadow-2xl hover:shadow-black/20 transition-al
+174:                 <span class="material-symbols-outlined text-[20px] font-bold">arrow_back</span>
+175:             </a>
+176:             <h2 class="text-sm font-black text-slate-800 tracking-wide">LEADS</h2>
+177:         </div>
+178:                 <div class="flex items-center gap-2">
+179:             <!-- Fullscreen Button -->
+180:             <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-700 transition-colors flex items-center justify-center text-slate-600 dark:text-slate-350" title="Toggle Fullscreen">
+181:                 <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+182:             </button>
+183:             
+184:             <div class="text-[11px] font-bold text-slate-400">
+185:                 CRM &nbsp;&gt;&nbsp; <span class="text-slate-600 dark:text-slate-350">Leads / List View</span>
+186:             </div>
+187:         </div>
+188:     </header>
+189: 
+190:     <!-- Toolbar -->
+191:     <section class="flex items-center justify-between gap-3 px-container-padding py-2.5 bg-surface border-b border-outline-variant shrink-0 flex-wrap">
+192:         <!-- Left: Controls -->
+193:         <div class="flex items-center gap-2 flex-wrap">
+194: 
+195:             <!-- View Toggle (back to Grid) -->
+196:             <div class="relative">
+197:                 <button onclick="toggleDropdown(event, 'view-dropdown')" class="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none shadow-md rounded-full text-xs font-bold hover:from-[#1d4ed8] hover:to-[#1d4ed8] transition-all shadow-sm">
+198:                     <span>List View</span>
+199:                     <span class="material-symbols-outlined text-[14px]">expand_more</span>
+200:                 </button>
+203:                 <p class="text-sm text-slate-500">Click any card below to open its dedicated settings dashboard page.</p>
+204:             </div>
+205: 
+206:             <!-- PREMIUM HORIZONTAL CARDS (Clickable launch portal) -->
+207:             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+208:                 
+209:                 <!-- Card 1: User -->
+210:                 <div onclick="window.location.href = 'user.html'" id="card-user" class="settings-card bg-gradient-to-r from-primary to-tertiary text-white border-none rounded-2xl p-6 flex items-center justify-between h-[110px] shadow-lg shadow-[#93c5fd]/20 hover:-translate-y-2 hover:shadow-xl hover:shadow-[#1d4ed8]/40 hover:scale-105 transition-transform duration-300 transition-all duration-300 cursor-pointer border border-blue-400/30 relative overflow-hidden group">
+211:                     <div class="absolute top-0 right-0 w-32 h-32 bg-white/5 rounded-full blur-2xl -mr-10 -mt-10 group-hover:bg-white/10 transition-all"></div>
+212:                     <div class="relative z-10">
+213:                         <h4 class="text-[18px] font-black text-white tracking-tight">User Profile</h4>
+214:                         <p class="text-xs text-white/90 font-medium mt-1">Configure your personal settings & credentials</p>
+215:                     </div>
+216:                     <div class="relative z-10 w-12 h-12 rounded-full bg-white shadow-[0_8px_20px_rgba(0,0,0,0.15)] flex items-center justify-center text-[#2563EB] shrink-0 ml-4 border-2 border-white group-hover:scale-125 group-hover:-translate-y-2 group-hover:shadow-[0_15px_30px_rgba(0,0,0,0.25)] transition-all duration-500 ease-out">
+217:                         <span class="material-symbols-outlined material-symbols-filled text-[24px]">person</span>
+218:                     </div>
+219:                 </div>
+220: 

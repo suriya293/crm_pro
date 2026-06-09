@@ -1,0 +1,1 @@
+I will write a python script `scratch/find_original_css.py` to scan the transcript logs for the very first time `code.html` was viewed. This will retrieve the complete, uncorrupted CSS block and layout structure of the Kanban board page.

@@ -1,0 +1,9 @@
+Metadata-Version: 2.4
+Name: precision_crm
+Version: 0.0.1
+Summary: Enterprise-grade CRM built on Frappe Framework
+Author: Administrator
+Author-email: Administrator <admin@example.com>
+Requires-Python: >=3.10
+Requires-Dist: frappe
+Dynamic: author

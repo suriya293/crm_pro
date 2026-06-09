@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LEADS - Sign In</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Outfit', sans-serif !important;
+        }
+        body, .font-body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        button, a, select, input[type="checkbox"], input[type="radio"], .cursor-pointer {
+            cursor: pointer;
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .animate-fade-in-up {
+            animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        .glass-panel {
+            background: rgba(255, 255, 255, 0.65);
+            backdrop-filter: blur(24px);
+            -webkit-backdrop-filter: blur(24px);
+            border: 1px solid rgba(255, 255, 255, 0.6);
+            box-shadow: 
+                0 4px 30px rgba(0, 0, 0, 0.03),
+                0 24px 60px -15px rgba(24, 53, 80, 0.12),
+                0 12px 30px -10px rgba(217, 119, 6, 0.05);
+            transform-style: preserve-3d;
+            transition: box-shadow 0.3s ease, border-color 0.3s ease;
+        }
+        .shine-overlay {
+            mix-blend-mode: overlay;
+        }
+        /* Custom Shimmer sweep on main button */
+        .btn-shimmer {
+            position: relative;
+            overflow: hidden;
+        }
+        .btn-shimmer::after {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                rgba(255, 255, 255, 0) 0%,
+                rgba(255, 255, 255, 0) 40%,
+                rgba(255, 255, 255, 0.3) 50%,
+                rgba(255, 255, 255, 0) 60%,
+                rgba(255, 255, 255, 0) 100%
+            );
+            transform: rotate(30deg);
+            transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .btn-shimmer:hover::after {
+            transform: rotate(30deg) translate(20%, 20%);
+        }
+        .group .material-symbols-outlined {
+            color: #000000 !important;
+        }
+        .group:focus-within .material-symbols-outlined {
+            color: #0D9488 !important;
+            font-variation-settings: 'FILL' 1;
+            transform: translateY(-50%) scale(1.15) !important;
+        }
+        .material-symbols-outlined {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#0D9488',
+                        secondary: '#D97706',
+                        background: '#F0FDFA',
+                        surface: '#ffffff'
+                    }
+                }
+            }
+        }
+    </script>
+
+    <script>
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+</head>
+<body class="text-slate-800 font-sans flex items-center justify-center min-h-screen p-4 lg:p-8 overflow-hidden relative">
+    
+    <!-- Vanta.js Clouds 3D WebGL background -->
+    <div id="vanta-bg" class="fixed inset-0 -z-30 w-full h-full pointer-events-none"></div>
+
+    <!-- Main Container -->
+    <div id="auth-card" class="w-full max-w-[900px] h-auto lg:h-[70vh] min-h-[500px] bg-white rounded-[2rem] shadow-2xl flex flex-col lg:flex-row overflow-hidden relative">
+        
+        <!-- Left Panel (Dark Teal) -->
+        <div class="w-full lg:w-[45%] bg-[#0D9488] p-8 lg:p-10 flex flex-col justify-between text-white">
+            <div>
+                <div class="flex items-center gap-3 mb-16">
+                    <div class="w-10 h-10 rounded-xl bg-white/20 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-[24px] text-white">shield_person</span>
+                    </div>
+                    <span class="text-[22px] font-black tracking-tight font-headline">LEADS</span>
+                </div>
+                
+                <h1 class="text-[46px] leading-[1.1] font-black tracking-tight font-headline mb-4">
+                    New here?<br>Join the Future.
+                </h1>
+            </div>
+            
+            <div class="mt-12 lg:mt-0">
+                <a href="signup.html" class="inline-block px-8 py-3.5 border-2 border-white/80 hover:border-white hover:bg-white/10 rounded-full font-bold text-[13px] tracking-wide transition-all uppercase">
+                    Sign Up Now
+                </a>
+                <p class="text-teal-200/50 text-[11px] font-bold tracking-widest uppercase mt-12">
+                    © 2026 LEADS SYSTEMS
+                </p>
+            </div>
+        </div>
+
+        <!-- Right Panel (White) -->
+        <div class="w-full lg:w-[55%] p-8 lg:p-12 flex flex-col justify-center bg-white">
+            <div class="max-w-[380px] w-full mx-auto">
+                <div class="mb-10">
+                    <h2 class="text-[36px] font-black text-slate-900 font-headline mb-2">Sign In</h2>
+                    <p class="text-slate-500 font-medium">Welcome back to your portal.</p>
+                </div>
+                
+                <form id="login-form" autocomplete="off" class="space-y-6">
+                    <!-- Username Input -->
+                    <div class="space-y-2">
+                        <label class="block text-slate-400 font-bold text-[11px] tracking-widest uppercase">Username</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] transition-colors group-focus-within:text-[#0D9488]">person</span>
+                            <input id="login-username" type="text" required
+                                autocomplete="off"
+                                name="username-x"
+                                class="w-full pl-12 pr-4 py-3.5 rounded-2xl border-none bg-[#F8FAFC] focus:bg-[#F1F5F9] focus:ring-2 focus:ring-[#0D9488]/30 transition-all text-sm text-slate-700 font-bold placeholder-slate-400" placeholder="Enter username">
+                        </div>
+                    </div>
+
+                    <!-- Password Input -->
+                    <div class="space-y-2">
+                        <label class="block text-slate-400 font-bold text-[11px] tracking-widest uppercase">Password</label>
+                        <div class="relative group">
+                            <span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 text-[20px] transition-colors group-focus-within:text-[#0D9488]">lock</span>
+                            <input id="login-password" type="password" required
+                                autocomplete="new-password"
+                                name="password-x"
+                                class="w-full pl-12 pr-4 py-3.5 rounded-2xl border-none bg-[#F8FAFC] focus:bg-[#F1F5F9] focus:ring-2 focus:ring-[#0D9488]/30 transition-all text-sm text-slate-700 font-bold placeholder-slate-400" placeholder="Enter password">
+                        </div>
+
+                        <!-- Inline error message -->
+                        <div id="login-error" class="hidden flex items-center gap-2 mt-3 px-4 py-3 bg-red-50 text-red-600 rounded-xl">
+                            <span class="material-symbols-outlined text-[18px]">error</span>
+                            <p id="login-error-msg" class="text-[13px] font-bold">Invalid username or password.</p>
+                        </div>
+                    </div>
+                    
+                    <!-- Role Toggle -->
+                    <div class="space-y-2 mt-2">
+                        <label class="block text-slate-400 font-bold text-[10px] tracking-widest uppercase text-center mb-3">Login Role</label>
+                        <div class="flex bg-[#F8FAFC] rounded-full p-1">
+                            <label class="flex-1 relative cursor-pointer group">
+                                <input type="radio" name="role" value="admin" class="peer sr-only" checked>
+                                <div class="w-full text-center py-2.5 rounded-full text-[11px] font-black uppercase tracking-wider text-slate-400 peer-checked:bg-[#722F37] peer-checked:text-[#E2B35B] transition-all duration-300">Admin</div>
+                            </label>
+                            <label class="flex-1 relative cursor-pointer group">
+                                <input type="radio" name="role" value="user" class="peer sr-only">
+                                <div class="w-full text-center py-2.5 rounded-full text-[11px] font-black uppercase tracking-wider text-slate-400 peer-checked:bg-[#722F37] peer-checked:text-[#E2B35B] transition-all duration-300">User</div>
+                            </label>
+                        </div>
+                        <style>
+                            /* Custom override to use our Teal/Amber theme instead of the screenshot's Burgundy/Gold */
+                            input[type="radio"]:checked + div {
+                                background-color: #0D9488 !important;
+                                color: #ffffff !important;
+                            }
+                        </style>
+                    </div>
+                    
+                    <!-- Submit Button -->
+                    <button type="submit" class="w-full py-4 mt-8 bg-[#D97706] hover:bg-[#b86505] text-white rounded-full font-black text-[13px] tracking-widest uppercase shadow-xl shadow-amber-500/20 active:scale-[0.98] transition-all duration-200 flex items-center justify-center gap-2">
+                        <span>Enter Portal</span>
+                        <span class="material-symbols-outlined text-[18px]">arrow_forward</span>
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Vanta dependencies and Vanta Clouds script -->
+    
+
+
+
+<script>
+    const form = document.querySelector('form');
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            window.location.href = 'dashboard.html';
+        });
+    }
+</script>
+</body>
+</html>

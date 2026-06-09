@@ -1,0 +1,1211 @@
+<!DOCTYPE html>
+<html class="light" lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LEADS - Lead Stages</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    
+    <script id="tailwind-config">
+        tailwind.config = {
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary": "#0D9488",
+                        "on-primary": "#ffffff",
+                        "primary-container": "#ccfbf1",
+                        "secondary-container": "#fef3c7",
+                        "on-secondary-container": "#92400e",
+                        "surface": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-low": "#eff6ff",
+                        "surface-container": "#e5f3ff",
+                        "surface-container-high": "#dceeff",
+                        "outline-variant": "#cbd5e1",
+                        "background": "#f0fdfa",
+                        "on-surface": "#0f172a",
+                        "on-surface-variant": "#334155",
+                        "tertiary": "#06b6d4",
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "2xl": "1.5rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "container-padding": "1.5rem",
+                        "inner-padding": "1rem"
+                    },
+                    "fontFamily": {
+                        "sans": ["Inter", "sans-serif"],
+                        "headline": ["Outfit", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Outfit', sans-serif !important;
+        }
+        body, .font-body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        * {
+            scrollbar-width: thin;
+            scrollbar-color: #0d9488 transparent;
+        }
+        /* Custom scrollbar matching the styled theme */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background-color: #99f6e4;
+            border-radius: 3px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #0d9488;
+        }
+        /* Subtle vertical scrollbar for individual status columns */
+        .custom-scrollbar {
+            scrollbar-width: thin !important;
+            scrollbar-color: #cbd5e1 transparent !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 5px !important;
+            display: block !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1 !important;
+            border-radius: 10px !important;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8 !important;
+        }
+        /* Style the horizontal scrollbar for the stages Kanban container to make it highly visible and easy to scroll */
+        .custom-scrollbar-container {
+            scrollbar-width: auto !important;
+            scrollbar-color: #cbd5e1 #f1f5f9 !important;
+        }
+        .custom-scrollbar-container::-webkit-scrollbar {
+            height: 10px !important;
+            display: block !important;
+        }
+        .custom-scrollbar-container::-webkit-scrollbar-track {
+            background: #f1f5f9 !important;
+            border-radius: 6px !important;
+        }
+        .custom-scrollbar-container::-webkit-scrollbar-thumb {
+            background-color: #cbd5e1 !important;
+            border-radius: 6px !important;
+            border: 2px solid #f1f5f9 !important;
+        }
+        .custom-scrollbar-container::-webkit-scrollbar-thumb:hover {
+            background-color: #94a3b8 !important;
+        }
+        /* Ensure cursor pointer on interactive elements */
+        button, a, select, input[type="checkbox"], input[type="radio"], .cursor-pointer {
+            cursor: pointer;
+        }
+        /* Clean gradient hover transition to solid theme color */
+        button.bg-gradient-to-r:hover,
+        a.bg-gradient-to-r:hover,
+        div.bg-gradient-to-r:hover {
+            background-image: linear-gradient(to right, #0f766e, #0f766e) !important;
+        }
+        /* Page-level vertical scroll for main area */
+        main {
+            overflow-y: auto;
+            overflow-x: hidden;
+            scrollbar-width: thin;
+            scrollbar-color: #0d9488 #f0fdfa;
+        }
+        main::-webkit-scrollbar {
+            width: 7px;
+        }
+        main::-webkit-scrollbar-track {
+            background: #f0fdfa;
+        }
+        main::-webkit-scrollbar-thumb {
+            background-color: #99f6e4;
+            border-radius: 4px;
+        }
+        main::-webkit-scrollbar-thumb:hover {
+            background-color: #0d9488;
+        }
+    </style>
+    <style>
+        .dropdown-menu { display: none; }
+        .dropdown-menu:not(.hidden) { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu:not(.hidden) { animation: fadeIn 0.15s ease; }
+    </style>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+
+</head>
+<body class="bg-[#F0FDFA] bg-gradient-to-br from-[#F0FDFA] to-[#F8FAFC] text-slate-800 font-sans overflow-hidden flex h-screen">
+    <div id="vanta-bg" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+
+<!-- Sidebar Navigation -->
+<aside class="hidden md:flex flex-col h-screen py-inner-padding bg-gradient-to-b from-[#0F766E] via-[#0D9488] to-[#115E59] border-r border-teal-500/10 w-64 shadow-2xl shrink-0 text-white">
+    <div class="px-container-padding mb-8">
+        <h1 class="text-headline-sm font-headline-sm font-black text-white leading-tight">LEADS</h1>
+        <p class="text-label-md font-label-md text-white/70">CRM ADMIN</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="dashboard.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">dashboard</span>
+            <span class="text-label-md font-label-md text-white/80">Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="code.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">filter_list</span>
+            <span class="text-label-md font-label-md text-white/80">Leads</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="reports.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">bar_chart</span>
+            <span class="text-label-md font-label-md text-white/80">Reports</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-[#1E90FF] text-white rounded-xl font-bold shadow-md shadow-blue-900/20 hover:bg-white/25 transition-all duration-300" href="settings.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white">settings</span>
+            <span class="text-label-md font-label-md text-white font-bold">Settings</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="app.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">apps</span>
+            <span class="text-label-md font-label-md text-white/80">Apps</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-4 space-y-3 border-t border-white/15 pt-5 pb-2">
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="#">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">help</span>
+            <span class="text-[13px] font-bold tracking-wider">Help</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="signin.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">logout</span>
+            <span class="text-[13px] font-bold tracking-wider">Logout</span>
+        </a>
+    </div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+    
+    <!-- Top Header -->
+    <header class="flex justify-between items-center w-full px-container-padding h-14 bg-white border-b border-slate-100 z-10 shrink-0">
+        <div class="flex items-center">
+            <h2 class="text-[20px] font-black text-[#0D9488] tracking-wide">SETTINGS</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Live Clock -->
+            <div id="clock-container" class="flex items-center gap-1.5 px-3 py-1 bg-teal-50/50 border border-teal-100/50 rounded-xl text-xs font-bold text-slate-600 shadow-sm whitespace-nowrap">
+                <span class="material-symbols-outlined text-[15px] text-[#0D9488]">schedule</span>
+                <span id="live-clock">--:--:--</span>
+                        </div>
+            
+            <!-- Fullscreen Button -->
+            <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Fullscreen">
+                <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+            </button>
+            <!-- Dark Mode -->
+            <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Dark Mode">
+                <span class="material-symbols-outlined text-[20px]">dark_mode</span>
+            </button>
+            
+            <!-- Profile / Admin Settings Capsule Button -->
+            <div class="relative">
+                <button onclick="toggleAdminMenu(event)" class="flex items-center gap-2 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-[#0D9488] rounded-full border border-teal-100 text-xs font-bold transition-all shadow-sm">
+                    
+                    
+                    <div class="w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                        <span class="material-symbols-outlined text-[16px] font-bold">person</span>
+                    </div>
+                    <span>Admin</span>
+                    <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                </button>
+                <!-- Admin Menu dropdown -->
+                <div id="admin-menu" class="absolute right-0 mt-1.5 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                    <a href="profile.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> Profile
+                    </a>
+                    <a href="login_activity.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Login Activity
+                    </a>
+                    <a href="client_secret.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">key</span> Client & Secret
+                    </a>
+                    <a href="change_password.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">lock</span> Change Password
+                    </a>
+                    <button onclick="alert('Activity Log shows 14 successful operations in last 24h.')" class="w-full text-left px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 border-b border-slate-50 pb-1.5 mb-1 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Activity Log
+                    </button>
+                    <a href="signin.html" class="px-4 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors flex items-center gap-2 text-xs font-bold">
+                        <span class="material-symbols-outlined text-[16px] text-red-500">logout</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Sub Header Bar -->
+    <div class="bg-white px-6 py-3 flex items-center justify-between border-b border-slate-200/80 shadow-sm z-10 shrink-0">
+        <div class="flex items-center gap-1.5">
+            <button onclick="window.location.href = 'settings.html'" class="flex items-center gap-1 text-[13px] font-extrabold text-slate-700 hover:text-slate-900 transition-colors uppercase tracking-wider">
+                <span class="material-symbols-outlined text-[18px] font-bold">arrow_back</span> Lead Stages
+            </button>
+        </div>
+        <div class="flex items-center gap-2">
+            <div class="flex items-center gap-1 text-[11px] font-semibold text-slate-400">
+                <span>Settings</span>
+                <span class="material-symbols-outlined text-[12px]">chevron_right</span>
+                <span class="text-slate-600 font-bold">Lead Stages</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scrollable content -->
+        <div class="flex-1 p-6 flex flex-col min-h-fit min-w-0">
+        <div class="w-full flex flex-col flex-1 space-y-6 min-h-fit min-w-0 pb-2">
+            
+            <!-- Info Card -->
+            <div class="bg-white border border-slate-200 p-6 shadow-sm">
+                <h3 class="text-[15px] font-semibold text-slate-700 mb-3">Lead Stages</h3>
+                <p class="text-[13px] text-slate-600 leading-relaxed">
+                    Customize everything about the default lifecycle stages: rename, reorder or disable them. Plus you can add a new stage that reflects your business process, like Evangelist or Marketing Qualified Lead. All statuses within a stage are customizable.
+                </p>
+            </div>
+
+            <!-- Active Stages Header Card -->
+            <div class="bg-white border border-slate-200 p-4 shadow-sm flex items-center justify-between">
+                <h3 class="text-[15px] font-semibold text-slate-700">Active stages</h3>
+                
+                <div class="flex flex-col items-end gap-2">
+                    <div class="flex items-center gap-2">
+                        <button id="addLeadStageBtn" class="px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white rounded text-[13px] font-bold active:scale-95 transition-all shadow-sm">
+                            Add Lead Stage
+                        </button>
+                        <button onclick="window.location.reload()" class="p-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white rounded flex items-center justify-center transition-all active:scale-95 shadow-sm">
+                            <span class="material-symbols-outlined text-[16px] font-bold text-white">sync</span>
+                        </button>
+
+                    </div>
+                    <div class="flex items-center gap-2 text-[11px] font-medium text-slate-500">
+                        <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200/50">Limit: <span class="font-bold text-slate-700">15</span></span>
+                        <span class="bg-slate-100 px-2 py-0.5 rounded border border-slate-200/50">Remaining: <span class="font-bold text-slate-700">0</span></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Horizontal Stages Kanban -->
+            <div class="flex-1 overflow-x-auto overflow-y-hidden min-h-0 min-w-0 custom-scrollbar-container pb-4">
+                <div class="flex items-start gap-3 flex-nowrap min-w-max" id="stages-container">
+                    <!-- Dynamic stages will be rendered here -->
+                </div>
+          </div>
+      </div>
+  </main>
+<!-- Add Stage Drawer -->
+<div id="addStageDrawerOverlay" class="fixed inset-0 bg-slate-900/30 z-40 hidden transition-opacity backdrop-blur-sm"></div>
+<div id="addStageDrawer" class="fixed top-0 right-0 h-full w-[400px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-primary to-tertiary shadow-sm">
+        <h2 class="text-[18px] font-medium text-white tracking-tight">Add Lead Stage</h2>
+        <button id="closeAddDrawerBtn" class="text-white hover:text-slate-100 material-symbols-outlined text-[22px] transition-colors p-1 rounded hover:bg-white/20">close</button>
+    </div>
+    
+    <!-- Body -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- Stage Name -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">STAGE NAME</label>
+            <input type="text" placeholder="Stage name" class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow" />
+            
+        </div>
+
+        <!-- Sequence No -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">SEQUENCE NO</label>
+            <input type="text" placeholder="Sequence No" class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow" />
+        </div>
+
+        <!-- Color Code -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">COLOR CODE</label>
+            <div class="w-full border border-slate-300 rounded p-[3px] cursor-pointer hover:border-slate-400 transition-colors">
+                <div class="w-[95%] h-[10px] bg-[#0b5c66] rounded-sm ml-1 mt-0.5 mb-0.5"></div>
+            </div>
+        </div>
+
+        <!-- Status Name -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">Status name</label>
+                <button onclick="addDropdownOption(this, 'Status')" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-primary rounded px-3 py-2 text-[14px] text-slate-700 focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+        </div>
+
+        <!-- User Group -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">User Group</label>
+                <button onclick="addDropdownOption(this, 'User Group')" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] transition-shadow" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+        </div>
+
+        <!-- Tags -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">Tags</label>
+                <button onclick="addDropdownOption(this, 'Tag')" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] transition-shadow" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+            <div class="border-b border-slate-200 mt-8 mb-2"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-6 py-4 bg-[#f8fafc] border-t border-slate-200 flex justify-end gap-3 shrink-0">
+        <button id="cancelAddDrawerBtn" class="px-4 py-2 rounded text-[13px] font-medium text-slate-700 border border-slate-300 bg-white hover:bg-transparent transition-colors shadow-sm">Cancel</button>
+        <button id="submitAddDrawerBtn" class="px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white rounded text-[13px] font-semibold transition-all shadow-sm">Submit</button>
+    </div>
+</div>
+
+<!-- Edit Stage Drawer -->
+<div id="editStageDrawerOverlay" class="fixed inset-0 bg-slate-900/30 z-40 hidden transition-opacity backdrop-blur-sm"></div>
+<div id="editStageDrawer" class="fixed top-0 right-0 h-full w-[400px] bg-white shadow-2xl z-50 transform translate-x-full transition-transform duration-300 flex flex-col">
+    <!-- Header -->
+    <div class="flex items-center justify-between px-6 py-4 bg-gradient-to-r from-primary to-tertiary shadow-sm">
+        <h2 class="text-[18px] font-medium text-white tracking-tight">Edit Lead Stage</h2>
+        <button id="closeDrawerBtn" class="text-white hover:text-slate-100 material-symbols-outlined text-[22px] transition-colors p-1 rounded hover:bg-white/20">close</button>
+    </div>
+    
+    <!-- Body -->
+    <div class="flex-1 overflow-y-auto p-6 space-y-6">
+        <!-- Stage Name -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">STAGE NAME</label>
+            <input type="text" placeholder="Stage name" class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow" />
+            
+        </div>
+
+        <!-- Sequence No -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">SEQUENCE NO</label>
+            <input type="text" placeholder="Sequence No" class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none transition-shadow" />
+        </div>
+
+        <!-- Color Code -->
+        <div>
+            <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide mb-2">COLOR CODE</label>
+            <div class="w-full border border-slate-300 rounded p-[3px] cursor-pointer hover:border-slate-400 transition-colors">
+                <div class="w-[95%] h-[10px] bg-[#0b5c66] rounded-sm ml-1 mt-0.5 mb-0.5"></div>
+            </div>
+        </div>
+
+        <!-- Status Name -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">Status name</label>
+                <button id="addStatusBtn" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-primary rounded px-3 py-2 text-[14px] text-slate-700 focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] shadow-sm" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+        </div>
+
+        <!-- User Group -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">User Group</label>
+                <button id="addUserGroupBtn" onclick="addDropdownOption(this, 'User Group')" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] transition-shadow" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+        </div>
+
+        <!-- Tags -->
+        <div>
+            <div class="flex items-center justify-between mb-2">
+                <label class="block text-[12px] font-bold text-slate-400 uppercase tracking-wide">Tags</label>
+                <button id="addTagBtn" onclick="addDropdownOption(this, 'Tag')" type="button" class="bg-primary text-white rounded w-[22px] h-[22px] flex items-center justify-center material-symbols-outlined text-[18px] hover:bg-[#0F766E] cursor-pointer transition-colors shadow-sm">add</button>
+            </div>
+            <select class="w-full border border-slate-300 rounded px-3 py-2 text-[14px] text-slate-700 focus:border-primary focus:ring-1 focus:ring-primary outline-none appearance-none bg-no-repeat bg-[right_0.75rem_center] bg-[length:16px_16px] transition-shadow" style="background-image: url('data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20viewBox%3D%220%200%2024%2024%22%20fill%3D%22none%22%20stroke%3D%22%2364748b%22%20stroke-width%3D%222%20stroke-linecap%3D%22round%22%20stroke-linejoin%3D%22round%22%3E%3Cpolyline%20points%3D%226%209%2012%2015%2018%209%22%3E%3C%2Fpolyline%3E%3C%2Fsvg%3E');">
+                <option></option>
+            </select>
+            <div class="border-b border-slate-200 mt-8 mb-2"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="px-6 py-4 bg-[#f8fafc] border-t border-slate-200 flex justify-end gap-3 shrink-0">
+        <button id="cancelDrawerBtn" class="px-4 py-2 rounded text-[13px] font-medium text-slate-700 border border-slate-300 bg-white hover:bg-transparent transition-colors shadow-sm">Cancel</button>
+        <button id="submitDrawerBtn" class="px-4 py-2 bg-gradient-to-r from-primary to-tertiary text-white border-none hover:from-[#1d4ed8] hover:to-[#1d4ed8] text-white rounded text-[13px] font-semibold transition-all shadow-sm">Submit</button>
+    </div>
+</div>
+
+<script>
+    // Live clock init function
+    function initClock() {
+        const clockEl = document.getElementById('live-clock');
+        if (!clockEl) return;
+        const updateTime = () => {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth() + 1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            clockEl.textContent = `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+        };
+        updateTime();
+        setInterval(updateTime, 1000);
+    }
+
+    // Fullscreen toggle function
+    function toggleFullscreen(button) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'enabled');
+            }).catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'disabled');
+            }).catch(e => {});
+        }
+    }
+
+    // Auto-restore fullscreen on first interaction if it was enabled
+    if (!window.hasFullscreenRestorer) {
+        window.hasFullscreenRestorer = true;
+        const restoreFullscreen = () => {
+            if (localStorage.getItem('fullscreen') === 'enabled' && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => {});
+            }
+            document.removeEventListener('click', restoreFullscreen);
+            document.removeEventListener('keydown', restoreFullscreen);
+        };
+        document.addEventListener('click', restoreFullscreen);
+        document.addEventListener('keydown', restoreFullscreen);
+    }
+
+    // Dark Mode Toggle functions
+    function initDarkMode() {
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    }
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', 'disabled');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('darkMode', 'enabled');
+        }
+    }
+
+    // Admin menu dropdown toggle
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        if (menu) {
+            menu.classList.toggle('hidden');
+        }
+    }
+
+    // Close admin menu when clicking outside
+    document.addEventListener('click', () => {
+        const menu = document.getElementById('admin-menu');
+        if (menu && !menu.classList.contains('hidden')) {
+            menu.classList.add('hidden');
+        }
+    });
+
+    // Auto init header functions
+    initClock();
+    initDarkMode();
+
+    // LocalStorage Version Control / Clean Reset for Live Environment
+    try {
+        if (localStorage.getItem('crmVersion') !== 'v14') {
+            localStorage.removeItem('leadsData');
+            localStorage.removeItem('leadSourcesData');
+            localStorage.removeItem('leadStagesData');
+            localStorage.removeItem('leadUsersData');
+            localStorage.setItem('crmVersion', 'v14');
+        }
+    } catch(e) {}
+
+    // --- Dynamic Stages and Statuses Data ---
+    let stagesData = [];
+
+    const DEFAULT_STAGES = [
+        { name: "LEAD", active: true, statuses: ["New Lead"] },
+        { name: "LOST", active: true, statuses: ["Price Mismatch", "Not Interested", "Not Required"] },
+        { name: "FOLLOW UP", active: true, statuses: ["Follow Up"] },
+        { name: "PROPOSAL SENT", active: true, statuses: ["Proposal Sent"] },
+        { name: "OTHERS", active: true, statuses: ["COLD"] },
+        { name: "HOT", active: true, statuses: ["HOT"] },
+        { name: "TRIAL AC", active: true, statuses: ["TRIAL AC"] },
+        { name: "ONBOARDED", active: true, statuses: ["ONBOARDED"] },
+        { name: "RNR", active: true, statuses: ["RNR"] },
+        { name: "CALL BACK", active: true, statuses: ["CALL BACK"] },
+        { name: "INVOICE", active: true, statuses: ["INVOICE"] },
+        { name: "DEMO SCHEDULE", active: true, statuses: ["DEMO SCHEDULE"] },
+        { name: "DUPLICATE", active: true, statuses: ["DUPLICATE"] },
+        { name: "DIRECT MEETING", active: true, statuses: ["DIRECT MEETING"] }
+    ];
+
+    function loadStagesData() {
+        try {
+            const stored = localStorage.getItem('leadStagesData');
+            if (stored) {
+                stagesData = JSON.parse(stored);
+                return;
+            }
+        } catch(e) {}
+        stagesData = [...DEFAULT_STAGES];
+        saveStagesData();
+    }
+
+    function saveStagesData() {
+        try {
+            localStorage.setItem('leadStagesData', JSON.stringify(stagesData));
+        } catch(e) {}
+    }
+
+    function getStageHeaderColor(name) {
+        if (name === 'LOST') return 'text-slate-500';
+        if (name === 'FOLLOW UP' || name === 'HOT') return 'text-[#00a884]';
+        if (name === 'PROPOSAL SENT' || name === 'TRIAL AC' || name === 'ONBOARDED' || name === 'RNR') return 'text-[#b04b4b]';
+        if (name === 'OTHERS') return 'text-[#ff3b3b]';
+        return 'text-slate-800';
+    }
+
+    function renderStages() {
+        const container = document.getElementById('stages-container');
+        if (!container) return;
+        container.innerHTML = "";
+
+        stagesData.forEach((stage, index) => {
+            const stageDiv = document.createElement('div');
+            const isActive = stage.active;
+            stageDiv.className = `bg-white border border-slate-200 shadow-sm w-[260px] shrink-0 p-4 rounded flex flex-col h-[350px] ${!isActive ? 'opacity-60' : ''}`;
+            
+            const headerColorClass = getStageHeaderColor(stage.name);
+
+            let innerHTML = `
+                <div class="flex items-center justify-between mb-4 shrink-0">
+                    <span class="font-normal text-[14px] ${headerColorClass} tracking-wide uppercase">${stage.name}</span>
+                    <div class="flex items-center gap-2">
+                        <span class="material-symbols-outlined text-[18px] ${headerColorClass} cursor-pointer hover:text-black" onclick="editStage(${index})">edit</span>
+                        <div class="w-9 h-5 ${isActive ? 'bg-primary' : 'bg-slate-300'} rounded-full relative cursor-pointer shadow-inner stage-toggle-btn transition-colors duration-200" onclick="toggleStage(${index})">
+                            <div class="w-4 h-4 bg-white rounded-full absolute ${isActive ? 'right-0.5' : 'left-0.5'} top-0.5 shadow-sm stage-toggle-circle transition-all duration-200"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="space-y-2 overflow-y-auto pr-1 pb-1 flex-1 custom-scrollbar">
+            `;
+
+            stage.statuses.forEach(status => {
+                innerHTML += `<div class="bg-[#f4f6f8] text-[13px] text-slate-700 p-3 rounded">${status}</div>`;
+            });
+
+            innerHTML += `</div>`;
+            stageDiv.innerHTML = innerHTML;
+            container.appendChild(stageDiv);
+
+            if (index < stagesData.length - 1) {
+                const arrow = document.createElement('div');
+                arrow.className = "pt-10 shrink-0 text-slate-800 material-symbols-outlined text-[20px]";
+                arrow.textContent = "arrow_forward";
+                container.appendChild(arrow);
+            }
+        });
+
+        // Update counts
+        const totalCount = stagesData.length;
+        const remaining = Math.max(0, 15 - totalCount);
+        const remainingEls = document.querySelectorAll('span.bg-slate-100');
+        if (remainingEls.length >= 2) {
+            remainingEls[1].querySelector('span').textContent = remaining;
+        }
+    }
+
+    function toggleStage(index) {
+        stagesData[index].active = !stagesData[index].active;
+        saveStagesData();
+        renderStages();
+        showSuccessModal();
+    }
+
+    let currentEditStageIndex = -1;
+
+    function openDrawer() {
+        const drawer = document.getElementById('editStageDrawer');
+        const overlay = document.getElementById('editStageDrawerOverlay');
+        overlay.classList.remove('hidden');
+        setTimeout(() => {
+            drawer.classList.remove('translate-x-full');
+        }, 10);
+    }
+    
+    function closeDrawer() {
+        const drawer = document.getElementById('editStageDrawer');
+        const overlay = document.getElementById('editStageDrawerOverlay');
+        drawer.classList.add('translate-x-full');
+        setTimeout(() => {
+            overlay.classList.add('hidden');
+        }, 300);
+    }
+
+    function editStage(index) {
+        currentEditStageIndex = index;
+        const stage = stagesData[index];
+        
+        const nameInput = document.querySelector('#editStageDrawer input[placeholder="Stage name"]');
+        const seqInput = document.querySelector('#editStageDrawer input[placeholder="Sequence No"]');
+        const statusSelect = document.querySelector('#editStageDrawer select');
+        
+        if (nameInput) nameInput.value = stage.name;
+        if (seqInput) seqInput.value = index + 1;
+        
+        if (statusSelect) {
+            statusSelect.innerHTML = "";
+            stage.statuses.forEach(status => {
+                const opt = document.createElement('option');
+                opt.value = status;
+                opt.textContent = status;
+                statusSelect.appendChild(opt);
+            });
+        }
+        
+        openDrawer();
+    }
+
+    // Success Modal functions
+    function showSuccessModal() {
+        const successOverlay = document.getElementById('successModalOverlay');
+        const successModal = document.getElementById('successModal');
+        successOverlay.classList.remove('hidden');
+        void successOverlay.offsetWidth;
+        successOverlay.classList.remove('opacity-0');
+        successModal.classList.remove('scale-95');
+        successModal.classList.add('scale-100');
+    }
+    
+    function closeSuccessModal() {
+        const successOverlay = document.getElementById('successModalOverlay');
+        const successModal = document.getElementById('successModal');
+        successOverlay.classList.add('opacity-0');
+        successModal.classList.remove('scale-100');
+        successModal.classList.add('scale-95');
+        setTimeout(() => {
+            successOverlay.classList.add('hidden');
+        }, 300);
+    }
+
+    // Limit Warning Modal functions
+    function showLimitModal() {
+        const limitOverlay = document.getElementById('limitModalOverlay');
+        const limitModal = document.getElementById('limitModal');
+        limitOverlay.classList.remove('hidden');
+        void limitOverlay.offsetWidth;
+        limitOverlay.classList.remove('opacity-0');
+        limitModal.classList.remove('scale-95');
+        limitModal.classList.add('scale-100');
+    }
+
+    function closeLimitModal() {
+        const limitOverlay = document.getElementById('limitModalOverlay');
+        const limitModal = document.getElementById('limitModal');
+        limitOverlay.classList.add('opacity-0');
+        limitModal.classList.remove('scale-100');
+        limitModal.classList.add('scale-95');
+        setTimeout(() => {
+            limitOverlay.classList.add('hidden');
+        }, 300);
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        loadStagesData();
+        renderStages();
+
+        const closeBtn = document.getElementById('closeDrawerBtn');
+        const cancelBtn = document.getElementById('cancelDrawerBtn');
+        const submitBtn = document.getElementById('submitDrawerBtn');
+        const overlay = document.getElementById('editStageDrawerOverlay');
+        const successOkBtn = document.getElementById('successOkBtn');
+        const limitOkBtn = document.getElementById('limitOkBtn');
+        const addLeadStageBtn = document.getElementById('addLeadStageBtn');
+
+        closeBtn.addEventListener('click', closeDrawer);
+        cancelBtn.addEventListener('click', closeDrawer);
+        overlay.addEventListener('click', closeDrawer);
+        successOkBtn.addEventListener('click', closeSuccessModal);
+        if (limitOkBtn) limitOkBtn.addEventListener('click', closeLimitModal);
+
+        // Drawer functions for Add Lead Stage
+        function openAddDrawer() {
+            const totalCount = stagesData.length;
+            if (totalCount >= 15) {
+                showToast('Lead stage limit reached. You can add a maximum of 15 stages.', 'error');
+                return;
+            }
+            const drawer = document.getElementById('addStageDrawer');
+            const overlay = document.getElementById('addStageDrawerOverlay');
+            overlay.classList.remove('hidden');
+            setTimeout(() => {
+                drawer.classList.remove('translate-x-full');
+            }, 10);
+        }
+        function closeAddDrawer() {
+            const drawer = document.getElementById('addStageDrawer');
+            const overlay = document.getElementById('addStageDrawerOverlay');
+            drawer.classList.add('translate-x-full');
+            setTimeout(() => {
+                overlay.classList.add('hidden');
+            }, 300);
+        }
+
+        if (addLeadStageBtn) addLeadStageBtn.addEventListener('click', openAddDrawer);
+        
+        const closeAddBtn = document.getElementById('closeAddDrawerBtn');
+        const cancelAddBtn = document.getElementById('cancelAddDrawerBtn');
+        const addOverlay = document.getElementById('addStageDrawerOverlay');
+        
+        if(closeAddBtn) closeAddBtn.addEventListener('click', closeAddDrawer);
+        if(cancelAddBtn) cancelAddBtn.addEventListener('click', closeAddDrawer);
+        if(addOverlay) addOverlay.addEventListener('click', closeAddDrawer);
+
+        submitBtn.addEventListener('click', function() {
+            if (currentEditStageIndex !== -1) {
+                const nameInput = document.querySelector('#editStageDrawer input[placeholder="Stage name"]');
+                if (nameInput && nameInput.value.trim()) {
+                    stagesData[currentEditStageIndex].name = nameInput.value.trim().toUpperCase();
+                    saveStagesData();
+                    renderStages();
+                }
+            }
+            closeDrawer();
+        });
+
+        const submitAddBtn = document.getElementById('submitAddDrawerBtn');
+        if (submitAddBtn) {
+            submitAddBtn.addEventListener('click', function() {
+                const MAX_STAGES = 15;
+                if (stagesData.length >= MAX_STAGES) {
+                    showToast('Lead stage limit reached. Maximum 15 stages allowed.', 'error');
+                    closeAddDrawer();
+                    return;
+                }
+                const nameInput = document.querySelector('#addStageDrawer input[placeholder="Stage name"]');
+                if (nameInput && nameInput.value.trim()) {
+                    stagesData.push({
+                        name: nameInput.value.trim().toUpperCase(),
+                        active: true,
+                        statuses: []
+                    });
+                    saveStagesData();
+                    renderStages();
+                    nameInput.value = ''; // Reset input
+                    showSuccessModal();
+                }
+                closeAddDrawer();
+            });
+        }
+
+        // Add Status button click listener inside drawer
+        const addStatusBtn = document.getElementById('addStatusBtn');
+        if (addStatusBtn) {
+            addStatusBtn.type = "button";
+            addStatusBtn.addEventListener('click', function() {
+                if (currentEditStageIndex !== -1) {
+                    const newStatus = prompt("Enter new status name:");
+                    if (newStatus && newStatus.trim()) {
+                        stagesData[currentEditStageIndex].statuses.push(newStatus.trim());
+                        saveStagesData();
+                        renderStages();
+                        editStage(currentEditStageIndex); // Reload drawer
+                    }
+                }
+            });
+        }
+    });
+
+    // Injected Change Password Dropdown Logic
+    function toggleChangePasswordMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('change-password-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'change-password-menu') m.classList.add('hidden');
+        });
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function handleHeaderChangePassword(event) {
+        event.preventDefault();
+        const form = event.target;
+        const oldPass = form.querySelector('.header-old-pass').value;
+        const newPass = form.querySelector('.header-new-pass').value;
+        const confirmPass = form.querySelector('.header-confirm-pass').value;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) {
+            showToast('No active session found.', 'error');
+            return;
+        }
+
+        let users = [];
+        try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+        
+        const userIdx = users.findIndex(u => u.username.toLowerCase() === session.username.toLowerCase());
+        if (userIdx === -1) {
+            showToast('User not found.', 'error');
+            return;
+        }
+
+        if (oldPass !== users[userIdx].password) {
+            showToast('Incorrect old password!', 'error');
+            return;
+        }
+
+        if (newPass.length < 6) {
+            showToast('New password must be at least 6 characters!', 'error');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            showToast('New password and confirm password do not match!', 'error');
+            return;
+        }
+
+        if (newPass === oldPass) {
+            showToast('New password cannot be the same as old password!', 'error');
+            return;
+        }
+
+        users[userIdx].password = newPass;
+        localStorage.setItem('crmUsers', JSON.stringify(users));
+
+        showToast('Password updated successfully!');
+        form.reset();
+        
+        const menu = document.getElementById('change-password-menu');
+        if (menu) menu.classList.add('hidden');
+
+        if (typeof verifySession === 'function') {
+            verifySession();
+        }
+    }
+
+    if (typeof showForgotPasswordModal !== 'function') {
+        window.showForgotPasswordModal = function() {
+            const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+            if (!session) return;
+            let users = [];
+            try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+            const user = users.find(u => u.username.toLowerCase() === session.username.toLowerCase());
+            if (user) {
+                const modal = document.getElementById('forgot-password-modal');
+                if (modal) {
+                    document.getElementById('retrieved-password').textContent = user.password;
+                    document.getElementById('retrieved-email').textContent = user.email || 'your registered email';
+                    modal.classList.remove('hidden');
+                } else {
+                    alert('For sandbox testing, your current password is: ' + user.password);
+                }
+            }
+        };
+    }
+
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    if (typeof showToast !== 'function') {
+        window.showToast = function(message, type = 'success') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed top-4 right-4 z-50 flex flex-col gap-3';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-bold transition-all duration-300 transform translate-x-12 opacity-0';
+            
+            let icon = 'check_circle';
+            if (type === 'success') {
+                toast.className += ' bg-emerald-50 border-emerald-250 text-emerald-700';
+            } else if (type === 'error') {
+                toast.className += ' bg-red-50 border-red-250 text-red-750';
+                icon = 'error';
+            } else {
+                toast.className += ' bg-transparent border-slate-250 text-slate-700';
+                icon = 'info';
+            }
+
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px]">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+    }
+
+    document.addEventListener('click', () => {
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+    });
+
+
+    // Injected Login Activity Dropdown Logic
+    function toggleLoginActivityMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('login-activity-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'login-activity-menu') m.classList.add('hidden');
+        });
+        if (menu) {
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                renderHeaderLoginLogs();
+            }
+        }
+    }
+
+    function renderHeaderLoginLogs() {
+        const tbodies = document.querySelectorAll('.header-login-activity-tbody');
+        if (tbodies.length === 0) return;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) return;
+
+        let logs = [];
+        try {
+            logs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]');
+        } catch(e) {}
+
+        logs = logs.filter(a => a.username.toLowerCase() === session.username.toLowerCase());
+
+        if (logs.length === 0) {
+            logs = seedMockLoginLogsHeader(session.username);
+        }
+
+        const recent = logs.slice().reverse().slice(0, 5);
+
+        tbodies.forEach(tbody => {
+            tbody.innerHTML = '';
+            recent.forEach((log, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-transparent/50 transition-colors';
+                
+                const loginStr = formatHeaderDateTime(new Date(log.loginAt));
+                const logoutStr = log.logoutAt ? formatHeaderDateTime(new Date(log.logoutAt)) : '<span class="text-emerald-600 font-bold">Active</span>';
+                const durationStr = log.logoutAt ? log.duration : '--';
+                const serialNo = logs.length - index;
+
+                tr.innerHTML = `
+                    <td class="py-1.5 px-2 font-semibold text-slate-500">${serialNo}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-700">${loginStr}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-750">${logoutStr}</td>
+                    <td class="py-1.5 px-2 font-bold text-slate-650">${durationStr}</td>
+                    <td class="py-1.5 px-2 font-mono text-slate-500">${log.ip}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (recent.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400 text-xs">No records.</td></tr>';
+            }
+        });
+    }
+
+    function formatHeaderDateTime(date) {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${dd}-${mm} ${hh}:${min}`;
+    }
+
+    function seedMockLoginLogsHeader(username) {
+        const logs = [];
+        const ips = ['192.168.1.102', '192.168.1.15', '172.16.4.52', '10.0.0.15', '192.168.1.200', '198.51.100.24', '203.0.113.88'];
+        const now = Date.now();
+
+        for (let i = 15; i >= 1; i--) {
+            const loginOffset = i * 8 * 60 * 60 * 1000;
+            const loginTime = now - loginOffset;
+            const durationMin = Math.floor(Math.random() * 120) + 15;
+            const logoutTime = i === 1 ? null : loginTime + (durationMin * 60 * 1000);
+            
+            let durationStr = '--';
+            if (logoutTime) {
+                const hours = Math.floor(durationMin / 60);
+                const mins = durationMin % 60;
+                durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            }
+
+            logs.push({
+                username: username,
+                serial: 16 - i,
+                loginAt: loginTime,
+                logoutAt: logoutTime,
+                duration: durationStr,
+                ip: ips[Math.floor(Math.random() * ips.length)]
+            });
+        }
+
+        let allLogs = [];
+        try { allLogs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]'); } catch(e) {}
+        allLogs = allLogs.filter(a => a.username.toLowerCase() !== username.toLowerCase());
+        allLogs = [...allLogs, ...logs];
+        localStorage.setItem('crmLoginActivities', JSON.stringify(allLogs));
+
+        return logs;
+    }
+
+    window.toggleAdminMenu = function(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    };
+
+    document.addEventListener('click', () => {
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+    });
+
+    // Generic function to add option to nearby select dropdown
+    function addDropdownOption(btn, itemType) {
+        const val = prompt(`Enter new ${itemType}:`);
+        if (val && val.trim()) {
+            const select = btn.parentElement.nextElementSibling;
+            if (select && select.tagName === 'SELECT') {
+                const opt = document.createElement('option');
+                opt.value = val.trim();
+                opt.textContent = val.trim();
+                opt.selected = true;
+                select.appendChild(opt);
+            }
+        }
+    }
+</script>
+
+
+
+
+</body>
+
+<!-- Success Modal Overlay -->
+<div id="successModalOverlay" class="fixed inset-0 bg-slate-900/40 z-[60] hidden flex items-center justify-center transition-opacity opacity-0">
+    <div id="successModal" class="bg-white rounded-md shadow-2xl w-[420px] p-8 text-center transform scale-95 transition-transform duration-300">
+        <!-- Green Checkmark -->
+        <div class="mx-auto w-[72px] h-[72px] rounded-full border-[3px] border-[#0D9488] flex items-center justify-center mb-6 shadow-sm">
+            <svg class="w-10 h-10 text-[#0D9488]" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 13l4 4L19 7"></path>
+            </svg>
+        </div>
+        
+        <!-- Text -->
+        <h3 class="text-[17px] font-medium text-slate-700 mb-8">Status Updated successfully</h3>
+        
+        <!-- OK Button -->
+        <button id="successOkBtn" class="bg-[#0D9488] hover:bg-[#0F766E] text-white px-8 py-2 rounded text-[14px] font-medium transition-colors shadow-md">OK</button>
+    </div>
+</div>
+
+<!-- Limit Warning Modal Overlay -->
+<div id="limitModalOverlay" class="fixed inset-0 bg-slate-900/40 z-[60] hidden flex items-center justify-center transition-opacity opacity-0">
+    <div id="limitModal" class="bg-white rounded-md shadow-2xl w-[420px] p-8 text-center transform scale-95 transition-transform duration-300">
+        <!-- Warning Icon -->
+        <div class="mx-auto w-[72px] h-[72px] rounded-full border-[3px] border-amber-400 flex items-center justify-center mb-6 shadow-sm">
+            <span class="material-symbols-outlined text-amber-500 text-[40px] leading-none">warning</span>
+        </div>
+        
+        <!-- Text -->
+        <h3 class="text-[17px] font-bold text-slate-800 mb-2">Limit exceeded.</h3>
+        <p class="text-[13px] text-slate-600 mb-8 leading-relaxed">You have reached the maximum allowed limit.</p>
+        
+        <!-- Action Buttons -->
+        <div class="flex items-center justify-center gap-3">
+            <button id="limitOkBtn" class="border border-slate-300 bg-white hover:bg-transparent text-slate-700 px-6 py-2 rounded text-[14px] font-semibold transition-colors shadow-sm">Close</button>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+</body>
+</html>

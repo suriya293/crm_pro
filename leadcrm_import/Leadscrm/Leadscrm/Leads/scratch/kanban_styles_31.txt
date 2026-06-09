@@ -1,0 +1,84 @@
+Created At: 2026-05-23T11:17:41Z
+Completed At: 2026-05-23T11:17:41Z
+File Path: `file:///c:/Users/YUVEHA/OneDrive/Documents/Leads/code.html`
+Total Lines: 2305
+Total Bytes: 138224
+Showing lines 800 to 1500
+The following code has been modified to include a line number before every line, in the format: <line_number>: <original_line>. Please note that any changes targeting the original code should remove the line number, colon, and leading space.
+800: <div class="kanban-subheader green" data-subheader></div>
+801: <div class="kanban-cards-container" data-stage="CALL BACK"></div>
+802: </div>
+803: 
+804: <!-- 12. INVOICE -->
+805: <div class="kanban-column">
+806: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+807: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+808: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">receipt_long</span>
+809: </div>
+810: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-white">INVOICE</span>
+811: <span onclick="event.stopPropagation(); openAddLeadModal()" class="material-symbols-outlined text-[16px] cursor-pointer hover:bg-white/30 rounded p-0.5 text-white">add</span>
+812: </header>
+813: <div class="kanban-subheader green" data-subheader></div>
+814: <div class="kanban-cards-container" data-stage="INVOICE"></div>
+815: </div>
+816: 
+817: <!-- 13. DEMO SCHEDULE -->
+818: <div class="kanban-column">
+819: <header class="chevron-header bg-gradient-to-r from-[#4A85F6]/80 to-[#4A85F6]/30 backdrop-blur-md border border-white/50 shadow-sm px-4 py-2 flex items-center gap-2 select-none">
+820: <div class="w-5 h-5 rounded-full bg-white flex items-center justify-center shrink-0 shadow-sm">
+821: <span class="material-symbols-outlined text-[12px] text-[#4A85F6] font-bold">event</span>
+822: </div>
+823: <span class="text-xs font-bold tracking-wide uppercase flex-1 text-w
+<truncated 45281 bytes>
+ass="py-3.5 px-6 col-status">
+1454:                         <span class="px-2.5 py-0.5 bg-purple-50 text-[#2563EB] text-[10px] font-bold rounded-full uppercase border border-purple-100">${lead.stage}</span>
+1455:                     </td>
+1456:                     <td class="py-3.5 px-6 text-right">
+1457:                         <div class="flex justify-end gap-2">
+1458:                             <button onclick="openEditLeadModal('${lead.name.replace(/'/g, "\\'")}')" class="text-[#2563EB] hover:text-[#1d4ed8] transition-colors flex items-center">
+1459:                                 <span class="material-symbols-outlined text-[18px]">edit</span>
+1460:                             </button>
+1461:                             <button onclick="deleteLead('${lead.name.replace(/'/g, "\\'")}')" class="text-slate-300 hover:text-red-500 transition-colors flex items-center">
+1462:                                 <span class="material-symbols-outlined text-[18px]">delete</span>
+1463:                             </button>
+1464:                         </div>
+1465:                     </td>
+1466:                 `;
+1467:                 tbody.appendChild(tr);
+1468:             });
+1469:         }
+1470:         applyColumnVisibility();
+1471: 
+1472: 
+1473:     }
+1474: }
+1475: 
+1476: function setViewMode(mode) {
+1477:     viewMode = mode;
+1478:     renderLeads();
+1479: }
+1480: 
+1481: function setSortField(field) {
+1482:     sortBy = field;
+1483:     renderLeads();
+1484: }
+1485: 
+1486: function setSortOrder(order) {
+1487:     sortOrder = order;
+1488:     renderLeads();
+1489: }
+1490: 
+1491: function setStatusFilter(status) {
+1492:     statusFilter = status;
+1493:     renderLeads();
+1494: }
+1495: 
+1496: function setPageLimit(limitVal) {
+1497:     pageLimit = limitVal;
+1498:     renderLeads();
+1499: }
+1500: 
+The above content do
+<truncated 166 bytes>
+
+NOTE: The output was truncated because it was too long. Use a more targeted query or a smaller range to get the information you need.

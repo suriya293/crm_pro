@@ -1,0 +1,1119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>LEADS - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&amp;display=swap" rel="stylesheet"/>
+    <style>
+        h1, h2, h3, h4, h5, h6, .font-headline {
+            font-family: 'Outfit', sans-serif !important;
+        }
+        body, .font-body {
+            font-family: 'Inter', sans-serif !important;
+        }
+        .dropdown-menu { display: none; }
+        .dropdown-menu:not(.hidden) { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
+        .dropdown-menu:not(.hidden) { animation: fadeIn 0.15s ease; }
+
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1;
+            border-radius: 10px;
+        }
+        /* Ensure cursor pointer on interactive elements */
+        button, a, select, input[type="checkbox"], input[type="radio"], .cursor-pointer {
+            cursor: pointer;
+        }
+        button.bg-gradient-to-r:hover,
+        a.bg-gradient-to-r:hover {
+            background-image: linear-gradient(to right, #0f766e, #0f766e) !important;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = { darkMode: "class" }</script>
+    <style>
+        :root {
+            --primary-bg: #0D9488;
+            --primary-bg-hover: #0F766E;
+            --sidebar-bg: #0D9488;
+            --header-bg: #ffffff;
+            --text-primary: #ffffff;
+            --accent: #D97706;
+        }
+        .bg-primary { background-color: var(--primary-bg) !important; }
+        .bg-primary-hover:hover { background-color: var(--primary-bg-hover) !important; }
+        .text-primary { color: var(--text-primary) !important; }
+        .border-primary { border-color: var(--primary-bg) !important; }
+    </style>
+
+    <style id="global-dark-mode">
+        html.dark body, html.dark main { background-color: #0f172a !important; color: #f1f5f9 !important; }
+        html.dark .bg-white { background-color: #1e293b !important; border-color: #334155 !important; color: #f1f5f9 !important; }
+        html.dark .bg-transparent, html.dark .bg-slate-100, html.dark .bg-gray-50, html.dark .bg-\[\#F8FAFC\] { background-color: #0f172a !important; border-color: #334155 !important; }
+        html.dark .text-slate-800, html.dark .text-slate-700, html.dark .text-slate-900, html.dark .text-gray-800 { color: #f8fafc !important; }
+        html.dark .text-slate-500, html.dark .text-slate-600, html.dark .text-gray-500 { color: #94a3b8 !important; }
+        html.dark .border-slate-100, html.dark .border-slate-200, html.dark .border-gray-200 { border-color: #334155 !important; }
+        html.dark header, html.dark .dropdown-menu { background-color: #1e293b !important; border-color: #334155 !important; }
+        html.dark input, html.dark select, html.dark textarea { background-color: #0f172a !important; color: #f1f5f9 !important; border-color: #334155 !important; }
+        html.dark .hover\:bg-transparent:hover, html.dark .hover\:bg-slate-100:hover { background-color: #334155 !important; }
+        html.dark .shadow-sm, html.dark .shadow-md, html.dark .shadow-lg, html.dark .shadow-xl { box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.5) !important; }
+        html.dark .bg-white\/80, html.dark .bg-white\/90 { background-color: rgba(30, 41, 59, 0.8) !important; }
+        html.dark .bg-teal-50 { background-color: #134e4a !important; color: #ccfbf1 !important; border-color: #0f766e !important; }
+        html.dark .text-teal-600, html.dark .text-teal-700, html.dark .text-\[\#0D9488\] { color: #5eead4 !important; }
+        html.dark .bg-blue-50 { background-color: #1e3a8a !important; color: #dbeafe !important; }
+        html.dark .bg-amber-50 { background-color: #78350f !important; color: #fef3c7 !important; }
+        html.dark .bg-rose-50, html.dark .bg-red-50 { background-color: #7f1d1d !important; color: #fee2e2 !important; }
+        html.dark .bg-indigo-50 { background-color: #312e81 !important; color: #e0e7ff !important; }
+        html.dark .text-blue-600 { color: #93c5fd !important; }
+        html.dark .text-amber-600 { color: #fcd34d !important; }
+        html.dark .text-rose-600, html.dark .text-red-600 { color: #fca5a5 !important; }
+        html.dark .text-indigo-600 { color: #a5b4fc !important; }
+        html.dark tr.border-b { border-color: #334155 !important; }
+        html.dark td, html.dark th { border-color: #334155 !important; }
+        html.dark .bg-slate-200 { background-color: #475569 !important; }
+        html.dark .bg-slate-300 { background-color: #64748b !important; }
+        html.dark .text-slate-400 { color: #94a3b8 !important; }
+    </style>
+
+<script>
+window.toggleSidebar = function() {
+    const sidebar = document.getElementById('main-sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    if (sidebar) sidebar.classList.toggle('-translate-x-full');
+    if (overlay) overlay.classList.toggle('hidden');
+};
+</script>
+</head>
+<body class="bg-[#F0FDFA] bg-gradient-to-br from-[#F0FDFA] to-[#F8FAFC] text-slate-800 font-sans overflow-hidden flex h-screen">
+    <div id="vanta-bg" class="fixed inset-0 z-[-1] pointer-events-none"></div>
+  <div id="sidebar-overlay" class="fixed inset-0 bg-slate-900/50 z-40 hidden md:hidden" onclick="toggleSidebar()"></div>
+
+<!-- Sidebar -->
+<aside id="main-sidebar" class="fixed md:static inset-y-0 left-0 z-50 transform -translate-x-full md:translate-x-0 transition-transform duration-300 ease-in-out flex flex-col h-screen py-inner-padding bg-gradient-to-b from-[#0F766E] via-[#0D9488] to-[#115E59] border-r border-teal-500/10 w-64 shadow-2xl shrink-0 text-white">
+    <div class="px-6 mb-8 mt-4">
+        <h1 class="text-[20px] font-black text-white leading-tight">LEADS</h1>
+        <p class="text-xs text-white/70">CRM ADMIN</p>
+    </div>
+    <nav class="flex-1 px-4 space-y-1">
+        <a class="flex items-center px-4 py-3 bg-[#1E90FF] text-white rounded-xl font-bold shadow-md shadow-blue-900/20 hover:bg-white/25 transition-all duration-300" href="dashboard.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white">dashboard</span>
+            <span class="text-label-md font-label-md text-white font-bold">Dashboard</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="code.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">filter_list</span>
+            <span class="text-label-md font-label-md text-white/80">Leads</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="reports.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">bar_chart</span>
+            <span class="text-label-md font-label-md text-white/80">Reports</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="settings.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">settings</span>
+            <span class="text-label-md font-label-md text-white/80">Settings</span>
+        </a>
+        <a class="flex items-center px-4 py-3 text-white/80 hover:bg-white/10 hover:text-white transition-all rounded-xl" href="app.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] text-white/80">apps</span>
+            <span class="text-label-md font-label-md text-white/80">Apps</span>
+        </a>
+    </nav>
+    <div class="mt-auto px-4 space-y-3 border-t border-white/15 pt-5 pb-2">
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="#">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">help</span>
+            <span class="text-[13px] font-bold tracking-wider">Help</span>
+        </a>
+        <a class="flex items-center px-4 py-3 bg-white/10 hover:bg-white/20 text-white rounded-full border border-white/15 transition-all duration-300 group shadow-sm" href="signin.html">
+            <span class="material-symbols-outlined mr-3 text-[20px] group-hover:scale-110 transition-transform">logout</span>
+            <span class="text-[13px] font-bold tracking-wider">Logout</span>
+        </a>
+    </div>
+</aside>
+
+<!-- Main Content -->
+<main class="flex-1 flex flex-col min-w-0 overflow-y-auto overflow-x-hidden">
+    <!-- Top Header -->
+    <header class="flex justify-between items-center w-full px-6 h-14 bg-white border-b border-slate-100 z-10 shrink-0">
+        <div class="flex items-center">
+            <h2 class="text-[20px] font-black text-[#0D9488] tracking-wide">DASHBOARD</h2>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Live Clock -->
+            <div id="clock-container" class="flex items-center gap-1.5 px-3 py-1 bg-teal-50/50 border border-teal-100/50 rounded-xl text-xs font-bold text-slate-600 shadow-sm whitespace-nowrap">
+                <span class="material-symbols-outlined text-[15px] text-[#0D9488]">schedule</span>
+                <span id="live-clock">--:--:--</span>
+            </div>
+            <!-- Tips bulb icon -->
+            <button onclick="alert('Tip: Dashboard displays real-time CRM performance, stages conversion rates, and acquisition sources.')" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Tips">
+                <span class="material-symbols-outlined text-[20px]">lightbulb</span>
+            </button>
+            <!-- Fullscreen Button -->
+            <button onclick="toggleFullscreen(this)" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Fullscreen">
+                <span class="material-symbols-outlined text-[20px]">fullscreen</span>
+            </button>
+            <!-- Dark Mode -->
+            <button onclick="toggleDarkMode()" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Toggle Dark Mode">
+                <span class="material-symbols-outlined text-[20px]">dark_mode</span>
+            </button>
+            <!-- Notifications bell icon with badge -->
+            <div class="relative">
+                <button onclick="alert('No new notifications')" class="p-2 rounded-full hover:bg-slate-100 transition-colors flex items-center justify-center text-slate-500" title="Notifications">
+                    <span class="material-symbols-outlined text-[20px]">notifications</span>
+                </button>
+                <span class="absolute top-1 right-1 bg-red-500 text-white text-[9px] font-bold rounded-full w-[14px] h-[14px] flex items-center justify-center leading-none">0</span>
+            </div>
+            <!-- Profile -->
+                        <!-- Profile -->
+                        <!-- Profile -->
+            <div class="relative">
+                <button onclick="toggleAdminMenu(event)" class="flex items-center gap-2 px-3 py-1.5 bg-teal-50 hover:bg-teal-100 text-[#0D9488] rounded-full border border-teal-100 text-xs font-bold transition-all shadow-sm">
+                    
+                    
+                    <div class="w-6 h-6 rounded-full bg-[#0D9488] flex items-center justify-center text-white shrink-0">
+                        <span class="material-symbols-outlined text-[16px] font-bold">person</span>
+                    </div>
+                    <span>Admin</span>
+                    <span class="material-symbols-outlined text-[14px]">expand_more</span>
+                </button>
+                <div id="admin-menu" onclick="event.stopPropagation()" class="absolute right-0 mt-1.5 w-48 bg-white border border-slate-100 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                    <a href="profile.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">person</span> Profile
+                    </a>
+                    <a href="login_activity.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">history</span> Login Activity
+                    </a>
+                    <a href="client_secret.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">key</span> Client & Secret
+                    </a>
+                    <a href="change_password.html" class="px-4 py-2 hover:bg-transparent transition-colors flex items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span class="material-symbols-outlined text-[16px] text-slate-400">lock</span> Change Password
+                    </a>
+                    <a href="signin.html" class="px-4 py-2 hover:bg-red-50 text-red-600 hover:text-red-700 transition-colors flex items-center gap-2 text-xs font-bold">
+                        <span class="material-symbols-outlined text-[16px] text-red-500">logout</span> Sign Out
+                    </a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Content Canvas -->
+    <div class="flex-1 p-6 space-y-6">
+        <!-- Summary Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+            <!-- Total Leads -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+                <div class="space-y-1">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Total Leads</span>
+                    <h3 id="stat-total-leads" class="text-3xl font-extrabold text-slate-750">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-teal-50 text-[#0D9488] rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[26px]">groups</span>
+                </div>
+            </div>
+            <!-- Active Leads -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+                <div class="space-y-1">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Active Leads</span>
+                    <h3 id="stat-active-leads" class="text-3xl font-extrabold text-slate-750">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[26px]">insights</span>
+                </div>
+            </div>
+            <!-- Converted Leads -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+                <div class="space-y-1">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Converted</span>
+                    <h3 id="stat-converted-leads" class="text-3xl font-extrabold text-slate-750">0</h3>
+                </div>
+                <div class="w-12 h-12 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[26px]">check_circle</span>
+                </div>
+            </div>
+            <!-- Conversion Rate -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-5 shadow-sm flex items-center justify-between">
+                <div class="space-y-1">
+                    <span class="text-xs font-semibold text-slate-400 uppercase tracking-wider">Conversion Rate</span>
+                    <h3 id="stat-conversion-rate" class="text-3xl font-extrabold text-slate-750">0%</h3>
+                </div>
+                <div class="w-12 h-12 bg-amber-50 text-amber-600 rounded-xl flex items-center justify-center">
+                    <span class="material-symbols-outlined text-[26px]">query_stats</span>
+                </div>
+            </div>
+        </div>
+
+        
+        <!-- Dashboard Charts/Widgets row -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <!-- Sales Funnel Chart (Pie Chart) -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm flex flex-col col-span-2">
+                <div class="flex justify-between items-center mb-5 relative">
+                    <h3 class="text-sm font-bold text-slate-700 dark:text-slate-250 flex items-center gap-2 uppercase tracking-wide">
+                        <span class="material-symbols-outlined text-teal-600 text-[18px]">pie_chart</span>
+                        Sales Funnel
+                    </h3>
+                    <!-- Date Filter Dropdown -->
+                    <div class="relative inline-block text-left">
+                        <button onclick="toggleDateDropdown(event)" id="date-dropdown-btn" class="flex items-center gap-2 px-3.5 py-1.5 bg-transparent hover:bg-slate-100 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-[11px] font-bold text-slate-650 dark:text-slate-300 transition-all shadow-sm">
+                            <span class="material-symbols-outlined text-[15px] text-[#0D9488]">date_range</span>
+                            <span id="selected-date-filter">All</span>
+                            <span class="material-symbols-outlined text-[15px]">expand_more</span>
+                        </button>
+                        <div id="date-filter-dropdown" class="absolute right-0 mt-1.5 w-40 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                            <button onclick="selectDateFilter('today', 'Today')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">Today</button>
+                            <button onclick="selectDateFilter('1week', '1 Week')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">1 Week</button>
+                            <button onclick="selectDateFilter('15days', '15 Days')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">15 Days</button>
+                            <button onclick="selectDateFilter('1month', '1 Month')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">1 Month</button>
+                            <button onclick="selectDateFilter('all', 'All')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">All</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="stage-chart-container" class="flex-1 space-y-4 pr-2 custom-scrollbar overflow-y-auto max-h-[320px]">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+
+
+            <!-- Source-wise Leads Chart -->
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm flex flex-col">
+                <div class="flex justify-between items-center mb-5 relative">
+                    <h3 class="text-sm font-bold text-slate-700 dark:text-slate-250 flex items-center gap-2 uppercase tracking-wide">
+                        <span class="material-symbols-outlined text-teal-600 text-[18px]">pie_chart</span>
+                        Source-wise Leads
+                    </h3>
+                    <!-- Date Filter Dropdown for Sources -->
+                    <div class="relative inline-block text-left">
+                        <button onclick="toggleSourceDateDropdown(event)" id="source-date-dropdown-btn" class="flex items-center gap-2 px-3.5 py-1.5 bg-transparent hover:bg-slate-100 dark:bg-slate-850 dark:hover:bg-slate-800 border border-slate-200 dark:border-slate-700/80 rounded-xl text-[11px] font-bold text-slate-650 dark:text-slate-300 transition-all shadow-sm">
+                            <span class="material-symbols-outlined text-[15px] text-[#0D9488]">date_range</span>
+                            <span id="selected-source-date-filter">All</span>
+                            <span class="material-symbols-outlined text-[15px]">expand_more</span>
+                        </button>
+                        <div id="source-date-filter-dropdown" class="absolute right-0 mt-1.5 w-40 bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 rounded-xl shadow-lg py-1 z-20 hidden dropdown-menu">
+                            <button onclick="selectSourceDateFilter('today', 'Today')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">Today</button>
+                            <button onclick="selectSourceDateFilter('1week', '1 Week')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">1 Week</button>
+                            <button onclick="selectSourceDateFilter('15days', '15 Days')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">15 Days</button>
+                            <button onclick="selectSourceDateFilter('1month', '1 Month')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">1 Month</button>
+                            <button onclick="selectSourceDateFilter('all', 'All')" class="w-full text-left px-4 py-2 hover:bg-transparent dark:hover:bg-slate-700 transition-colors text-xs font-semibold text-slate-700 dark:text-slate-300">All</button>
+                        </div>
+                    </div>
+                </div>
+                <div id="sources-list-container" class="flex-1 space-y-4 pr-2 custom-scrollbar overflow-y-auto max-h-[320px]">
+                    <!-- Populated dynamically -->
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Leads & Action Items Row -->
+        <div class="grid grid-cols-1 gap-6">
+            <div class="bg-white border border-slate-200/80 rounded-2xl p-6 shadow-sm">
+                <div class="flex items-center justify-between mb-5">
+                    <h3 class="text-sm font-bold text-slate-700 flex items-center gap-2 uppercase tracking-wide">
+                        <span class="material-symbols-outlined text-teal-600 text-[18px]">history</span>
+                        Recent Leads
+                    </h3>
+                    <a href="code.html" class="text-xs font-bold text-[#0D9488] hover:text-[#0F766E] flex items-center gap-0.5">
+                        View All leads <span class="material-symbols-outlined text-[14px]">arrow_forward</span>
+                    </a>
+                </div>
+                <div class="overflow-x-auto">
+                    <div class="overflow-x-auto w-full">
+<table class="w-full text-left border-collapse">
+                        <thead>
+                            <tr class="border-b border-slate-100">
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Name</th>
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Stage</th>
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Mobile</th>
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Source</th>
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">User</th>
+                                <th class="py-3 text-[11px] font-bold text-slate-400 uppercase tracking-wider">Date</th>
+                            </tr>
+                        </thead>
+                        <tbody id="recent-leads-tbody" class="divide-y divide-slate-50 text-[13px] text-slate-700">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<script>
+    // Fullscreen Toggle
+    function toggleFullscreen(button) {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'enabled');
+            }).catch(err => {
+                console.log(`Error attempting to enable full-screen mode: ${err.message}`);
+            });
+        } else {
+            document.exitFullscreen().then(() => {
+                localStorage.setItem('fullscreen', 'disabled');
+            }).catch(e => {});
+        }
+    }
+
+    // Auto-restore fullscreen on first interaction if it was enabled
+    if (!window.hasFullscreenRestorer) {
+        window.hasFullscreenRestorer = true;
+        const restoreFullscreen = () => {
+            if (localStorage.getItem('fullscreen') === 'enabled' && !document.fullscreenElement) {
+                document.documentElement.requestFullscreen().catch(e => {});
+            }
+            document.removeEventListener('click', restoreFullscreen);
+            document.removeEventListener('keydown', restoreFullscreen);
+        };
+        document.addEventListener('click', restoreFullscreen);
+        document.addEventListener('keydown', restoreFullscreen);
+    }
+
+    // Live Clock
+    function initClock() {
+        const clock = document.getElementById('live-clock');
+        const update = () => {
+            const now = new Date();
+            const dd = String(now.getDate()).padStart(2, '0');
+            const mm = String(now.getMonth()+1).padStart(2, '0');
+            const yyyy = now.getFullYear();
+            const hh = String(now.getHours()).padStart(2, '0');
+            const min = String(now.getMinutes()).padStart(2, '0');
+            const ss = String(now.getSeconds()).padStart(2, '0');
+            if (clock) clock.textContent = `${dd}-${mm}-${yyyy} ${hh}:${min}:${ss}`;
+        };
+        update();
+        setInterval(update, 1000);
+    }
+
+    // Admin Dropdown Toggle
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        if (menu) menu.classList.toggle('hidden');
+    }
+    document.addEventListener('click', (e) => {
+        const menu = document.getElementById('admin-menu');
+        if (menu && !menu.contains(e.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+
+    // Dark Mode Toggle
+    function initDarkMode() {
+        if (localStorage.getItem('darkMode') === 'enabled') {
+            document.documentElement.classList.add('dark');
+        }
+    }
+    function toggleDarkMode() {
+        if (document.documentElement.classList.contains('dark')) {
+            document.documentElement.classList.remove('dark');
+            localStorage.setItem('darkMode', 'disabled');
+        } else {
+            document.documentElement.classList.add('dark');
+            localStorage.setItem('darkMode', 'enabled');
+        }
+    }
+
+    // Date filter state
+    let currentFilter = 'all';
+    let currentSourceFilter = 'all';
+
+    function toggleDateDropdown(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('date-filter-dropdown');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function selectDateFilter(filterVal, label) {
+        currentFilter = filterVal;
+        const displayLabel = document.getElementById('selected-date-filter');
+        if (displayLabel) displayLabel.textContent = label;
+        loadStats();
+    }
+
+    function toggleSourceDateDropdown(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('source-date-filter-dropdown');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function selectSourceDateFilter(filterVal, label) {
+        currentSourceFilter = filterVal;
+        const displayLabel = document.getElementById('selected-source-date-filter');
+        if (displayLabel) displayLabel.textContent = label;
+        loadStats();
+    }
+
+    document.addEventListener('click', () => {
+        const menu = document.getElementById('date-filter-dropdown');
+        if (menu) menu.classList.add('hidden');
+        const srcMenu = document.getElementById('source-date-filter-dropdown');
+        if (srcMenu) srcMenu.classList.add('hidden');
+    });
+
+
+
+    // Helper to get solid hex color for stage pie chart
+    function getStatusHexColor(statusName) {
+        const s = (statusName || '').toUpperCase().trim();
+        const colors = {
+            "LEAD": "#14b8a6",            // Teal
+            "LOST": "#4b5563",            // Dark Gray
+            "FOLLOW UP": "#eab308",       // Gold/Yellow
+            "PROPOSAL SENT": "#8b5cf6",   // Purple
+            "OTHERS": "#cbd5e1",          // Light Slate
+            "HOT": "#f97316",             // Orange
+            "TRIAL AC": "#84cc16",        // Lime
+            "TRIAL ACCOUNT": "#84cc16",   // Lime
+            "ONBOARDED": "#10b981",       // Emerald
+            "DEMO DONE": "#06b6d4",       // Cyan
+            "RNR": "#ef4444",             // Red
+            "CALL BACK": "#2563eb",       // Royal Blue
+            "INVOICE SENT": "#ec4899",    // Pink
+            "DEMO SCHEDULED": "#38bdf8",  // Sky Blue
+            "DUPLICATE": "#94a3b8",       // Slate Gray
+            "DIRECT MEETING": "#d946ef"   // Fuchsia
+        };
+        return colors[s] || "#94a3b8"; // Default slate-400 if not matched
+    }
+
+    window.showDonutCenterInfo = function(label, pct, countStr, color) {
+        const titleEl = document.getElementById('donut-center-title');
+        const valEl = document.getElementById('donut-center-value');
+        if (titleEl && valEl) {
+            titleEl.textContent = label.toUpperCase();
+            titleEl.setAttribute('fill', color);
+            if (label.length > 12) {
+                titleEl.setAttribute('font-size', '9');
+            } else {
+                titleEl.setAttribute('font-size', '11');
+            }
+            valEl.textContent = `${pct} (${countStr.split(' ')[0]})`;
+        }
+    };
+
+    window.resetDonutCenterInfo = function(totalCount) {
+        const titleEl = document.getElementById('donut-center-title');
+        const valEl = document.getElementById('donut-center-value');
+        if (titleEl && valEl) {
+            titleEl.textContent = 'TOTAL';
+            titleEl.setAttribute('fill', '#94a3b8');
+            titleEl.setAttribute('font-size', '11');
+            valEl.textContent = totalCount;
+        }
+    };
+
+    // Load & Calculate Stats
+    function loadStats() {
+        let rawLeads = [];
+        try {
+            const stored = localStorage.getItem('leadsData');
+            if (stored) rawLeads = JSON.parse(stored);
+        } catch(e) {}
+
+        const now = new Date();
+        const startOfToday = new Date(now.getFullYear(), now.getMonth(), now.getDate()).getTime();
+
+        // 1. Filter leads for Sales Funnel (and overall stats)
+        const leads = rawLeads.filter(lead => {
+            if (currentFilter === 'all') return true;
+
+            let leadTime = 0;
+            if (lead.date) {
+                leadTime = Number(lead.date);
+            } else if (lead.creationDate) {
+                const parsed = Date.parse(lead.creationDate.replace(/-/g, ' '));
+                if (!isNaN(parsed)) leadTime = parsed;
+            }
+
+            if (leadTime === 0) return false;
+
+            if (currentFilter === 'today') {
+                return leadTime >= startOfToday;
+            } else if (currentFilter === '1week') {
+                return leadTime >= (now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (currentFilter === '15days') {
+                return leadTime >= (now.getTime() - 15 * 24 * 60 * 60 * 1000);
+            } else if (currentFilter === '1month') {
+                return leadTime >= (now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            }
+            return true;
+        });
+
+
+
+        const totalLeads = leads.length;
+        const activeLeads = leads.filter(l => l.stage !== 'LOST' && l.stage !== 'ONBOARDED').length;
+        const convertedLeads = leads.filter(l => l.stage === 'ONBOARDED').length;
+        const conversionRate = totalLeads > 0 ? Math.round((convertedLeads / totalLeads) * 100) : 0;
+
+        document.getElementById('stat-total-leads').textContent = totalLeads;
+        document.getElementById('stat-active-leads').textContent = activeLeads;
+        document.getElementById('stat-converted-leads').textContent = convertedLeads;
+        document.getElementById('stat-conversion-rate').textContent = `${conversionRate}%`;
+
+        // Render Sales Funnel Stage Distribution
+        const statusDisplayNames = [
+            "Lead",
+            "Lost",
+            "Follow Up",
+            "Proposal Sent",
+            "Others",
+            "Hot",
+            "Trial AC",
+            "Onboarded",
+            "Demo Done",
+            "RNR",
+            "Call Back",
+            "Invoice Sent",
+            "Demo Scheduled",
+            "Duplicate",
+            "Direct Meeting"
+        ];
+
+        const STATUS_ALIASES = {
+            "LEAD": ["LEAD"],
+            "LOST": ["LOST"],
+            "FOLLOW UP": ["FOLLOW UP"],
+            "PROPOSAL SENT": ["PROPOSAL SENT"],
+            "OTHERS": ["OTHERS"],
+            "HOT": ["HOT"],
+            "TRIAL AC": ["TRIAL ACCOUNT", "TRIAL AC"],
+            "ONBOARDED": ["ONBOARDED"],
+            "DEMO DONE": ["DEMO DONE"],
+            "RNR": ["RNR"],
+            "CALL BACK": ["CALL BACK"],
+            "INVOICE SENT": ["INVOICE SENT", "INVOICE"],
+            "DEMO SCHEDULED": ["DEMO SCHEDULED", "DEMO SCHEDULE"],
+            "DUPLICATE": ["DUPLICATE"],
+            "DIRECT MEETING": ["DIRECT MEETING"]
+        };
+
+        const stageCounts = {};
+        statusDisplayNames.forEach(name => {
+            stageCounts[name] = 0;
+        });
+
+        leads.forEach(l => {
+            const rawStage = (l.stage || '').toUpperCase().trim();
+            let matched = false;
+            for (const dispName of statusDisplayNames) {
+                const aliases = STATUS_ALIASES[dispName.toUpperCase()] || [dispName.toUpperCase()];
+                if (aliases.includes(rawStage)) {
+                    stageCounts[dispName]++;
+                    matched = true;
+                    break;
+                }
+            }
+            if (!matched) {
+                const found = statusDisplayNames.find(n => n.toUpperCase() === rawStage);
+                if (found) {
+                    stageCounts[found]++;
+                } else {
+                    stageCounts["Others"]++;
+                }
+            }
+        });
+
+        const chartContainer = document.getElementById('stage-chart-container');
+        chartContainer.innerHTML = '';
+
+        const totalFunnelLeads = Object.values(stageCounts).reduce((a, b) => a + b, 0);
+
+        const radius = 75;
+        const strokeWidth = 20;
+        const circumference = 2 * Math.PI * radius; // ~471.24
+        
+        let svgContent = `<svg width="200" height="200" viewBox="0 0 200 200" class="w-full h-full">`;
+        let legendHTML = '';
+
+        if (totalFunnelLeads === 0) {
+            // Draw a single light-gray circle
+            svgContent += `
+                <circle cx="100" cy="100" r="${radius}" 
+                        fill="transparent" 
+                        stroke="#e2e8f0" 
+                        stroke-width="${strokeWidth}" />
+            `;
+        } else {
+            let cumulativeOffset = 0;
+            const activeStages = statusDisplayNames
+                .map(sName => ({ name: sName, count: stageCounts[sName] }))
+                .filter(item => item.count > 0);
+
+            activeStages.forEach(item => {
+                const count = item.count;
+                const pct = (count / totalFunnelLeads) * 100;
+                const pctRounded = Math.round(pct);
+                const color = getStatusHexColor(item.name);
+                const segmentLength = (pct / 100) * circumference;
+                
+                svgContent += `
+                    <circle cx="100" cy="100" r="${radius}" 
+                            fill="transparent" 
+                            stroke="${color}" 
+                            stroke-width="${strokeWidth}" 
+                            stroke-dasharray="${segmentLength} ${circumference}" 
+                            stroke-dashoffset="-${cumulativeOffset}" 
+                            transform="rotate(-90 100 100)"
+                            onmouseover="window.showDonutCenterInfo('${item.name}', '${pctRounded}%', '${count} Leads', '${color}')"
+                            onmouseout="window.resetDonutCenterInfo('${totalFunnelLeads}')"
+                            class="transition-all duration-300 hover:stroke-[24] cursor-pointer" />
+                `;
+                cumulativeOffset += segmentLength;
+            });
+        }
+
+        // Build the legend items listing all statuses in order, with square color bullets (always shown!)
+        statusDisplayNames.forEach(sName => {
+            const color = getStatusHexColor(sName);
+            legendHTML += `
+                <div class="flex items-center gap-2 text-[11px] py-0.5 select-none hover:bg-slate-100/50 dark:hover:bg-slate-800/50 rounded px-1 transition-colors">
+                    <span class="w-3.5 h-3.5 rounded-sm shrink-0 border border-slate-200/10" style="background-color: ${color}"></span>
+                    <span class="text-slate-650 dark:text-slate-400 font-semibold truncate" title="${sName}">${sName}</span>
+                </div>
+            `;
+        });
+
+        svgContent += `
+            <text x="100" y="95" font-size="12" fill="#94a3b8" text-anchor="middle" font-weight="bold" class="font-sans" id="donut-center-title">TOTAL</text>
+            <text x="100" y="118" font-size="20" fill="#1e293b" text-anchor="middle" font-weight="extrabold" class="font-sans dark:fill-white" id="donut-center-value">${totalFunnelLeads}</text>
+        </svg>
+        `;
+
+        chartContainer.innerHTML = `
+            <div class="flex flex-col md:flex-row items-center justify-center gap-8 h-full py-2 w-full">
+                <div class="w-[200px] h-[200px] shrink-0 relative flex items-center justify-center">
+                    ${svgContent}
+                </div>
+                <!-- Excel-style Legend Card -->
+                <div class="bg-transparent dark:bg-slate-800/30 border border-slate-200/60 dark:border-slate-700/60 rounded-xl p-3 w-[170px] shrink-0 text-slate-700 dark:text-slate-350 self-start custom-scrollbar overflow-y-auto max-h-[280px] space-y-2">
+                    <div class="flex items-center gap-1 text-slate-400 dark:text-slate-500 font-bold text-[9px] uppercase tracking-wider">
+                        <span class="material-symbols-outlined text-[12px] rotate-90">play_arrow</span>
+                        Status
+                    </div>
+                    <div class="space-y-1">
+                        ${legendHTML}
+                    </div>
+                </div>
+            </div>
+        `;
+
+
+
+        // Render Source Breakdown
+        // Filter leads for Source-wise Leads based on currentSourceFilter
+        const sourceLeads = rawLeads.filter(lead => {
+            if (currentSourceFilter === 'all') return true;
+
+            let leadTime = 0;
+            if (lead.date) {
+                leadTime = Number(lead.date);
+            } else if (lead.creationDate) {
+                const parsed = Date.parse(lead.creationDate.replace(/-/g, ' '));
+                if (!isNaN(parsed)) leadTime = parsed;
+            }
+
+            if (leadTime === 0) return false;
+
+            if (currentSourceFilter === 'today') {
+                return leadTime >= startOfToday;
+            } else if (currentSourceFilter === '1week') {
+                return leadTime >= (now.getTime() - 7 * 24 * 60 * 60 * 1000);
+            } else if (currentSourceFilter === '15days') {
+                return leadTime >= (now.getTime() - 15 * 24 * 60 * 60 * 1000);
+            } else if (currentSourceFilter === '1month') {
+                return leadTime >= (now.getTime() - 30 * 24 * 60 * 60 * 1000);
+            }
+            return true;
+        });
+
+        // Load configured sources from settings
+        let configuredSources = [];
+        try {
+            const storedSources = localStorage.getItem('leadSourcesData');
+            if (storedSources) {
+                const parsed = JSON.parse(storedSources);
+                if (Array.isArray(parsed)) {
+                    configuredSources = parsed.map(s => (s.name || '').toUpperCase().trim()).filter(Boolean);
+                }
+            }
+        } catch(e) {}
+
+        const sourceCounts = {};
+        // Pre-populate with all configured sources (set counts to 0)
+        configuredSources.forEach(src => {
+            sourceCounts[src] = 0;
+        });
+
+        // Count leads per source
+        sourceLeads.forEach(l => {
+            const rawSrc = (l.source || '').toUpperCase().trim();
+            if (rawSrc) {
+                if (sourceCounts[rawSrc] !== undefined) {
+                    sourceCounts[rawSrc]++;
+                } else if (configuredSources.length === 0) {
+                    // Fallback: track dynamically if no configured sources exist
+                    sourceCounts[rawSrc] = (sourceCounts[rawSrc] || 0) + 1;
+                } else {
+                    // Include any unconfigured source dynamically to prevent data loss
+                    sourceCounts[rawSrc] = (sourceCounts[rawSrc] || 0) + 1;
+                }
+            }
+        });
+
+        const sourcesContainer = document.getElementById('sources-list-container');
+        sourcesContainer.innerHTML = '';
+        const sortedSources = Object.entries(sourceCounts).sort((a,b) => b[1] - a[1]);
+        const totalSourceLeadsCount = Object.values(sourceCounts).reduce((a, b) => a + b, 0);
+
+        sortedSources.forEach(([src, count]) => {
+            const srcPct = totalSourceLeadsCount > 0 ? Math.round((count / totalSourceLeadsCount) * 100) : 0;
+            const div = document.createElement('div');
+            div.className = 'flex items-center justify-between text-xs';
+            div.innerHTML = `
+                <div class="flex items-center gap-2">
+                    <span class="material-symbols-outlined text-[#0D9488] text-[16px]">campaign</span>
+                    <span class="font-semibold text-slate-700 dark:text-slate-300 truncate max-w-[150px]">${src}</span>
+                </div>
+                <div class="flex items-center gap-3">
+                    <span class="text-slate-400 dark:text-slate-500">${srcPct}%</span>
+                    <span class="font-bold text-slate-700 dark:text-slate-300 w-8 text-right">${count}</span>
+                </div>
+            `;
+            sourcesContainer.appendChild(div);
+        });
+        if (sortedSources.length === 0) {
+            sourcesContainer.innerHTML = `<div class="text-slate-400 text-xs py-4 text-center">No sources configured yet</div>`;
+        }
+
+        // Render Recent Leads
+        const recentLeadsTbody = document.getElementById('recent-leads-tbody');
+        recentLeadsTbody.innerHTML = '';
+        
+        const recent = leads.slice(-5).reverse();
+        recent.forEach(lead => {
+            const tr = document.createElement('tr');
+            tr.className = 'hover:bg-transparent/50 dark:hover:bg-slate-800/30 transition-colors';
+            tr.innerHTML = `
+                <td class="py-3 font-bold text-slate-800 dark:text-slate-200">${lead.name}</td>
+                <td class="py-3"><span class="px-2 py-0.5 rounded text-[10px] font-bold bg-teal-50 dark:bg-teal-950/20 text-[#0D9488] dark:text-teal-400 border border-teal-150 dark:border-teal-900/50">${lead.stage}</span></td>
+                <td class="py-3 text-slate-700 dark:text-slate-300">${lead.mobile || '-'}</td>
+                <td class="py-3 text-slate-500 dark:text-slate-400">${lead.source || '-'}</td>
+                <td class="py-3 text-slate-500 dark:text-slate-400">${lead.user || '-'}</td>
+                <td class="py-3 text-slate-400 dark:text-slate-500 text-[11px]">${lead.creationDate || '-'}</td>
+            `;
+            recentLeadsTbody.appendChild(tr);
+        });
+        if (recent.length === 0) {
+            recentLeadsTbody.innerHTML = `<tr><td colspan="6" class="py-8 text-center text-slate-400 dark:text-slate-500 text-xs">No leads loaded</td></tr>`;
+        }
+    }
+
+    document.addEventListener('DOMContentLoaded', () => {
+        initClock();
+        initDarkMode();
+        loadStats();
+    });
+
+    // Injected Change Password Dropdown Logic
+    function toggleChangePasswordMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('change-password-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'change-password-menu') m.classList.add('hidden');
+        });
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    function handleHeaderChangePassword(event) {
+        event.preventDefault();
+        const form = event.target;
+        const oldPass = form.querySelector('.header-old-pass').value;
+        const newPass = form.querySelector('.header-new-pass').value;
+        const confirmPass = form.querySelector('.header-confirm-pass').value;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) {
+            showToast('No active session found.', 'error');
+            return;
+        }
+
+        let users = [];
+        try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+        
+        const userIdx = users.findIndex(u => u.username.toLowerCase() === session.username.toLowerCase());
+        if (userIdx === -1) {
+            showToast('User not found.', 'error');
+            return;
+        }
+
+        if (oldPass !== users[userIdx].password) {
+            showToast('Incorrect old password!', 'error');
+            return;
+        }
+
+        if (newPass.length < 6) {
+            showToast('New password must be at least 6 characters!', 'error');
+            return;
+        }
+
+        if (newPass !== confirmPass) {
+            showToast('New password and confirm password do not match!', 'error');
+            return;
+        }
+
+        if (newPass === oldPass) {
+            showToast('New password cannot be the same as old password!', 'error');
+            return;
+        }
+
+        users[userIdx].password = newPass;
+        localStorage.setItem('crmUsers', JSON.stringify(users));
+
+        showToast('Password updated successfully!');
+        form.reset();
+        
+        const menu = document.getElementById('change-password-menu');
+        if (menu) menu.classList.add('hidden');
+
+        if (typeof verifySession === 'function') {
+            verifySession();
+        }
+    }
+
+    if (typeof showForgotPasswordModal !== 'function') {
+        window.showForgotPasswordModal = function() {
+            const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+            if (!session) return;
+            let users = [];
+            try { users = JSON.parse(localStorage.getItem('crmUsers') || '[]'); } catch(e) {}
+            const user = users.find(u => u.username.toLowerCase() === session.username.toLowerCase());
+            if (user) {
+                const modal = document.getElementById('forgot-password-modal');
+                if (modal) {
+                    document.getElementById('retrieved-password').textContent = user.password;
+                    document.getElementById('retrieved-email').textContent = user.email || 'your registered email';
+                    modal.classList.remove('hidden');
+                } else {
+                    alert('For sandbox testing, your current password is: ' + user.password);
+                }
+            }
+        };
+    }
+
+    function toggleAdminMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    }
+
+    if (typeof showToast !== 'function') {
+        window.showToast = function(message, type = 'success') {
+            let container = document.getElementById('toast-container');
+            if (!container) {
+                container = document.createElement('div');
+                container.id = 'toast-container';
+                container.className = 'fixed top-4 right-4 z-50 flex flex-col gap-3';
+                document.body.appendChild(container);
+            }
+
+            const toast = document.createElement('div');
+            toast.className = 'flex items-center gap-2 px-4 py-3 rounded-xl shadow-lg border text-xs font-bold transition-all duration-300 transform translate-x-12 opacity-0';
+            
+            let icon = 'check_circle';
+            if (type === 'success') {
+                toast.className += ' bg-emerald-50 border-emerald-250 text-emerald-700';
+            } else if (type === 'error') {
+                toast.className += ' bg-red-50 border-red-250 text-red-750';
+                icon = 'error';
+            } else {
+                toast.className += ' bg-transparent border-slate-250 text-slate-700';
+                icon = 'info';
+            }
+
+            toast.innerHTML = `<span class="material-symbols-outlined text-[18px]">${icon}</span><span>${message}</span>`;
+            container.appendChild(toast);
+            
+            setTimeout(() => {
+                toast.classList.remove('translate-x-12', 'opacity-0');
+            }, 10);
+
+            setTimeout(() => {
+                toast.classList.add('translate-x-12', 'opacity-0');
+                setTimeout(() => toast.remove(), 300);
+            }, 3000);
+        };
+    }
+
+    document.addEventListener('click', () => {
+        const cpMenu = document.getElementById('change-password-menu');
+        if (cpMenu) cpMenu.classList.add('hidden');
+    });
+
+
+    // Injected Login Activity Dropdown Logic
+    function toggleLoginActivityMenu(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('login-activity-menu');
+        const adminMenu = document.getElementById('admin-menu');
+        if (adminMenu) adminMenu.classList.add('hidden');
+        document.querySelectorAll('.dropdown-menu').forEach(m => {
+            if (m.id !== 'login-activity-menu') m.classList.add('hidden');
+        });
+        if (menu) {
+            menu.classList.toggle('hidden');
+            if (!menu.classList.contains('hidden')) {
+                renderHeaderLoginLogs();
+            }
+        }
+    }
+
+    function renderHeaderLoginLogs() {
+        const tbodies = document.querySelectorAll('.header-login-activity-tbody');
+        if (tbodies.length === 0) return;
+
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || 'null');
+        if (!session) return;
+
+        let logs = [];
+        try {
+            logs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]');
+        } catch(e) {}
+
+        logs = logs.filter(a => a.username.toLowerCase() === session.username.toLowerCase());
+
+        if (logs.length === 0) {
+            logs = seedMockLoginLogsHeader(session.username);
+        }
+
+        const recent = logs.slice().reverse().slice(0, 5);
+
+        tbodies.forEach(tbody => {
+            tbody.innerHTML = '';
+            recent.forEach((log, index) => {
+                const tr = document.createElement('tr');
+                tr.className = 'hover:bg-transparent/50 transition-colors';
+                
+                const loginStr = formatHeaderDateTime(new Date(log.loginAt));
+                const logoutStr = log.logoutAt ? formatHeaderDateTime(new Date(log.logoutAt)) : '<span class="text-emerald-600 font-bold">Active</span>';
+                const durationStr = log.logoutAt ? log.duration : '--';
+                const serialNo = logs.length - index;
+
+                tr.innerHTML = `
+                    <td class="py-1.5 px-2 font-semibold text-slate-500">${serialNo}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-700">${loginStr}</td>
+                    <td class="py-1.5 px-2 font-medium text-slate-750">${logoutStr}</td>
+                    <td class="py-1.5 px-2 font-bold text-slate-650">${durationStr}</td>
+                    <td class="py-1.5 px-2 font-mono text-slate-500">${log.ip}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            if (recent.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="5" class="py-4 text-center text-slate-400 text-xs">No records.</td></tr>';
+            }
+        });
+    }
+
+    function formatHeaderDateTime(date) {
+        const dd = String(date.getDate()).padStart(2, '0');
+        const mm = String(date.getMonth() + 1).padStart(2, '0');
+        const yyyy = date.getFullYear();
+        const hh = String(date.getHours()).padStart(2, '0');
+        const min = String(date.getMinutes()).padStart(2, '0');
+        return `${dd}-${mm} ${hh}:${min}`;
+    }
+
+    function seedMockLoginLogsHeader(username) {
+        const logs = [];
+        const ips = ['192.168.1.102', '192.168.1.15', '172.16.4.52', '10.0.0.15', '192.168.1.200', '198.51.100.24', '203.0.113.88'];
+        const now = Date.now();
+
+        for (let i = 15; i >= 1; i--) {
+            const loginOffset = i * 8 * 60 * 60 * 1000;
+            const loginTime = now - loginOffset;
+            const durationMin = Math.floor(Math.random() * 120) + 15;
+            const logoutTime = i === 1 ? null : loginTime + (durationMin * 60 * 1000);
+            
+            let durationStr = '--';
+            if (logoutTime) {
+                const hours = Math.floor(durationMin / 60);
+                const mins = durationMin % 60;
+                durationStr = hours > 0 ? `${hours}h ${mins}m` : `${mins}m`;
+            }
+
+            logs.push({
+                username: username,
+                serial: 16 - i,
+                loginAt: loginTime,
+                logoutAt: logoutTime,
+                duration: durationStr,
+                ip: ips[Math.floor(Math.random() * ips.length)]
+            });
+        }
+
+        let allLogs = [];
+        try { allLogs = JSON.parse(localStorage.getItem('crmLoginActivities') || '[]'); } catch(e) {}
+        allLogs = allLogs.filter(a => a.username.toLowerCase() !== username.toLowerCase());
+        allLogs = [...allLogs, ...logs];
+        localStorage.setItem('crmLoginActivities', JSON.stringify(allLogs));
+
+        return logs;
+    }
+
+    window.toggleAdminMenu = function(event) {
+        event.stopPropagation();
+        const menu = document.getElementById('admin-menu');
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+        if (menu) menu.classList.toggle('hidden');
+    };
+
+    document.addEventListener('click', () => {
+        const laMenu = document.getElementById('login-activity-menu');
+        if (laMenu) laMenu.classList.add('hidden');
+    });
+
+</script>
+<script>
+    // Enforce User Role Access
+    (function enforceUserRole() {
+        const session = JSON.parse(localStorage.getItem('crmActiveSession') || '{}');
+        if (session.role === 'user') {
+            document.querySelectorAll('a[href="reports.html"]').forEach(el => el.remove());
+            document.querySelectorAll('a[href="settings.html"]').forEach(el => el.remove());
+            
+            const roleText = document.querySelector('aside p');
+            if (roleText) roleText.textContent = 'CRM USER';
+
+            const headerRoleSpans = document.querySelectorAll('header button span');
+            headerRoleSpans.forEach(span => {
+                if (span.textContent.trim() === 'Admin') span.textContent = 'User';
+            });
+
+            if (window.location.pathname.endsWith('reports.html') || window.location.pathname.endsWith('settings.html')) {
+                window.location.replace('dashboard.html');
+            }
+        }
+    })();
+</script>
+
+
+
+
+</body>
+</html>

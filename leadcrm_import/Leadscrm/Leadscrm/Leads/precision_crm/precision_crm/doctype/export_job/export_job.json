@@ -1,0 +1,19 @@
+{
+  "doctype": "Export Job",
+  "module": "Precision CRM",
+  "autoname": "field:naming_series",
+  "naming_series": "EXP-.YYYY.-#####",
+  "fields": [
+    {"fieldname": "doctype_to_export", "fieldtype": "Data", "label": "DocType to Export", "reqd": 1},
+    {"fieldname": "file_path", "fieldtype": "Data", "label": "File Path"},
+    {"fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "Pending\nProcessing\nCompleted\nFailed", "default": "Pending"},
+    {"fieldname": "owner", "fieldtype": "Link", "label": "Owner", "options": "User"},
+    {"fieldname": "assigned_to", "fieldtype": "Link", "label": "Assigned To", "options": "User"},
+    {"fieldname": "created_by", "fieldtype": "Link", "label": "Created By", "options": "User"},
+    {"fieldname": "modified_by", "fieldtype": "Link", "label": "Modified By", "options": "User"},
+    {"fieldname": "creation", "fieldtype": "Datetime", "label": "Creation"},
+    {"fieldname": "modified", "fieldtype": "Datetime", "label": "Modified"},
+    {"fieldname": "docstatus", "fieldtype": "Select", "label": "Docstatus", "options": "0\n1\n2"}
+  ],
+  "indexes": [{"fields": ["status"]}]
+}
