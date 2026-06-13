@@ -34,3 +34,9 @@ frappe.db.count("CRM\040Lead")
 exit
 frappe.get_all("Workspace",\040pluck="name")
 exit
+SELECT\040name,\040lead_name,\040mobile
+FROM\040`tabCRM\040Lead`
+ORDER\040BY\040creation\040DESC
+LIMIT\04020;
+SELECT\040name,\040lead_name,\040mobile\040FROM\040`tabCRM\040Lead`\040ORDER\040BY\040creation\040DESC\040LIMIT\04020;
+exit;

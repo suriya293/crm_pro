@@ -48,3 +48,57 @@ Backup Summary for crm.local at 2026-06-09 11:30:04.925392
 Config  : ./crm.local/private/backups/20260609_113003-crm_local-site_config_backup.json 264.0B
 Database: ./crm.local/private/backups/20260609_113003-crm_local-database.sql.gz         355.2KiB
 Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260609_173002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-09 17:30:04.454740
+Config  : ./crm.local/private/backups/20260609_173002-crm_local-site_config_backup.json 264.0B
+Database: ./crm.local/private/backups/20260609_173002-crm_local-database.sql.gz         385.0KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260610_113002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-10 11:30:04.020364
+Config  : ./crm.local/private/backups/20260610_113002-crm_local-site_config_backup.json 264.0B
+Database: ./crm.local/private/backups/20260610_113002-crm_local-database.sql.gz         428.9KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260610_173002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-10 17:30:04.339276
+Config  : ./crm.local/private/backups/20260610_173002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260610_173002-crm_local-database.sql.gz         506.9KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260611_113002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-11 11:30:06.568606
+Config  : ./crm.local/private/backups/20260611_113002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260611_113002-crm_local-database.sql.gz         527.2KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260611_173003-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-11 17:30:06.362202
+Config  : ./crm.local/private/backups/20260611_173003-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260611_173003-crm_local-database.sql.gz         561.9KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260612_173002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-12 17:30:04.856371
+Config  : ./crm.local/private/backups/20260612_173002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260612_173002-crm_local-database.sql.gz         592.3KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260612_233002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-12 23:30:04.461157
+Config  : ./crm.local/private/backups/20260612_233002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260612_233002-crm_local-database.sql.gz         601.3KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260613_113002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-13 11:30:03.571009
+Config  : ./crm.local/private/backups/20260613_113002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260613_113002-crm_local-database.sql.gz         610.7KiB
+Backup for Site crm.local has been successfully completed
+set -o pipefail; /usr/bin/mariadb-dump --user=_1195e485d233df44 --host=127.0.0.1 --port=3306 --password=********** --single-transaction --quick --lock-tables=false _1195e485d233df44 | /usr/bin/gzip >> ./crm.local/private/backups/20260613_173002-crm_local-database.sql.gz
+
+Backup Summary for crm.local at 2026-06-13 17:30:04.611383
+Config  : ./crm.local/private/backups/20260613_173002-crm_local-site_config_backup.json 284.0B
+Database: ./crm.local/private/backups/20260613_173002-crm_local-database.sql.gz         626.4KiB
+Backup for Site crm.local has been successfully completed

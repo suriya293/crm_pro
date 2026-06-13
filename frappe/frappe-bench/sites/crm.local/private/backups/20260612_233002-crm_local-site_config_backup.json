@@ -8,5 +8,6 @@
   "crm.local"
  ],
  "encryption_key": "hSaclK-AXDZfn7UfnxfEA5ZzBQzStMqy_0eVb8dr7Wk=",
- "pause_scheduler": false
+ "pause_scheduler": false,
+ "allow_cors": "*"
 }

@@ -1,0 +1,258 @@
+apps/crm_pro/crm_pro/ai.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/ai.py:from frappe import _
+apps/crm_pro/crm_pro/api.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/api.py:from frappe import _
+apps/crm_pro/crm_pro/api.py:from frappe.utils import flt
+apps/crm_pro/crm_pro/api.py:from frappe.query_builder.functions import Sum, Count
+apps/crm_pro/crm_pro/api_auth.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/api_auth.py:from datetime import datetime, timedelta
+apps/crm_pro/crm_pro/api_auth.py:from frappe.utils.password import get_password_hash, check_password
+apps/crm_pro/crm_pro/api_auth.py:from frappe import _
+apps/crm_pro/crm_pro/create_workspaces.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/api_key/api_key.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/api_key/api_key.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/api_key/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_activity/crm_activity.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_activity/crm_activity.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_activity/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_attachment/crm_attachment.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_attachment/crm_attachment.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_attachment/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_audit_log/crm_audit_log.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_audit_log/crm_audit_log.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_audit_log/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_call_log/crm_call_log.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_call_log/crm_call_log.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_call_log/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_company/crm_company.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_company/crm_company.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_company/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact/crm_contact.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact/crm_contact.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_contact/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact_email/crm_contact_email.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact_email/crm_contact_email.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_contact_email/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/crm_contact_phone.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/crm_contact_phone.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_custom_field/crm_custom_field.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_custom_field/crm_custom_field.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_custom_field/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/crm_dashboard_metrics.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/crm_dashboard_metrics.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_deal/crm_deal.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_deal/crm_deal.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_deal/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_email_log/crm_email_log.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_email_log/crm_email_log.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_email_log/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_lead/crm_lead.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_lead/crm_lead.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_lead/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/crm_lead_snapshot.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/crm_lead_snapshot.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_meeting/crm_meeting.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_meeting/crm_meeting.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_meeting/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_note/crm_note.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_note/crm_note.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_note/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_notification/crm_notification.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_notification/crm_notification.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_notification/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_pipeline/crm_pipeline.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_pipeline/crm_pipeline.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_pipeline/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/crm_pipeline_stage.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/crm_pipeline_stage.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_reminder/crm_reminder.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_reminder/crm_reminder.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_reminder/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/crm_role_configuration.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/crm_role_configuration.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_sales_target/crm_sales_target.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_sales_target/crm_sales_target.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_sales_target/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_settings/crm_settings.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_settings/crm_settings.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_settings/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_task/crm_task.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_task/crm_task.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_task/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_team/crm_team.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_team/crm_team.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_team/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_user_profile/crm_user_profile.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_user_profile/crm_user_profile.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_user_profile/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/crm_whatsapp_log.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/crm_whatsapp_log.py:from frappe.model.document import Document
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/install.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/install.py:from frappe import _
+apps/crm_pro/crm_pro/jobs.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/jobs.py:from frappe.utils import now_datetime
+apps/crm_pro/crm_pro/jobs.py:from frappe.query_builder.functions import Sum
+apps/crm_pro/crm_pro/meta.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/meta.py:from frappe import _
+apps/crm_pro/crm_pro/meta.py:from frappe.utils import now_datetime
+apps/crm_pro/crm_pro/meta.py:from werkzeug.wrappers import Response
+apps/crm_pro/crm_pro/rebuild_crm_pro.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/setup_roles_permissions.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/temp_report_gen.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/temp_report_gen.py:from PIL import Image, ImageDraw, ImageFont
+apps/crm_pro/crm_pro/temp_report_gen.py:from fpdf import FPDF
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:from crm_pro.api import create_lead, update_lead, delete_lead, get_dashboard_metrics, create_deal
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:from crm_pro.ai import get_lead_score, predict_deal_success
+apps/crm_pro/crm_pro/tests/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/test_sched.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/test_sched.py:from frappe.utils.scheduler import is_scheduler_disabled
+apps/crm_pro/crm_pro/validate_facebook.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/validate_facebook.py:from crm_pro.meta import verify_meta_signature
+apps/crm_pro/crm_pro/validate_facebook.py:from crm_pro.jobs import fetch_and_create_facebook_lead
+apps/crm_pro/crm_pro/verify_all.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/verify_db.py:from ratelimit import limits as ratelimit
+apps/crm_pro/pwd/__init__.py:from ratelimit import limits as ratelimit
+apps/crm_pro/pwd.py:from ratelimit import limits as ratelimit
+apps/crm_pro/crm_pro/ai.py:import logging
+apps/crm_pro/crm_pro/ai.py:import frappe
+apps/crm_pro/crm_pro/api.py:import logging
+apps/crm_pro/crm_pro/api.py:import frappe
+apps/crm_pro/crm_pro/api.py:import json
+apps/crm_pro/crm_pro/api_auth.py:import logging
+apps/crm_pro/crm_pro/api_auth.py:import frappe
+apps/crm_pro/crm_pro/api_auth.py:import json
+apps/crm_pro/crm_pro/api_auth.py:import hashlib
+apps/crm_pro/crm_pro/api_auth.py:import secrets
+apps/crm_pro/crm_pro/api_auth.py:import time
+apps/crm_pro/crm_pro/api_auth.py:import pyotp
+apps/crm_pro/crm_pro/create_workspaces.py:import logging
+apps/crm_pro/crm_pro/create_workspaces.py:import frappe
+apps/crm_pro/crm_pro/create_workspaces.py:import json
+apps/crm_pro/crm_pro/create_workspaces.py:import os
+apps/crm_pro/crm_pro/doctype/api_key/api_key.py:import logging
+apps/crm_pro/crm_pro/doctype/api_key/api_key.py:import frappe
+apps/crm_pro/crm_pro/doctype/api_key/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_activity/crm_activity.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_activity/crm_activity.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_activity/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_attachment/crm_attachment.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_attachment/crm_attachment.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_attachment/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_audit_log/crm_audit_log.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_audit_log/crm_audit_log.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_audit_log/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_call_log/crm_call_log.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_call_log/crm_call_log.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_call_log/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_company/crm_company.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_company/crm_company.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_company/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact/crm_contact.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact/crm_contact.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_contact/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact_email/crm_contact_email.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact_email/crm_contact_email.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_contact_email/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/crm_contact_phone.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/crm_contact_phone.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_contact_phone/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_custom_field/crm_custom_field.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_custom_field/crm_custom_field.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_custom_field/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/crm_dashboard_metrics.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/crm_dashboard_metrics.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_dashboard_metrics/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_deal/crm_deal.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_deal/crm_deal.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_deal/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_email_log/crm_email_log.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_email_log/crm_email_log.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_email_log/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_lead/crm_lead.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_lead/crm_lead.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_lead/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/crm_lead_snapshot.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/crm_lead_snapshot.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_lead_snapshot/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_meeting/crm_meeting.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_meeting/crm_meeting.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_meeting/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_note/crm_note.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_note/crm_note.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_note/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_notification/crm_notification.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_notification/crm_notification.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_notification/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_pipeline/crm_pipeline.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_pipeline/crm_pipeline.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_pipeline/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/crm_pipeline_stage.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/crm_pipeline_stage.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_pipeline_stage/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_reminder/crm_reminder.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_reminder/crm_reminder.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_reminder/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/crm_role_configuration.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/crm_role_configuration.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_role_configuration/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_sales_target/crm_sales_target.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_sales_target/crm_sales_target.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_sales_target/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_settings/crm_settings.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_settings/crm_settings.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_settings/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_task/crm_task.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_task/crm_task.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_task/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_team/crm_team.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_team/crm_team.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_team/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_user_profile/crm_user_profile.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_user_profile/crm_user_profile.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_user_profile/__init__.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/crm_whatsapp_log.py:import logging
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/crm_whatsapp_log.py:import frappe
+apps/crm_pro/crm_pro/doctype/crm_whatsapp_log/__init__.py:import logging
+apps/crm_pro/crm_pro/hooks.py:import logging
+apps/crm_pro/crm_pro/install.py:import logging
+apps/crm_pro/crm_pro/install.py:import frappe
+apps/crm_pro/crm_pro/jobs.py:import logging
+apps/crm_pro/crm_pro/jobs.py:import frappe
+apps/crm_pro/crm_pro/meta.py:import logging
+apps/crm_pro/crm_pro/meta.py:import frappe
+apps/crm_pro/crm_pro/meta.py:import requests
+apps/crm_pro/crm_pro/meta.py:import json
+apps/crm_pro/crm_pro/rebuild_crm_pro.py:import logging
+apps/crm_pro/crm_pro/rebuild_crm_pro.py:import frappe
+apps/crm_pro/crm_pro/rebuild_crm_pro.py:import json
+apps/crm_pro/crm_pro/rebuild_crm_pro.py:import os
+apps/crm_pro/crm_pro/setup_roles_permissions.py:import logging
+apps/crm_pro/crm_pro/setup_roles_permissions.py:import frappe
+apps/crm_pro/crm_pro/temp_report_gen.py:import logging
+apps/crm_pro/crm_pro/temp_report_gen.py:import os
+apps/crm_pro/crm_pro/temp_report_gen.py:import json
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:import logging
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:import unittest
+apps/crm_pro/crm_pro/tests/test_crm_pro.py:import frappe
+apps/crm_pro/crm_pro/tests/__init__.py:import logging
+apps/crm_pro/crm_pro/test_sched.py:import logging
+apps/crm_pro/crm_pro/test_sched.py:import frappe
+apps/crm_pro/crm_pro/validate_facebook.py:import logging
+apps/crm_pro/crm_pro/validate_facebook.py:import frappe
+apps/crm_pro/crm_pro/validate_facebook.py:import hmac
+apps/crm_pro/crm_pro/validate_facebook.py:import hashlib
+apps/crm_pro/crm_pro/verify_all.py:import logging
+apps/crm_pro/crm_pro/verify_all.py:import frappe
+apps/crm_pro/crm_pro/verify_db.py:import logging
+apps/crm_pro/crm_pro/verify_db.py:import frappe
+apps/crm_pro/crm_pro/verify_db.py:import json
+apps/crm_pro/crm_pro/__init__.py:import sys
+apps/crm_pro/pwd/__init__.py:import logging
+apps/crm_pro/pwd.py:import logging

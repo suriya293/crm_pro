@@ -80,3 +80,149 @@ alter table `tabDocType` add column if not exists migration_hash varchar(140)
 alter table `tabDocType` add column if not exists migration_hash varchar(140)
 2026-06-08 11:43:57,295 WARNING database DDL Query made to DB:
 alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 07:38:36,570 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 07:43:46,205 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Lead` MODIFY `opportunity_value` decimal(21,9) not null default 0
+2026-06-09 07:43:47,903 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Deal` MODIFY `deal_value` decimal(21,9) not null default 0
+2026-06-09 07:43:56,717 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 07:47:30,223 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 07:47:46,650 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Lead` MODIFY `opportunity_value` decimal(21,9) not null default 0
+2026-06-09 07:47:48,423 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Deal` MODIFY `deal_value` decimal(21,9) not null default 0
+2026-06-09 07:59:38,216 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 08:00:40,189 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 09:47:51,396 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 09:52:01,971 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 09:57:02,281 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:01:37,766 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:06:33,408 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:10:22,164 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:15:23,658 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:20:29,595 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 10:20:34,597 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Company` MODIFY `annual_revenue` decimal(21,9) not null default 0
+2026-06-09 10:20:36,806 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Dashboard Metrics` MODIFY `total_revenue` decimal(21,9) not null default 0
+2026-06-09 10:20:37,331 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Deal` MODIFY `deal_value` decimal(21,9) not null default 0
+2026-06-09 10:20:38,361 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Lead` MODIFY `opportunity_value` decimal(21,9) not null default 0
+2026-06-09 10:20:42,311 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Sales Target` MODIFY `achieved_value` decimal(21,9) not null default 0, MODIFY `target_value` decimal(21,9) not null default 0
+2026-06-09 10:42:35,987 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 13:07:53,092 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-09 13:31:23,295 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 05:14:25,189 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 05:14:28,964 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM User Profile` ADD COLUMN `department` varchar(140), ADD COLUMN `password_history` text
+2026-06-10 05:15:56,123 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 05:31:50,447 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 11:23:20,277 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 11:23:22,250 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Pipeline Stage` ADD COLUMN `active` int(1) not null default 1, ADD COLUMN `statuses` text
+2026-06-10 12:19:17,077 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 12:22:30,030 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 12:23:51,294 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-10 12:24:01,512 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-11 05:13:47,073 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-11 05:36:16,862 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-11 06:05:19,244 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-11 06:13:50,024 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-11 07:34:05,700 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-12 11:03:23,158 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Company` MODIFY `annual_revenue` decimal(21,9) not null default 0
+2026-06-12 11:03:24,653 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Dashboard Metrics` MODIFY `total_revenue` decimal(21,9) not null default 0
+2026-06-12 11:03:25,039 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Deal` MODIFY `deal_value` decimal(21,9) not null default 0
+2026-06-12 11:03:25,763 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Lead` MODIFY `opportunity_value` decimal(21,9) not null default 0
+2026-06-12 11:03:28,522 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Sales Target` MODIFY `target_value` decimal(21,9) not null default 0, MODIFY `achieved_value` decimal(21,9) not null default 0
+2026-06-12 13:03:50,727 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 06:10:25,477 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 06:14:49,460 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 09:43:45,684 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 10:21:42,237 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 10:29:44,471 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 10:43:49,681 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 10:44:06,347 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 10:44:53,051 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 11:26:03,647 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 11:28:57,078 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 11:34:03,945 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 11:35:19,463 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:02:00,907 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:24:13,076 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:27:25,262 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:27:37,181 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:27:41,006 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Pipeline Stage` ADD COLUMN `sort_order` int(11) not null default 0
+2026-06-13 12:28:27,415 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:29:09,224 WARNING database DDL Query made to DB:
+ALTER TABLE `tabCRM Pipeline Stage` DROP COLUMN `order`
+2026-06-13 12:35:16,629 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 12:53:01,414 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 13:01:11,219 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 13:21:25,963 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 16:56:48,969 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 17:07:50,098 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 17:08:03,562 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)
+2026-06-13 17:23:10,379 WARNING database DDL Query made to DB:
+alter table `tabDocType` add column if not exists migration_hash varchar(140)

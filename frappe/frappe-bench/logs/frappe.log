@@ -1,3 +1,258 @@
-2026-06-06 04:43:50,532 ERROR frappe New Exception collected in error log
+2026-06-10 11:38:37,282 ERROR frappe New Exception collected in error log
 Site: crm.local
-Form Dict: {'args': '{"currency":"INR","country":"India","timezone":"Asia/Kolkata","language":"English","full_name":"suriyaprakash","email":"suriya07052005@gmail.com","password":"suriyauv@718"}', 'cmd': 'frappe.desk.page.setup_wizard.setup_wizard.setup_complete'}
+Form Dict: {}
+2026-06-10 11:38:37,313 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,344 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,374 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,412 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,440 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,451 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,461 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,469 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,474 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,481 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,484 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,497 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,499 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,500 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,513 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,515 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,523 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,524 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,530 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,540 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,552 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,559 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,568 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,582 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,591 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,593 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,603 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,615 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,617 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,630 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,642 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,643 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,644 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,650 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,651 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,655 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,661 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,669 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,677 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,684 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,695 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,696 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,705 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,716 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,737 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,739 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,740 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,746 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,747 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,752 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,757 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,764 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,765 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,773 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,781 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,783 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,791 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,809 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,814 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,826 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,845 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,849 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,868 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,870 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,889 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,896 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,903 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,914 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,928 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,929 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-10 11:38:37,934 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-12 09:02:00,681 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'start': '<start>', 'limit': '<limit>', 'order_by': '<order_by>', 'filters': '<filters>', 'cmd': 'crm_pro.crm_pro.api.get_leads'}
+2026-06-12 09:21:36,271 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'cmd': 'crm_pro.crm_pro.api.get_pipeline'}
+2026-06-12 09:30:14,524 ERROR frappe Error while inserting deferred Error Log record: Error Log c41lh8t0og: 'Title' ((1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order asc' at line 5")) will get truncated, as max characters allowed is 140
+Site: crm.local
+Form Dict: {}
+2026-06-12 10:45:52,971 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'start': '<start>', 'limit': '<limit>', 'order_by': '<order_by>', 'filters': '<filters>', 'cmd': 'crm_pro.crm_pro.api.get_leads'}
+2026-06-12 10:50:55,009 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'cmd': 'crm_pro.crm_pro.api.get_pipeline'}
+2026-06-12 11:00:12,693 ERROR frappe Error while inserting deferred Error Log record: Error Log 0qu6u927gr: 'Title' ((1064, "You have an error in your SQL syntax; check the manual that corresponds to your MariaDB server version for the right syntax to use near 'order asc' at line 5")) will get truncated, as max characters allowed is 140
+Site: crm.local
+Form Dict: {}
+2026-06-12 11:05:23,694 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'cmd': 'crm_pro.crm_pro.meta.whatsapp_webhook'}
+2026-06-12 11:05:44,889 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'cmd': 'crm_pro.crm_pro.meta.facebook_webhook'}
+2026-06-12 11:07:54,851 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-12 13:16:42,634 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-12 13:28:51,973 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'start': '<start>', 'limit': '<limit>', 'order_by': '<order_by>', 'filters': '<filters>', 'cmd': 'crm_pro.crm_pro.api.get_leads'}
+2026-06-13 05:40:04,477 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'start': '<start>', 'limit': '<limit>', 'order_by': '<order_by>', 'filters': '<filters>', 'cmd': 'crm_pro.crm_pro.api.get_leads'}
+2026-06-13 06:09:11,557 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-13 06:09:32,981 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}

@@ -1,0 +1,35 @@
+04:59:07 system        | redis_cache.1 started (pid=1729)
+04:59:07 system        | redis_queue.1 started (pid=1733)
+04:59:07 redis_cache.1 | 1731:C 12 Jun 2026 04:59:07.671 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+04:59:07 redis_cache.1 | 1731:C 12 Jun 2026 04:59:07.672 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+04:59:07 redis_cache.1 | 1731:C 12 Jun 2026 04:59:07.672 * Redis version=8.0.5, bits=64, commit=00000000, modified=0, pid=1731, just started
+04:59:07 redis_cache.1 | 1731:C 12 Jun 2026 04:59:07.672 * Configuration loaded
+04:59:07 redis_cache.1 | 1731:M 12 Jun 2026 04:59:07.676 * monotonic clock: POSIX clock_gettime
+04:59:07 redis_cache.1 | 1731:M 12 Jun 2026 04:59:07.686 * Running mode=standalone, port=13000.
+04:59:07 redis_cache.1 | 1731:M 12 Jun 2026 04:59:07.691 # Warning: Could not create server TCP listening socket 127.0.0.1:13000: bind: Address already in use
+04:59:07 redis_cache.1 | 1731:M 12 Jun 2026 04:59:07.691 # Failed listening on port 13000 (tcp), aborting.
+04:59:07 system        | web.1 started (pid=1737)
+04:59:07 system        | socketio.1 started (pid=1739)
+04:59:07 system        | redis_cache.1 stopped (rc=1)
+04:59:07 redis_queue.1 | 1734:C 12 Jun 2026 04:59:07.698 # WARNING Memory overcommit must be enabled! Without it, a background save or replication may fail under low memory condition. Being disabled, it can also cause failures without low memory condition, see https://github.com/jemalloc/jemalloc/issues/1328. To fix this issue add 'vm.overcommit_memory = 1' to /etc/sysctl.conf and then reboot or run the command 'sysctl vm.overcommit_memory=1' for this to take effect.
+04:59:07 redis_queue.1 | 1734:C 12 Jun 2026 04:59:07.698 * oO0OoO0OoO0Oo Redis is starting oO0OoO0OoO0Oo
+04:59:07 redis_queue.1 | 1734:C 12 Jun 2026 04:59:07.698 * Redis version=8.0.5, bits=64, commit=00000000, modified=0, pid=1734, just started
+04:59:07 redis_queue.1 | 1734:C 12 Jun 2026 04:59:07.698 * Configuration loaded
+04:59:07 redis_queue.1 | 1734:M 12 Jun 2026 04:59:07.699 * monotonic clock: POSIX clock_gettime
+04:59:07 redis_queue.1 | 1734:M 12 Jun 2026 04:59:07.704 * Running mode=standalone, port=11000.
+04:59:07 redis_queue.1 | 1734:M 12 Jun 2026 04:59:07.705 # Warning: Could not create server TCP listening socket 127.0.0.1:11000: bind: Address already in use
+04:59:07 redis_queue.1 | 1734:M 12 Jun 2026 04:59:07.706 # Failed listening on port 11000 (tcp), aborting.
+04:59:07 system        | watch.1 started (pid=1745)
+04:59:07 system        | redis_queue.1 stopped (rc=1)
+04:59:07 system        | schedule.1 started (pid=1748)
+04:59:07 system        | worker.1 started (pid=1751)
+04:59:07 system        | sending SIGTERM to web.1 (pid 1737)
+04:59:07 system        | sending SIGTERM to socketio.1 (pid 1739)
+04:59:07 system        | sending SIGTERM to watch.1 (pid 1745)
+04:59:07 system        | sending SIGTERM to schedule.1 (pid 1748)
+04:59:07 system        | sending SIGTERM to worker.1 (pid 1751)
+04:59:07 system        | web.1 stopped (rc=-15)
+04:59:07 system        | worker.1 stopped (rc=-15)
+04:59:07 system        | socketio.1 stopped (rc=-15)
+04:59:07 system        | schedule.1 stopped (rc=-15)
+04:59:07 system        | watch.1 stopped (rc=-15)
