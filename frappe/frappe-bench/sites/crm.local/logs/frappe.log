@@ -1098,3 +1098,18 @@ Form Dict: {}
 2026-06-13 06:09:32,981 ERROR frappe New Exception collected in error log
 Site: crm.local
 Form Dict: {}
+2026-06-15 12:37:13,585 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-15 12:37:13,919 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {}
+2026-06-16 04:35:22,138 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'name': {'success': False, 'message': 'Lead creation failed', 'errors': ['Could not find Stage: LEAD']}, 'sid': 'fcbf801dd94fe44ff4b0549ea17964e8b5ac3614ed0010c9550ebfb5', 'cmd': 'crm_pro.crm_pro.api.get_lead'}
+2026-06-16 04:35:22,212 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'name': {'success': False, 'message': 'Lead creation failed', 'errors': ['Could not find Stage: LEAD']}, 'opportunity_value': 7500, 'email': 'test_lead_updated@example.com', 'sid': 'fcbf801dd94fe44ff4b0549ea17964e8b5ac3614ed0010c9550ebfb5', 'cmd': 'crm_pro.crm_pro.api.update_lead'}
+2026-06-16 04:35:23,670 ERROR frappe New Exception collected in error log
+Site: crm.local
+Form Dict: {'name': {'success': False, 'message': 'Lead creation failed', 'errors': ['Could not find Stage: LEAD']}, 'sid': 'fcbf801dd94fe44ff4b0549ea17964e8b5ac3614ed0010c9550ebfb5', 'cmd': 'crm_pro.crm_pro.api.delete_lead'}

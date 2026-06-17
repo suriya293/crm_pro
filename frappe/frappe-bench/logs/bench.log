@@ -1439,3 +1439,268 @@ To avoid seeing this warning, set shallow_clone to false in your common_site_con
 2026-06-13 17:25:17,120 INFO /home/acer/.local/bin/bench restart
 2026-06-13 17:25:18,451 INFO A newer version of bench is available: 5.29.1 → 5.30.0
 2026-06-13 17:42:49,489 INFO /home/acer/.local/bin/bench backup
+2026-06-13 17:50:38,788 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-13 17:50:54,350 INFO /home/acer/.local/bin/bench restart
+2026-06-13 17:50:56,441 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-13 17:51:00,167 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-13 17:55:18,348 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-13 17:57:15,418 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-13 17:57:28,470 INFO /home/acer/.local/bin/bench --site crm.local execute frappe.db.get_all --args Web Page
+2026-06-13 18:00:02,238 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-13 18:15:11,903 INFO /home/acer/.local/bin/bench start
+2026-06-13 18:15:26,115 INFO /home/acer/.local/bin/bench restart
+2026-06-13 18:15:27,375 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-13 18:15:36,621 INFO /home/acer/.local/bin/bench run
+2026-06-13 18:15:46,892 INFO /home/acer/.local/bin/bench start
+2026-06-13 18:15:54,461 INFO /home/acer/.local/bin/bench stop
+2026-06-14 16:53:27,150 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_backend_wsl.run_checks
+2026-06-14 17:57:06,722 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-14 17:57:32,911 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-14 17:57:49,465 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-14 18:00:02,098 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-14 18:11:52,431 INFO /home/acer/.local/bin/bench doctor
+2026-06-14 18:13:19,620 INFO /home/acer/.local/bin/bench start
+2026-06-14 18:13:20,729 INFO /home/acer/.local/bin/bench watch
+2026-06-14 18:13:20,729 INFO /home/acer/.local/bin/bench schedule
+2026-06-14 18:13:20,729 INFO /home/acer/.local/bin/bench worker
+2026-06-14 18:13:20,733 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-14 18:18:08,524 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-14 18:18:23,499 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-14 18:18:54,215 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-14 18:19:41,284 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-15 05:20:45,942 INFO /home/acer/.local/bin/bench start
+2026-06-15 05:20:46,483 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-15 05:20:46,483 INFO /home/acer/.local/bin/bench schedule
+2026-06-15 05:20:46,492 INFO /home/acer/.local/bin/bench worker
+2026-06-15 05:20:46,656 INFO /home/acer/.local/bin/bench watch
+2026-06-15 06:00:02,599 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-15 07:41:57,754 INFO /home/acer/.local/bin/bench migrate
+2026-06-15 08:45:19,197 INFO /home/acer/.local/bin/bench restart
+2026-06-15 08:45:21,025 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 08:46:06,247 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-15 08:48:02,203 INFO /home/acer/.local/bin/bench start
+2026-06-15 08:48:03,059 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-15 08:48:03,059 INFO /home/acer/.local/bin/bench watch
+2026-06-15 08:48:03,060 INFO /home/acer/.local/bin/bench schedule
+2026-06-15 08:48:03,064 INFO /home/acer/.local/bin/bench worker
+2026-06-15 08:48:50,561 INFO /home/acer/.local/bin/bench doctor
+2026-06-15 08:49:02,305 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-15 09:56:31,513 INFO /home/acer/.local/bin/bench migrate
+2026-06-15 10:00:50,020 INFO /home/acer/.local/bin/bench --site crm.local backup
+2026-06-15 10:01:03,580 INFO /home/acer/.local/bin/bench doctor
+2026-06-15 10:05:27,233 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 10:13:51,901 INFO /home/acer/.local/bin/bench doctor
+2026-06-15 10:14:01,058 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-15 10:14:14,898 INFO /home/acer/.local/bin/bench --site crm.local run-tests
+2026-06-15 10:14:32,997 INFO /home/acer/.local/bin/bench set-config developer_mode 0
+2026-06-15 10:14:39,137 INFO /home/acer/.local/bin/bench migrate
+2026-06-15 10:14:48,635 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-15 10:14:56,298 INFO /home/acer/.local/bin/bench build
+2026-06-15 10:16:35,301 INFO /home/acer/.local/bin/bench restart
+2026-06-15 10:16:36,398 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 10:16:43,999 INFO /home/acer/.local/bin/bench --site crm.local backup
+2026-06-15 10:28:26,318 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:28:40,901 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 10:29:35,849 INFO /home/acer/.local/bin/bench execute crm_pro.verify_all.run
+2026-06-15 10:29:42,566 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 10:35:37,799 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:36:09,712 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:36:18,567 INFO /home/acer/.local/bin/bench doctor
+2026-06-15 10:36:23,508 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-15 10:36:30,874 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 10:50:00,245 INFO /home/acer/.local/bin/bench --site crm.local run-tests --module crm_pro.tests.test_crm_pro --test test_lead_deletion_audit_log
+2026-06-15 10:50:20,015 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:54:22,275 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:58:32,822 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 10:59:41,496 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 11:02:01,869 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 11:04:57,433 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 11:04:58,587 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-15 11:05:08,645 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-15 11:05:22,626 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 11:07:08,812 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-15 11:07:16,041 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-15 11:07:25,012 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-15 11:07:34,049 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-15 11:09:27,924 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 11:09:49,036 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 11:09:50,568 INFO /home/acer/.local/bin/bench restart
+2026-06-15 11:09:51,640 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 11:09:55,007 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 11:09:56,167 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-15 11:11:54,880 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 11:11:56,349 INFO /home/acer/.local/bin/bench restart
+2026-06-15 11:11:57,386 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 11:13:12,072 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 11:14:53,365 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 11:18:24,539 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 11:22:19,114 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:00:02,114 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-15 12:00:16,556 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:04:42,281 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:06:58,878 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:07:32,289 INFO /home/acer/.local/bin/bench version
+2026-06-15 12:07:45,916 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:08:36,120 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:08:37,880 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:08:40,474 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-15 12:08:45,382 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:08:46,761 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:08:52,072 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:09:21,960 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 12:09:23,777 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:09:24,914 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:10:07,132 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:10:24,095 INFO /home/acer/.local/bin/bench version
+2026-06-15 12:11:00,634 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:13:37,163 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:17:32,854 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:19:02,332 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:19:03,670 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:19:04,033 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-15 12:19:25,180 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:20:09,597 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:40:30,744 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:41:05,670 INFO /home/acer/.local/bin/bench clear-cache
+2026-06-15 12:41:08,269 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:41:10,033 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:41:52,947 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:43:09,377 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.api.get_lead_sources
+2026-06-15 12:43:27,851 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 12:43:30,517 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:43:31,533 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:43:42,163 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:46:48,731 INFO /home/acer/.local/bin/bench --site crm.local set-admin-password YOUR_NEW_PASSWORD
+2026-06-15 12:47:33,420 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-15 12:47:35,310 INFO /home/acer/.local/bin/bench restart
+2026-06-15 12:47:36,760 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-15 12:48:09,103 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:49:34,762 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-15 12:51:21,394 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 04:33:36,124 INFO /home/acer/.local/bin/bench start
+2026-06-16 04:33:37,208 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-16 04:33:37,208 INFO /home/acer/.local/bin/bench worker
+2026-06-16 04:33:37,232 INFO /home/acer/.local/bin/bench watch
+2026-06-16 04:33:37,272 INFO /home/acer/.local/bin/bench schedule
+2026-06-16 04:46:22,028 INFO /home/acer/.local/bin/bench start
+2026-06-16 04:46:35,051 INFO /home/acer/.local/bin/bench start
+2026-06-16 04:46:36,291 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-16 04:46:36,297 INFO /home/acer/.local/bin/bench watch
+2026-06-16 04:46:36,315 INFO /home/acer/.local/bin/bench schedule
+2026-06-16 04:46:36,350 INFO /home/acer/.local/bin/bench worker
+2026-06-16 05:07:30,830 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:10:34,429 INFO /home/acer/.local/bin/bench start
+2026-06-16 05:11:23,504 INFO /home/acer/.local/bin/bench start
+2026-06-16 05:13:37,880 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:18:00,908 INFO /home/acer/.local/bin/bench doctor
+2026-06-16 05:18:08,350 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-16 05:18:14,858 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:18:34,464 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 05:20:07,146 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-16 05:20:35,076 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:21:00,967 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:21:29,886 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:21:47,654 INFO /home/acer/.local/bin/bench worker --queue short
+2026-06-16 05:27:10,059 INFO /home/acer/.local/bin/bench doctor
+2026-06-16 05:27:11,273 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-16 05:27:12,272 INFO /home/acer/.local/bin/bench --site crm.local show-pending-jobs
+2026-06-16 05:27:13,137 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-16 05:27:15,240 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-16 05:31:31,607 INFO /home/acer/.local/bin/bench start
+2026-06-16 05:31:32,825 INFO /home/acer/.local/bin/bench watch
+2026-06-16 05:31:32,825 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-16 05:31:32,865 INFO /home/acer/.local/bin/bench worker
+2026-06-16 05:31:32,921 INFO /home/acer/.local/bin/bench schedule
+2026-06-16 05:40:58,953 INFO /home/acer/.local/bin/bench start
+2026-06-16 05:41:20,322 INFO /home/acer/.local/bin/bench restart
+2026-06-16 05:41:21,966 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-16 05:42:03,469 INFO /home/acer/.local/bin/bench doctor
+2026-06-16 05:42:16,726 INFO /home/acer/.local/bin/bench version
+2026-06-16 05:42:18,524 INFO /home/acer/.local/bin/bench list-apps
+2026-06-16 05:42:19,946 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-16 05:42:21,002 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-16 05:42:33,552 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-16 05:42:35,487 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-16 05:42:37,862 INFO /home/acer/.local/bin/bench --site crm.local show-config
+2026-06-16 05:42:38,695 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:55:26,881 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 05:56:32,473 INFO /home/acer/.local/bin/bench use crm.local
+2026-06-16 05:56:40,871 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-16 05:56:46,099 INFO /home/acer/.local/bin/bench --site crm.local show-config
+2026-06-16 05:56:56,351 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 06:00:02,091 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-16 06:01:15,110 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 06:01:58,321 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:02:31,083 INFO /home/acer/.local/bin/bench --site crm.local set-admin-password admin123
+2026-06-16 06:02:40,315 INFO /home/acer/.local/bin/bench --site crm.local backup
+2026-06-16 06:02:49,796 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:03:10,565 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-16 06:03:12,861 INFO /home/acer/.local/bin/bench restart
+2026-06-16 06:03:16,483 INFO A newer version of bench is available: 5.29.1 → 5.30.0
+2026-06-16 06:03:30,673 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 06:05:19,286 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:06:57,724 INFO /home/acer/.local/bin/bench start
+2026-06-16 06:08:27,758 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:10:59,961 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 06:11:33,401 INFO /home/acer/.local/bin/bench worker --queue short --quiet
+2026-06-16 06:11:57,545 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:13:45,253 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:23:29,977 INFO /home/acer/.local/bin/bench start
+2026-06-16 06:36:47,855 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-16 06:40:20,133 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 06:41:08,729 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-16 06:41:16,801 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-16 06:41:27,509 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-16 06:41:28,921 INFO /home/acer/.local/bin/bench --site crm.local clear-website-cache
+2026-06-16 06:41:36,402 INFO /home/acer/.local/bin/bench version
+2026-06-16 06:41:37,274 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-16 06:41:38,169 INFO /home/acer/.local/bin/bench start
+2026-06-16 07:39:42,188 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 07:41:31,824 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 07:42:54,857 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 07:46:20,630 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 07:46:39,431 INFO /home/acer/.local/bin/bench --site crm.local clear-cache
+2026-06-16 07:49:19,726 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 08:05:12,361 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 08:16:24,471 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-16 12:00:01,777 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-17 04:53:26,840 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_backend_wsl.run_checks
+2026-06-17 04:53:38,153 INFO /home/acer/.local/bin/bench start
+2026-06-17 04:53:39,154 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-17 04:53:39,154 INFO /home/acer/.local/bin/bench watch
+2026-06-17 04:53:39,208 INFO /home/acer/.local/bin/bench schedule
+2026-06-17 04:53:39,256 INFO /home/acer/.local/bin/bench worker
+2026-06-17 04:53:59,401 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_backend_wsl.run_checks
+2026-06-17 04:55:42,484 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.setup_roles_permissions.run
+2026-06-17 04:58:06,612 INFO /home/acer/.local/bin/bench --site crm.local run-tests --app crm_pro
+2026-06-17 05:00:23,765 INFO /home/acer/.local/bin/bench start
+2026-06-17 05:13:22,095 INFO /home/acer/.local/bin/bench --site crm.local execute ...
+2026-06-17 05:13:30,878 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.setup_roles_permissions.run
+2026-06-17 05:14:29,695 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-17 05:17:05,490 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-17 06:00:01,924 INFO /home/acer/.local/bin/bench --verbose --site all backup
+2026-06-17 08:22:36,877 INFO /home/acer/.local/bin/bench --site crm.local execute crm_pro.crm_pro.verify_backend_wsl.run_checks
+2026-06-17 08:39:51,303 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-17 08:52:39,889 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-17 08:54:20,915 INFO /home/acer/.local/bin/bench --site crm.local mariadb
+2026-06-17 08:56:49,671 INFO /home/acer/.local/bin/bench restart
+2026-06-17 08:56:51,172 INFO A newer version of bench is available: 5.29.1 → 5.31.0
+2026-06-17 08:57:23,366 INFO /home/acer/.local/bin/bench start
+2026-06-17 09:00:12,562 INFO /home/acer/.local/bin/bench start
+2026-06-17 09:00:20,139 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-17 09:10:21,678 INFO /home/acer/.local/bin/bench start
+2026-06-17 09:10:23,946 INFO /home/acer/.local/bin/bench schedule
+2026-06-17 09:10:23,949 INFO /home/acer/.local/bin/bench watch
+2026-06-17 09:10:23,956 INFO /home/acer/.local/bin/bench worker
+2026-06-17 09:10:24,308 INFO /home/acer/.local/bin/bench serve --port 8000
+2026-06-17 10:00:09,642 INFO /home/acer/.local/bin/bench config http_port
+2026-06-17 10:00:09,663 WARNING /home/acer/.local/bin/bench config http_port executed with exit code 2
+2026-06-17 10:00:10,166 INFO A newer version of bench is available: 5.29.1 → 5.31.0
+2026-06-17 10:14:56,397 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-17 10:15:28,922 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-17 10:15:35,588 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-17 10:15:42,863 INFO /home/acer/.local/bin/bench --site crm.local console
+2026-06-17 10:24:52,901 INFO /home/acer/.local/bin/bench --site crm.local migrate
+2026-06-17 10:25:05,774 INFO /home/acer/.local/bin/bench --site crm.local doctor
+2026-06-17 10:25:07,055 INFO /home/acer/.local/bin/bench --site crm.local list-apps
+2026-06-17 10:26:27,115 INFO /home/acer/.local/bin/bench --site crm.local backup

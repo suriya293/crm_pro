@@ -1,13 +1,13 @@
 {
+ "allow_cors": "*",
  "allow_tests": true,
  "db_name": "_1195e485d233df44",
  "db_password": "7KcHmb1zJm36VtEL",
  "db_type": "mariadb",
- "developer_mode": 1,
+ "developer_mode": 0,
  "domains": [
   "crm.local"
  ],
  "encryption_key": "hSaclK-AXDZfn7UfnxfEA5ZzBQzStMqy_0eVb8dr7Wk=",
- "pause_scheduler": false,
- "allow_cors": "*"
+ "pause_scheduler": false
 }
