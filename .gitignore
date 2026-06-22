@@ -17,3 +17,11 @@ __pycache__/
 
 # bench / frappe
 sites/*/locks/
+
+# frappe bench runtime files
+config/pids/
+*.rdb
+
+# frappe apps (IMPORTANT)
+apps/frappe/
+apps/*/
