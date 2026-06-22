@@ -1,16 +1,19 @@
-# Python
-__pycache__/
-*.pyc
+# system
+.cache/
+.local/
+.bash_history
+.ipython/
 
-# Logs
-logs/
-*.log
-
-# Bench / Frappe
+# frappe bench
 sites/*/private/
 sites/*/public/
 sites/*/locks/
+logs/
+*.log
 
-# System
-.local/
-.cache/
+# compiled python
+__pycache__/
+*.pyc
+
+# bench / frappe
+sites/*/locks/
