@@ -1,0 +1,14 @@
+{
+  "doctype": "User Session",
+  "fields": [
+    { "fieldname": "name", "fieldtype": "Data", "label": "ID", "unique": true },
+    { "fieldname": "user", "fieldtype": "Link", "options": "User", "label": "User", "reqd": 1 },
+    { "fieldname": "access_token", "fieldtype": "Data", "label": "Access Token", "reqd": 1 },
+    { "fieldname": "refresh_token", "fieldtype": "Data", "label": "Refresh Token", "reqd": 1 },
+    { "fieldname": "created_at", "fieldtype": "Datetime", "label": "Created At", "default": "Now" },
+    { "fieldname": "last_activity", "fieldtype": "Datetime", "label": "Last Activity", "default": "Now" },
+    { "fieldname": "expires_at", "fieldtype": "Datetime", "label": "Expires At" },
+    { "fieldname": "ip_address", "fieldtype": "Data", "label": "IP Address" },
+    { "fieldname": "user_agent", "fieldtype": "Data", "label": "User Agent" }
+  ]
+}

@@ -1,0 +1,11 @@
+{
+  "doctype": "Auth Audit Log",
+  "fields": [
+    { "fieldname": "name", "fieldtype": "Data", "label": "ID", "unique": true },
+    { "fieldname": "user", "fieldtype": "Link", "options": "User", "label": "User", "reqd": 1 },
+    { "fieldname": "event", "fieldtype": "Select", "label": "Event", "options": "registration\nactivation\nlogin_success\nlogin_failure\nlogout\npassword_reset\n" },
+    { "fieldname": "status", "fieldtype": "Select", "label": "Status", "options": "success\nfailure\n" },
+    { "fieldname": "details", "fieldtype": "Small Text", "label": "Details" },
+    { "fieldname": "timestamp", "fieldtype": "Datetime", "label": "Timestamp", "default": "Now" }
+  ]
+}

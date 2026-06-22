@@ -1,0 +1,16 @@
+# Python
+__pycache__/
+*.pyc
+
+# Logs
+logs/
+*.log
+
+# Bench / Frappe
+sites/*/private/
+sites/*/public/
+sites/*/locks/
+
+# System
+.local/
+.cache/

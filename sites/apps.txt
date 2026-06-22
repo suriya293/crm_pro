@@ -1,0 +1,3 @@
+frappe
+precision_crm
+crm_pro
