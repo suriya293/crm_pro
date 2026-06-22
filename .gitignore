@@ -1,27 +1,50 @@
-# system
+# =========================
+# SYSTEM FILES
+# =========================
 .cache/
 .local/
 .bash_history
 .ipython/
 
-# frappe bench
-sites/*/private/
-sites/*/public/
-sites/*/locks/
+# =========================
+# LOGS
+# =========================
 logs/
 *.log
 
-# compiled python
+# =========================
+# PYTHON CACHE
+# =========================
 __pycache__/
 *.pyc
+*.pyo
 
-# bench / frappe
+# =========================
+# FRAPPE / BENCH RUNTIME
+# =========================
+sites/*/private/
+sites/*/public/
 sites/*/locks/
+sites/*/site_config.json
+sites/common_site_config.json
 
-# frappe bench runtime files
+# Redis / runtime files
 config/pids/
 *.rdb
 
-# frappe apps (IMPORTANT)
+# =========================
+# BENCH GENERATED FILES
+# =========================
+patches.txt
+imports.txt
+cookies.txt
+ratelimit_refs.txt
+
+# =========================
+# IMPORTANT: APPS SHOULD NOT BE TRACKED
+# =========================
 apps/frappe/
 apps/*/
+
+# If you have custom apps, ignore only frappe if needed:
+# apps/frappe/
