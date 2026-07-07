@@ -1,0 +1,16 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.env.*
+*.sqlite
+*.log
+
+sites/
+env/
+node_modules/
+
+*.zip
+
+crm_pro.egg-info/

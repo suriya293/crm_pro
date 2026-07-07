@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "crm_pro"
+version = "1.0.0"
+description = "CRM Pro production-ready backend app for LeadsCRM using Frappe and PostgreSQL"
+authors = [
+    { name = "Administrator", email = "admin@crm.local" }
+]
+requires-python = ">=3.10"
+dependencies = [
+    "frappe",
+    "requests",
+    "responses",
+    "werkzeug"
+]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["crm_pro*"]
+
+[tool.bench]
+app_title = "CRM Pro"
+app_publisher = "Administrator"
+app_description = "CRM Pro production-ready backend app for LeadsCRM using Frappe and PostgreSQL"
+app_email = "admin@crm.local"
+app_license = "mit"

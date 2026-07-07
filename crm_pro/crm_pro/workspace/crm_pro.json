@@ -1,0 +1,18 @@
+{
+  "label": "CRM Pro",
+  "icon": "octicon octicon-briefcase",
+  "items": [
+    {
+      "type": "doctype",
+      "name": "CRM Lead"
+    },
+    {
+      "type": "doctype",
+      "name": "CRM Deal"
+    },
+    {
+      "type": "doctype",
+      "name": "CRM Task"
+    }
+  ]
+}

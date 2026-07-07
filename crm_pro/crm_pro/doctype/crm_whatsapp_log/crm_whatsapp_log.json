@@ -1,0 +1,42 @@
+{
+  "name": "CRM WhatsApp Log",
+  "doctype": "DocType",
+  "module": "CRM Pro",
+  "fields": [
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "phone_number",
+      "fieldtype": "Data",
+      "label": "Phone Number",
+      "in_list_view": 1,
+      "search_index": 1
+    },
+    {
+      "fieldname": "message",
+      "fieldtype": "Text",
+      "label": "Message Content"
+    },
+    {
+      "fieldname": "direction",
+      "fieldtype": "Select",
+      "options": "Outbound\nInbound",
+      "label": "Direction",
+      "in_list_view": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

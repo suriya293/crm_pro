@@ -1,0 +1,48 @@
+{
+  "name": "CRM Activity",
+  "doctype": "DocType",
+  "module": "CRM Pro",
+  "fields": [
+    {
+      "fieldname": "activity_type",
+      "fieldtype": "Select",
+      "options": "Call\nMeeting\nTask\nEmail\nWhatsApp",
+      "label": "Activity Type",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "deal",
+      "fieldtype": "Link",
+      "options": "CRM Deal",
+      "label": "Associated Deal"
+    },
+    {
+      "fieldname": "notes",
+      "fieldtype": "Small Text",
+      "label": "Notes"
+    },
+    {
+      "fieldname": "activity_date",
+      "fieldtype": "Datetime",
+      "label": "Activity Date",
+      "in_list_view": 1
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}
