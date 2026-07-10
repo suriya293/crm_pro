@@ -46,7 +46,6 @@ validate_password = "crm_pro.crm_pro.api_auth.validate_password"
 
 before_request = [
     "crm_pro.crm_pro.api_auth.check_bearer_token",
-    "crm_pro.crm_pro.api_auth.patch_api_routes"
 ]
 
 workspaces = [

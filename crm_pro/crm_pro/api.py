@@ -203,9 +203,18 @@ def create_lead(lead_name, email=None, mobile=None, **kwargs):
     # User validation
     if "user" in kwargs:
         user = kwargs.get("user")
+
         if user:
             user_strip = str(user).strip()
-            if user_strip.lower() in ["null", "none", "undefined", ""] or not frappe.db.exists("User", user_strip):
+
+            # Treat placeholders as empty
+            if user_strip in ["-", ""]:
+                kwargs["user"] = None
+
+            elif user_strip.lower() in ["null", "none", "undefined"]:
+                kwargs["user"] = None
+
+            elif not frappe.db.exists("User", user_strip):
                 if is_web_api_call():
                     return {
                         "success": False,
