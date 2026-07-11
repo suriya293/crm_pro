@@ -205,32 +205,6 @@ def check_bearer_token():
             frappe.local.session_obj = Session(user=username, resume=True)
             frappe.local.session = frappe.local.session_obj.data
 
-# --- Werkzeug Router Patching ---
-_routes_patched = False
-
-def patch_api_routes():
-    global _routes_patched
-    if _routes_patched:
-        return
-    try:
-        from frappe.api import API_URL_MAP
-        from werkzeug.routing import Rule
-        
-        # Add rules mapping directly to custom endpoint functions
-        API_URL_MAP.add(Rule("/api/register", methods=["POST"], endpoint=register_endpoint))
-        API_URL_MAP.add(Rule("/api/login", methods=["POST"], endpoint=login_endpoint))
-        API_URL_MAP.add(Rule("/api/logout", methods=["POST"], endpoint=logout_endpoint))
-        API_URL_MAP.add(Rule("/api/change-password", methods=["POST"], endpoint=change_password_endpoint))
-        API_URL_MAP.add(Rule("/api/forgot-password", methods=["POST"], endpoint=forgot_password_endpoint))
-        API_URL_MAP.add(Rule("/api/reset-password", methods=["POST"], endpoint=reset_password_endpoint))
-        API_URL_MAP.add(Rule("/api/profile", methods=["GET", "PUT"], endpoint=profile_endpoint))
-        API_URL_MAP.add(Rule("/api/profile/upload-avatar", methods=["POST"], endpoint=upload_avatar_endpoint))
-        API_URL_MAP.add(Rule("/api/profile/update-mobile", methods=["POST"], endpoint=update_mobile_endpoint))
-        API_URL_MAP.add(Rule("/api/profile/update-email", methods=["POST"], endpoint=update_email_endpoint))
-        
-        _routes_patched = True
-    except Exception as e:
-        logger.error(f"Error patching routes: {str(e)}")
 
 # --- Endpoints ---
 
