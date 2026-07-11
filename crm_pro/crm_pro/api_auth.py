@@ -250,8 +250,6 @@ def register_endpoint():
         
     data = frappe.form_dict
 
-    print("FORM DATA:", frappe.form_dict)
-    print("REQUEST DATA:", frappe.request.get_data())
     first_name = data.get("first_name")
     last_name = data.get("last_name")
     email = data.get("email")
@@ -998,9 +996,6 @@ def signup_endpoint():
     data = frappe.form_dict
 
 
-    print("FORM DATA =", frappe.form_dict)
-    frappe.errprint(frappe.form_dict)
-
 
     username = (data.get("first_name") or "").strip()
     email = (data.get("email") or "").strip().lower()
@@ -1040,7 +1035,6 @@ def signup_endpoint():
 
         user.insert(ignore_permissions=True)
 
-        print("USER CREATED")
 
         update_password(email, password)
 
@@ -1050,7 +1044,6 @@ def signup_endpoint():
         elif role.lower() == "user":
             user.add_roles("User")
 
-        print(email)
 
         frappe.get_doc({
             "doctype": "CRM User Profile",
@@ -1059,8 +1052,6 @@ def signup_endpoint():
             "phone_number": phone
         }).insert(ignore_permissions=True)
 
-        print("PROFILE CREATED")
-        print(phone)
 
         frappe.db.commit()
 
@@ -1073,7 +1064,7 @@ def signup_endpoint():
 
         frappe.db.rollback()
 
-        print(frappe.get_traceback())
+        frappe.log_error(frappe.get_traceback(), "User Registration")
 
         frappe.log_error(
             frappe.get_traceback(),
