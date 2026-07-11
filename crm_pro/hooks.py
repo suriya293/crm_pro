@@ -44,6 +44,8 @@ scheduler_events = {
 # Install Hooks
 validate_password = "crm_pro.crm_pro.api_auth.validate_password"
 
+after_install = "crm_pro.crm_pro.install.after_install"
+
 before_request = [
     "crm_pro.crm_pro.api_auth.check_bearer_token",
 ]
