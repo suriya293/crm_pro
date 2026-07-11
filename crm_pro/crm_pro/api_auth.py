@@ -234,6 +234,7 @@ def patch_api_routes():
 
 # --- Endpoints ---
 
+@frappe.whitelist()
 def register_endpoint():
     ensure_request_context()
     if not check_rate_limit("register"):
