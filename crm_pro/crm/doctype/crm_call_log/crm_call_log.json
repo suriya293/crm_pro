@@ -1,0 +1,51 @@
+{
+  "name": "CRM Call Log",
+  "doctype": "DocType",
+  "module": "CRM",
+  "fields": [
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "phone_number",
+      "fieldtype": "Data",
+      "label": "Phone Number",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "duration_seconds",
+      "fieldtype": "Int",
+      "label": "Duration (Seconds)"
+    },
+    {
+      "fieldname": "call_type",
+      "fieldtype": "Select",
+      "options": "Inbound\nOutbound\nMissed",
+      "label": "Call Type",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "recording_url",
+      "fieldtype": "Data",
+      "label": "Recording URL"
+    },
+    {
+      "fieldname": "summary",
+      "fieldtype": "Small Text",
+      "label": "Summary"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "name": "CRM Contact",
+  "doctype": "DocType",
+  "module": "CRM",
+  "fields": [
+    {
+      "fieldname": "contact_name",
+      "fieldtype": "Data",
+      "label": "Contact Name",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "company",
+      "fieldtype": "Link",
+      "options": "CRM Company",
+      "label": "Company",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "job_title",
+      "fieldtype": "Data",
+      "label": "Job Title"
+    },
+    {
+      "fieldname": "phones",
+      "fieldtype": "Table",
+      "options": "CRM Contact Phone",
+      "label": "Phone Numbers"
+    },
+    {
+      "fieldname": "emails",
+      "fieldtype": "Table",
+      "options": "CRM Contact Email",
+      "label": "Email Addresses"
+    },
+    {
+      "fieldname": "history_summary",
+      "fieldtype": "Text",
+      "label": "Contact History Summary"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

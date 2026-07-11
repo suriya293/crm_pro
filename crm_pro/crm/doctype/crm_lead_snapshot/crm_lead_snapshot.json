@@ -1,0 +1,76 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "creation": "2026-06-02 13:00:00.000000",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "snapshot_date",
+  "total_leads",
+  "active_leads",
+  "converted_leads",
+  "conversion_rate"
+ ],
+ "fields": [
+  {
+   "fieldname": "snapshot_date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Snapshot Date",
+   "reqd": 1,
+   "unique": 1
+  },
+  {
+   "default": "0",
+   "fieldname": "total_leads",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Total Leads"
+  },
+  {
+   "default": "0",
+   "fieldname": "active_leads",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Active Leads"
+  },
+  {
+   "default": "0",
+   "fieldname": "converted_leads",
+   "fieldtype": "Int",
+   "in_list_view": 1,
+   "label": "Converted Leads"
+  },
+  {
+   "default": "0.0",
+   "fieldname": "conversion_rate",
+   "fieldtype": "Percent",
+   "in_list_view": 1,
+   "label": "Conversion Rate"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2026-06-02 13:00:00.000000",
+ "modified_by": "Administrator",
+ "module": "CRM",
+ "name": "CRM Lead Snapshot",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "import": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "states": []
+}

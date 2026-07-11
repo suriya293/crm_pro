@@ -1,0 +1,52 @@
+{
+  "name": "CRM Email Log",
+  "doctype": "DocType",
+  "module": "CRM",
+  "fields": [
+    {
+      "fieldname": "lead",
+      "fieldtype": "Link",
+      "options": "CRM Lead",
+      "label": "Associated Lead",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "sender",
+      "fieldtype": "Data",
+      "label": "Sender",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "recipient",
+      "fieldtype": "Data",
+      "label": "Recipient",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "subject",
+      "fieldtype": "Data",
+      "label": "Subject",
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "body",
+      "fieldtype": "Text",
+      "label": "Body Content"
+    },
+    {
+      "fieldname": "sent_received",
+      "fieldtype": "Select",
+      "options": "Sent\nReceived",
+      "label": "Direction"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}

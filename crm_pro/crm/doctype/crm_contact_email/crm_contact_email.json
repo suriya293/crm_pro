@@ -1,0 +1,22 @@
+{
+  "name": "CRM Contact Email",
+  "doctype": "DocType",
+  "module": "CRM",
+  "istable": 1,
+  "fields": [
+    {
+      "fieldname": "email",
+      "fieldtype": "Data",
+      "label": "Email Address",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "type",
+      "fieldtype": "Select",
+      "options": "Work\nPersonal",
+      "label": "Type",
+      "in_list_view": 1
+    }
+  ]
+}

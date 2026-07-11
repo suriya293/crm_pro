@@ -1,0 +1,71 @@
+{
+  "name": "API Key",
+  "doctype": "DocType",
+  "module": "CRM",
+  "autoname": "field:key_name",
+  "fields": [
+    {
+      "fieldname": "key_name",
+      "fieldtype": "Data",
+      "label": "Key Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "key_hash",
+      "fieldtype": "Password",
+      "label": "Hashed API Key",
+      "hidden": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "secret_hash",
+      "fieldtype": "Password",
+      "label": "Hashed Secret",
+      "hidden": 1,
+      "reqd": 1
+    },
+    {
+      "fieldname": "owner",
+      "fieldtype": "Link",
+      "options": "User",
+      "label": "Owner",
+      "reqd": 1,
+      "hidden": 1
+    },
+    {
+      "fieldname": "scopes",
+      "fieldtype": "Data",
+      "label": "Scopes",
+      "description": "Comma‑separated list of allowed DocTypes"
+    },
+    {
+      "fieldname": "expires_on",
+      "fieldtype": "Date",
+      "label": "Expiry Date"
+    },
+    {
+      "fieldname": "revoked",
+      "fieldtype": "Check",
+      "label": "Revoked",
+      "default": 0
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    },
+    {
+      "role": "User",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1,
+      "if_owner": 1
+    }
+  ]
+}

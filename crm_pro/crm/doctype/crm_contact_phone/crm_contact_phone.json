@@ -1,0 +1,22 @@
+{
+  "name": "CRM Contact Phone",
+  "doctype": "DocType",
+  "module": "CRM",
+  "istable": 1,
+  "fields": [
+    {
+      "fieldname": "phone",
+      "fieldtype": "Data",
+      "label": "Phone Number",
+      "reqd": 1,
+      "in_list_view": 1
+    },
+    {
+      "fieldname": "type",
+      "fieldtype": "Select",
+      "options": "Mobile\nWork\nHome",
+      "label": "Type",
+      "in_list_view": 1
+    }
+  ]
+}

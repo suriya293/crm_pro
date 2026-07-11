@@ -1,0 +1,52 @@
+{
+  "name": "CRM Pipeline Stage",
+  "doctype": "DocType",
+  "module": "CRM",
+  "autoname": "field:stage_name",
+  "fields": [
+    {
+      "fieldname": "stage_name",
+      "fieldtype": "Data",
+      "label": "Stage Name",
+      "reqd": 1,
+      "unique": 1
+    },
+    {
+      "fieldname": "pipeline",
+      "fieldtype": "Link",
+      "options": "CRM Pipeline",
+      "label": "Pipeline",
+      "reqd": 1
+    },
+    {
+      "fieldname": "sort_order",
+      "fieldtype": "Int",
+      "label": "Order"
+    },
+    {
+      "fieldname": "color",
+      "fieldtype": "Data",
+      "label": "Color Hex"
+    },
+    {
+      "fieldname": "active",
+      "fieldtype": "Check",
+      "label": "Active",
+      "default": "1"
+    },
+    {
+      "fieldname": "statuses",
+      "fieldtype": "Text",
+      "label": "Statuses"
+    }
+  ],
+  "permissions": [
+    {
+      "role": "System Manager",
+      "read": 1,
+      "write": 1,
+      "create": 1,
+      "delete": 1
+    }
+  ]
+}
