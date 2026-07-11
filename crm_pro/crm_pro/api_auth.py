@@ -394,9 +394,7 @@ def login_endpoint():
         }, 500)
 
 
-
-
-
+@frappe.whitelist()
 def logout_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
