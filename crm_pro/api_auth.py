@@ -302,45 +302,49 @@ def login_endpoint():
         return json_response({"success": False, "message": "Too many requests"}, 429)
 
     data = frappe.form_dict
-    login = (data.get("username") or data.get("email") or "").strip()
-    password = data.get("password")
-    role = (data.get("role") or "").strip()
-
-    if not login or not password:
-        return json_response({"success": False, "message": "Missing credentials"}, 400)
-
-
+    login = (data.get("usr") or data.get("username") or data.get("email") or "").strip()
+    password = data.get("pwd") or data.get("password")
 
     try:
+        # If already implicitly authenticated via standard /api/method/login
+        if frappe.session.user and frappe.session.user != "Guest":
+            user_email = frappe.session.user
+        else:
+            if not login or not password:
+                return json_response({"success": False, "message": "Missing credentials"}, 400)
 
-        user_email = login
+            user_email = login
 
-        # Username -> Email
-        if "@" not in login:
+            # Username -> Email
+            if "@" not in login:
+                # First try CRM User Profile
+                profile = frappe.db.get_value(
+                    "CRM User Profile",
+                    {"username": login},
+                    "user"
+                )
 
-            # First try CRM User Profile
-            profile = frappe.db.get_value(
-                "CRM User Profile",
-                {"username": login},
-                "user"
-            )
-
-            if profile:
-                user_email = profile
-            else:
-                # Fallback to Frappe User
-                if frappe.db.exists("User", login):
-                    user_email = login
+                if profile:
+                    user_email = profile
                 else:
-                    raise frappe.AuthenticationError
+                    # Fallback to Frappe User
+                    if frappe.db.exists("User", login):
+                        user_email = login
+                    else:
+                        raise frappe.AuthenticationError
 
-        # Password Check
-        check_password(user_email, password)
+            # Password Check
+            check_password(user_email, password)
 
-        # Login
-        login_manager = frappe.auth.LoginManager()
-        login_manager.user = user_email
-        login_manager.post_login()
+            # Login
+            login_manager = frappe.auth.LoginManager()
+            login_manager.user = user_email
+            login_manager.post_login()
+
+        # Generate and set CSRF Token
+        from frappe.sessions import get_csrf_token
+        csrf_token = get_csrf_token()
+        frappe.local.cookie_manager.set_cookie("csrf_token", csrf_token, httponly=False)
 
         user_doc = frappe.get_doc("User", user_email)
 
@@ -1048,3 +1052,32 @@ def signup_endpoint():
             "success": False,
             "message": str(e)
         }
+
+
+def after_request(response=None, request=None):
+    if frappe.local.request.path == "/api/method/login" and frappe.session.user != "Guest":
+        # Generate the CSRF token (since CSRF validation has already passed)
+        from frappe.sessions import get_csrf_token
+        csrf_token = get_csrf_token()
+        
+        # Set the csrf_token cookie with httponly=False so JS can read it
+        frappe.local.cookie_manager.set_cookie("csrf_token", csrf_token, httponly=False)
+        frappe.local.cookie_manager.flush_cookies(response=response)
+        
+        # Update the JSON payload with custom fields for the SPA frontend
+        try:
+            import json
+            data = json.loads(response.get_data(as_text=True))
+            user_doc = frappe.get_doc("User", frappe.session.user)
+            data.update({
+                "success": True,
+                "token": frappe.session.sid,
+                "user": {
+                    "email": user_doc.email,
+                    "first_name": user_doc.first_name,
+                    "roles": frappe.get_roles(frappe.session.user)
+                }
+            })
+            response.set_data(json.dumps(data))
+        except Exception:
+            pass

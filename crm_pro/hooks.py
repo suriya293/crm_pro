@@ -50,6 +50,10 @@ before_request = [
     "crm_pro.api_auth.check_bearer_token",
 ]
 
+after_request = [
+    "crm_pro.api_auth.after_request"
+]
+
 workspaces = [
     {
         "name": "crm_pro",
