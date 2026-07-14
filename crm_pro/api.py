@@ -8,6 +8,7 @@ from frappe.query_builder.functions import Sum, Count
 import json
 import re
 from crm_pro.utils.safe_json import safe_json
+from crm_pro.utils.mobile_validator import normalize_mobile
 
 def is_web_api_call():
     if frappe.flags.in_test:
@@ -194,7 +195,7 @@ def create_lead(lead_name, email=None, mobile=None, **kwargs):
         if not validate_stage_val(stage):
             if is_web_api_call():
                 return {
-                    "success": False,
+        	            "success": False,
                     "message": "Invalid stage value"
                 }
             else:
@@ -233,8 +234,18 @@ def create_lead(lead_name, email=None, mobile=None, **kwargs):
 
         lead.owner = frappe.session.user
 
-        lead.insert(ignore_permissions=True)
-        
+        # Normalize alternate mobile numbers
+        for field in [
+            "alt_mobile_1",
+            "alt_mobile_2",
+            "alt_mobile_3"
+        ]:
+            if field in kwargs:
+                value = kwargs.get(field)
+
+                if value:
+                    kwargs[field] = normalize_mobile(value)
+
         # Optional fields mapping
         for field in [
             "country_code", "stage", "source", "user", "priority", "segment",
@@ -258,7 +269,7 @@ def create_lead(lead_name, email=None, mobile=None, **kwargs):
                         "field_value": cf.get("value")
                     })
 
-        lead.insert()
+        lead.insert(ignore_permissions=True)
         frappe.db.commit()
         if is_web_api_call():
             return {
@@ -365,6 +376,8 @@ def update_lead(lead_id=None, name=None, **kwargs):
         if "mobile" in kwargs:
             mobile = kwargs.get("mobile")
             if mobile:
+                mobile = normalize_mobile(mobile)
+                kwargs["mobile"] = mobile
                 if check_injection(mobile) or not re.match(r"^\+91[6-9][0-9]{9}$", mobile):
                     if is_web_api_call():
                         return {
@@ -404,7 +417,17 @@ def update_lead(lead_id=None, name=None, **kwargs):
             user = kwargs.get("user")
             if user:
                 user_strip = str(user).strip()
-                if user_strip.lower() in ["null", "none", "undefined", ""] or not frappe.db.exists("User", user_strip):
+
+                if user_strip.lower() in [
+                    "-",
+                    "null",
+                    "none",
+                    "undefined",
+                    ""
+                ]:
+                    kwargs["user"] = None
+
+                elif not frappe.db.exists("User", user_strip):
                     if is_web_api_call():
                         return {
                             "success": False,
@@ -412,6 +435,18 @@ def update_lead(lead_id=None, name=None, **kwargs):
                         }
                     else:
                         frappe.throw(_("User not found"), frappe.ValidationError)
+
+        # Normalize alternate mobile numbers
+        for field in [
+            "alt_mobile_1",
+            "alt_mobile_2",
+            "alt_mobile_3"
+        ]:
+            if field in kwargs:
+                value = kwargs.get(field)
+
+                if value:
+                    kwargs[field] = normalize_mobile(value)
 
         for field in [
             "lead_name", "email", "mobile", "country_code", "stage", "source", "user", 

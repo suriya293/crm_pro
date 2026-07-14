@@ -12,12 +12,25 @@ class CRMLead(Document):
         if not self.mobile:
             frappe.throw("Mobile Number is required")
 
-        from crm_pro.utils.mobile_validator import validate_mobile
+        from crm_pro.utils.mobile_validator import (
+            validate_mobile,
+            normalize_mobile
+        )
+
+        self.mobile = normalize_mobile(self.mobile)
+
         validate_mobile(self.mobile)
 
-        for field in ["alt_mobile_1", "alt_mobile_2", "alt_mobile_3"]:
+        for field in [
+            "alt_mobile_1",
+            "alt_mobile_2",
+            "alt_mobile_3"
+        ]:
             val = self.get(field)
+
             if val:
+                val = normalize_mobile(val)
+                self.set(field, val)
                 validate_mobile(val)
         if self.email:
             self.email = self.email.strip().lower()

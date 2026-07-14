@@ -2,6 +2,22 @@ import frappe
 from frappe import _
 import re
 
+def normalize_mobile(mobile):
+    if not mobile:
+        return None
+
+    mobile = str(mobile).strip()
+
+    mobile = re.sub(r"\D", "", mobile)
+
+    if len(mobile) == 10:
+        return "+91" + mobile
+
+    if len(mobile) == 12 and mobile.startswith("91"):
+        return "+" + mobile
+
+    return mobile
+
 def validate_mobile(mobile):
     """
     Validates that a mobile number matches the E.164 standard without spaces, letters,
