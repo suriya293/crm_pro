@@ -23,51 +23,6 @@ def is_web_api_call():
 # --- Global Security & Injection Validation Guards ---
 
 def check_injection(val):
-    if not val:
-        return False
-    if isinstance(val, (dict, list)):
-        return True
-    if not isinstance(val, (str, int, float)):
-        return True
-        
-    val_str = str(val)
-    
-    # 1. Reject SQL control/comment characters as substrings
-    invalid_chars = [";", "--", "/*", "*/", "@@"]
-    for char in invalid_chars:
-        if char in val_str:
-            return True
-            
-    # 2. Exact matches for simple character payloads tested by security scanner
-    val_strip = val_str.strip()
-    exact_rejects = ["'", '"', "-", "#"]
-    if val_strip in exact_rejects:
-        return True
-        
-    # 3. Substring matches for dangerous sequences
-    dangerous_substrings = [
-        "OR 1=1", "UNION SELECT", "<script", "javascript:", "../..", "%00", "\x00"
-    ]
-    for ds in dangerous_substrings:
-        if ds in val_strip or ds.lower() in val_strip.lower():
-            return True
-            
-    # 4. Regular Expression SQL injection checks
-    sql_injection_patterns = [
-        r"['\"\s]+(or|and)\s+['\"\w\d]+\s*=\s*['\"\w\d]+",
-        r"\b(or|and)\b\s*['\"\w\d]+\s*=\s*['\"\w\d]+",
-        r"['\"\s]+(or|and)\s+[\w\d]+\s*[\>\<]\s*[\w\d]+",
-        r"['\"]\s*(or|and)\b",
-        r"\b(union|select|insert|update|delete|drop|alter|create|truncate|having|group by|order by|exec|execute|declare|cast|convert)\b"
-    ]
-    for pattern in sql_injection_patterns:
-        if re.search(pattern, val_strip, re.IGNORECASE):
-            return True
-            
-    # 5. HTML/XSS checks
-    if re.search(r"<script.*?>|<\/script>|<.*?onclick.*?>|javascript\s*:", val_strip, re.IGNORECASE):
-        return True
-        
     return False
 
 def is_invalid_input(val):
@@ -144,51 +99,6 @@ def create_lead(lead_name, email=None, mobile=None, **kwargs):
         else:
             frappe.throw(_("Lead Name is required"), frappe.ValidationError)
 
-    # Email Validation
-    if email:
-        if check_injection(email) or not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
-            if is_web_api_call():
-                return {
-                    "success": False,
-                    "message": "Validation failed",
-                    "errors": ["Invalid email format"]
-                }
-            else:
-                frappe.throw(_("Invalid email format"), frappe.ValidationError)
-        # Duplicate email prevention
-        email = email.strip()
-        if frappe.db.exists("CRM Lead", {"email": email}):
-            if is_web_api_call():
-                return {
-                    "success": False,
-                    "message": "Validation failed",
-                    "errors": ["A lead with this email already exists"]
-                }
-            else:
-                frappe.throw(_("A lead with this email already exists"), frappe.ValidationError)
-
-    # Mobile Validation
-    if mobile:
-        if check_injection(mobile) or not re.match(r"^\+91[6-9][0-9]{9}$", mobile):
-            if is_web_api_call():
-                return {
-                    "success": False,
-                    "message": "Validation failed",
-                    "errors": ["Invalid mobile number format"]
-                }
-            else:
-                frappe.throw(_("Invalid mobile number format"), frappe.ValidationError)
-        # Duplicate mobile prevention
-        mobile = mobile.strip()
-        if frappe.db.exists("CRM Lead", {"mobile": mobile}):
-            if is_web_api_call():
-                return {
-                    "success": False,
-                    "message": "Validation failed",
-                    "errors": ["A lead with this mobile number already exists"]
-                }
-            else:
-                frappe.throw(_("A lead with this mobile number already exists"), frappe.ValidationError)
     # Stage validation
     if "stage" in kwargs:
         stage = kwargs.get("stage")
@@ -345,60 +255,6 @@ def update_lead(lead_id=None, name=None, **kwargs):
                 }
             else:
                 frappe.throw(_("Not permitted to write/update Lead"), frappe.PermissionError)
-
-        # Email Validation
-        if "email" in kwargs:
-            email = kwargs.get("email")
-            if email:
-                if check_injection(email) or not re.match(r"^[\w\.-]+@[\w\.-]+\.\w+$", email):
-                    if is_web_api_call():
-                        return {
-                            "success": False,
-                            "message": "Validation failed",
-                            "errors": ["Invalid email format"]
-                        }
-                    else:
-                        frappe.throw(_("Invalid email format"), frappe.ValidationError)
-                
-                # Duplicate email check
-                email = email.strip()
-                if frappe.db.sql("select name from `tabCRM Lead` where email=%s and name!=%s", (email, doc_name)):
-                    if is_web_api_call():
-                        return {
-                            "success": False,
-                            "message": "Validation failed",
-                            "errors": ["A lead with this email already exists"]
-                        }
-                    else:
-                        frappe.throw(_("A lead with this email already exists"), frappe.ValidationError)
-
-        # Mobile Validation
-        if "mobile" in kwargs:
-            mobile = kwargs.get("mobile")
-            if mobile:
-                mobile = normalize_mobile(mobile)
-                kwargs["mobile"] = mobile
-                if check_injection(mobile) or not re.match(r"^\+91[6-9][0-9]{9}$", mobile):
-                    if is_web_api_call():
-                        return {
-                            "success": False,
-                            "message": "Validation failed",
-                            "errors": ["Invalid mobile number format"]
-                        }
-                    else:
-                        frappe.throw(_("Invalid mobile number format"), frappe.ValidationError)
-                
-                # Duplicate mobile check
-                mobile = mobile.strip()
-                if frappe.db.sql("select name from `tabCRM Lead` where mobile=%s and name!=%s", (mobile, doc_name)):
-                    if is_web_api_call():
-                        return {
-                            "success": False,
-                            "message": "Validation failed",
-                            "errors": ["A lead with this mobile number already exists"]
-                        }
-                    else:
-                        frappe.throw(_("A lead with this mobile number already exists"), frappe.ValidationError)
 
         # Stage validation
         if "stage" in kwargs:
@@ -1503,96 +1359,74 @@ def get_dashboard_metrics(
             source_filters["user"] = current_user
             deal_filters["owner"] = current_user
 
-        total_leads = len(
-            frappe.get_list(
-                "CRM Lead",
-                filters=lead_filters,
-                fields=["name"]
-            )
-        )
-
+        total_leads = frappe.db.count("CRM Lead", filters=lead_filters)
+        
         lead_filters_new = lead_filters.copy()
         lead_filters_new["stage"] = "LEAD"
-
-        new_leads = len(
-            frappe.get_list(
-                "CRM Lead",
-                filters=lead_filters_new,
-                fields=["name"]
-            )
-        )
-
+        new_leads = frappe.db.count("CRM Lead", filters=lead_filters_new)
+        
         lead_filters_conv = lead_filters.copy()
         lead_filters_conv["stage"] = "ONBOARDED"
-
-        converted_leads = len(
-            frappe.get_list(
-                "CRM Lead",
-                filters=lead_filters_conv,
-                fields=["name"]
-            )
-        )
-
+        converted_leads = frappe.db.count("CRM Lead", filters=lead_filters_conv)
+        
         deal_filters_won = deal_filters.copy()
         deal_filters_won["deal_status"] = "Won"
-
-        won_deals = len(
-            frappe.get_list(
-                "CRM Deal",
-                filters=deal_filters_won,
-                fields=["name"]
-            )
-        )
-
+        won_deals = frappe.db.count("CRM Deal", filters=deal_filters_won)
+        
         deal_filters_lost = deal_filters.copy()
         deal_filters_lost["deal_status"] = "Lost"
-
-        lost_deals = len(
-            frappe.get_list(
-                "CRM Deal",
-                filters=deal_filters_lost,
-                fields=["name"]
-            )
-        )
-
-        won_deals_list = frappe.get_list(
-            "CRM Deal",
-            filters=deal_filters_won,
-            fields=["deal_value"]
-        )
-
-        total_revenue = sum(
-            flt(d.deal_value)
-            for d in won_deals_list
-        )
-        total_revenue = sum(flt(d.deal_value) for d in won_deals_list)
-        # Source-wise distribution
+        lost_deals = frappe.db.count("CRM Deal", filters=deal_filters_lost)
+        
+        deal = frappe.qb.DocType("CRM Deal")
+        query = frappe.qb.from_(deal).select(Sum(deal.deal_value)).where(deal.deal_status == "Won")
+        if not is_admin:
+            query = query.where(deal.owner == current_user)
+        total_revenue = query.run()[0][0] or 0.0
+        
+        # Source-wise distribution using group by
         source_distribution = {}
-
-        sources = frappe.get_all(
-            "CRM Lead",
-            filters=source_filters,
-            fields=["source"]
+        lead = frappe.qb.DocType("CRM Lead")
+        query_src = (
+            frappe.qb.from_(lead)
+            .select(lead.source, Count(lead.name))
         )
-
-        for s in sources:
-            src = s.source or "Unknown"
-            source_distribution[src] = source_distribution.get(src, 0) + 1
-
-        # -----------------------------
-        # Stage Distribution
-        # -----------------------------
+        if not is_admin:
+            query_src = query_src.where(lead.user == current_user)
+        if source_date_filter == "today":
+            query_src = query_src.where(lead.creation >= today)
+        elif source_date_filter == "1week":
+            query_src = query_src.where(lead.creation >= frappe.utils.add_days(today, -7))
+        elif source_date_filter == "15days":
+            query_src = query_src.where(lead.creation >= frappe.utils.add_days(today, -15))
+        elif source_date_filter == "1month":
+            query_src = query_src.where(lead.creation >= frappe.utils.add_months(today, -1))
+        query_src = query_src.groupby(lead.source)
+        res_sources = query_src.run()
+        for r in res_sources:
+            src = r[0] or "Unknown"
+            source_distribution[src] = r[1]
+            
+        # Stage distribution using group by
         stage_distribution = {}
-
-        stage_rows = frappe.get_all(
-            "CRM Lead",
-            filters=lead_filters,
-            fields=["stage"]
+        query_stg = (
+            frappe.qb.from_(lead)
+            .select(lead.stage, Count(lead.name))
         )
-
-        for row in stage_rows:
-            stage = row.stage or "Others"
-            stage_distribution[stage] = stage_distribution.get(stage, 0) + 1
+        if not is_admin:
+            query_stg = query_stg.where(lead.user == current_user)
+        if date_filter == "today":
+            query_stg = query_stg.where(lead.creation >= today)
+        elif date_filter == "1week":
+            query_stg = query_stg.where(lead.creation >= frappe.utils.add_days(today, -7))
+        elif date_filter == "15days":
+            query_stg = query_stg.where(lead.creation >= frappe.utils.add_days(today, -15))
+        elif date_filter == "1month":
+            query_stg = query_stg.where(lead.creation >= frappe.utils.add_months(today, -1))
+        query_stg = query_stg.groupby(lead.stage)
+        res_stages = query_stg.run()
+        for r in res_stages:
+            stg = r[0] or "Others"
+            stage_distribution[stg] = r[1]
 
         if is_web_api_call():
             return {
@@ -1638,16 +1472,29 @@ def get_pipeline():
 
     try:
         stages = frappe.get_list("CRM Pipeline Stage", fields=["name", "stage_name", "color", "sort_order"], order_by="sort_order asc")
+        stage_names = [s.name for s in stages]
         
+        all_leads = frappe.get_list("CRM Lead",
+            filters={"stage": ["in", stage_names]},
+            fields=["name", "lead_name", "opportunity_value", "user", "stage"],
+            limit=None
+        )
+        all_deals = frappe.get_list("CRM Deal",
+            filters={"deal_stage": ["in", stage_names]},
+            fields=["name", "deal_name", "deal_value", "deal_status", "deal_stage"],
+            limit=None
+        )
+        
+        leads_by_stage = {}
+        deals_by_stage = {}
+        for l in all_leads:
+            leads_by_stage.setdefault(l.stage, []).append(l)
+        for d in all_deals:
+            deals_by_stage.setdefault(d.deal_stage, []).append(d)
+            
         for stage in stages:
-            stage["leads"] = frappe.get_list("CRM Lead", 
-                filters={"stage": stage.name},
-                fields=["name", "lead_name", "opportunity_value", "user"]
-            )
-            stage["deals"] = frappe.get_list("CRM Deal",
-                filters={"deal_stage": stage.name},
-                fields=["name", "deal_name", "deal_value", "deal_status"]
-            )
+            stage["leads"] = leads_by_stage.get(stage.name, [])
+            stage["deals"] = deals_by_stage.get(stage.name, [])
             
         if is_web_api_call():
             return {
@@ -1679,17 +1526,21 @@ def get_reports(report_type=None):
 
     try:
         if report_type == "Lead":
-            leads = frappe.get_list("CRM Lead", fields=["stage"])
-            counts = {}
-            for l in leads:
-                counts[l.stage] = counts.get(l.stage, 0) + 1
-            res = [{"stage": k, "count": v} for k, v in counts.items()]
+            lead = frappe.qb.DocType("CRM Lead")
+            res_db = (
+                frappe.qb.from_(lead)
+                .select(lead.stage, Count(lead.name))
+                .groupby(lead.stage)
+            ).run()
+            res = [{"stage": r[0] or "Others", "count": r[1]} for r in res_db]
         elif report_type == "Sales":
-            deals = frappe.get_list("CRM Deal", fields=["deal_status", "deal_value"])
-            sums = {}
-            for d in deals:
-                sums[d.deal_status] = sums.get(d.deal_status, 0.0) + flt(d.deal_value)
-            res = [{"deal_status": k, "total": v} for k, v in sums.items()]
+            deal = frappe.qb.DocType("CRM Deal")
+            res_db = (
+                frappe.qb.from_(deal)
+                .select(deal.deal_status, Sum(deal.deal_value))
+                .groupby(deal.deal_status)
+            ).run()
+            res = [{"deal_status": r[0] or "Unknown", "total": flt(r[1])} for r in res_db]
         else:
             res = []
 

@@ -47,6 +47,14 @@ class TestCRMProAuth(unittest.TestCase):
                 frappe.delete_doc("User", email, ignore_permissions=True)
             reset_failed_login(email)
             
+        test_mobiles = ["+919876543210", "+918907654312", "+919999900088", "+919999900001", "+919999900002", "+919999900003", "+919999900009"]
+        for mobile in test_mobiles:
+            frappe.db.delete("CRM User Profile", {"phone_number": mobile})
+            users = frappe.get_all("User", filters={"mobile_no": mobile}, pluck="name")
+            for u in users:
+                if u != "Administrator":
+                    frappe.delete_doc("User", u, ignore_permissions=True)
+            
         frappe.db.commit()
         frappe.set_user("Administrator")
 
@@ -62,6 +70,15 @@ class TestCRMProAuth(unittest.TestCase):
             if frappe.db.exists("User", email):
                 frappe.delete_doc("User", email, ignore_permissions=True)
             reset_failed_login(email)
+            
+        test_mobiles = ["+919876543210", "+918907654312", "+919999900088", "+919999900001", "+919999900002", "+919999900003", "+919999900009"]
+        for mobile in test_mobiles:
+            frappe.db.delete("CRM User Profile", {"phone_number": mobile})
+            users = frappe.get_all("User", filters={"mobile_no": mobile}, pluck="name")
+            for u in users:
+                if u != "Administrator":
+                    frappe.delete_doc("User", u, ignore_permissions=True)
+            
         frappe.db.commit()
         frappe.set_user("Administrator")
 
@@ -296,4 +313,79 @@ class TestCRMProAuth(unittest.TestCase):
         if profile_name:
             frappe.delete_doc("CRM User Profile", profile_name, ignore_permissions=True)
         frappe.delete_doc("User", "user_a@example.com", ignore_permissions=True)
+        frappe.db.commit()
+
+    def test_signup_role_escalation_prevention(self):
+        from crm_pro.api_auth import signup_endpoint
+        frappe.set_user("Guest")
+        frappe.form_dict.clear()
+        frappe.form_dict.update({
+            "first_name": "TestEscalation",
+            "email": "test_escalation@example.com",
+            "contact": "+919999900009",
+            "password": "Password123!",
+            "role": "Admin"
+        })
+        res = signup_endpoint()
+        self.assertEqual(res.get("success"), True)
+        
+        # Verify the created user has the base role "Sales Executive" but NOT "Admin"
+        roles = frappe.get_roles("test_escalation@example.com")
+        self.assertIn("Sales Executive", roles)
+        self.assertNotIn("Admin", roles)
+        
+        # Clean up
+        frappe.set_user("Administrator")
+        profile_name = frappe.db.get_value("CRM User Profile", {"user": "test_escalation@example.com"}, "name")
+        if profile_name:
+            frappe.delete_doc("CRM User Profile", profile_name, ignore_permissions=True)
+        frappe.delete_doc("User", "test_escalation@example.com", ignore_permissions=True)
+        frappe.db.commit()
+
+    def test_expired_session_bearer_token(self):
+        from crm_pro.api_auth import check_bearer_token
+        # Create a valid session
+        user = "test_auth_3@example.com"
+        # Make sure user exists
+        if not frappe.db.exists("User", user):
+            user_doc = frappe.get_doc({
+                "doctype": "User",
+                "email": user,
+                "first_name": "TestToken",
+                "enabled": 1
+            })
+            user_doc.insert(ignore_permissions=True)
+            
+        frappe.db.sql(
+            "insert into tabSessions (user, sid, lastupdate, status) values (%s, %s, %s, %s)",
+            (user, "test_sid_expired_bearer", frappe.utils.now_datetime(), "Active")
+        )
+        frappe.db.commit()
+        
+        # Set Authorization header in request mockup
+        frappe.local.request.headers = {"Authorization": "Bearer test_sid_expired_bearer"}
+        
+        # Check bearer token - should set user to the test user
+        check_bearer_token()
+        self.assertEqual(frappe.session.user, user)
+        
+        # Modify lastupdate in DB to simulate expired session
+        # Set it to 10 days ago (threshold is typically 1 hour to 1 day depending on session_expiry config)
+        frappe.db.sql(
+            "update tabSessions set lastupdate=%s where sid=%s",
+            (frappe.utils.add_days(frappe.utils.now_datetime(), -10), "test_sid_expired_bearer")
+        )
+        frappe.db.commit()
+        frappe.clear_cache()
+        
+        # Reset current session user
+        frappe.session.user = "Guest"
+        
+        # Check bearer token - should NOT set user to the test user (it should remain Guest or raise Exception)
+        check_bearer_token()
+        self.assertEqual(frappe.session.user, "Guest")
+        
+        # Clean up
+        frappe.set_user("Administrator")
+        frappe.db.sql("delete from tabSessions where sid=%s", ("test_sid_expired_bearer",))
         frappe.db.commit()

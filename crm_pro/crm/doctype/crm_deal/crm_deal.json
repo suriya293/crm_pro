@@ -15,7 +15,8 @@
       "fieldtype": "Link",
       "options": "CRM Lead",
       "label": "Lead Source",
-      "in_list_view": 1
+      "in_list_view": 1,
+      "search_index": 1
     },
     {
       "fieldname": "company",
@@ -29,7 +30,8 @@
       "fieldtype": "Link",
       "options": "CRM Pipeline Stage",
       "label": "Deal Stage",
-      "in_list_view": 1
+      "in_list_view": 1,
+      "search_index": 1
     },
     {
       "fieldname": "deal_value",

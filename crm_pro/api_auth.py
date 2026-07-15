@@ -190,7 +190,11 @@ def check_bearer_token():
     auth_header = frappe.get_request_header("Authorization")
     if auth_header and auth_header.startswith("Bearer "):
         sid = auth_header.split(" ", 1)[1].strip()
-        res = frappe.db.sql("select user from tabSessions where sid=%s", (sid,))
+        from frappe.sessions import get_expired_threshold
+        res = frappe.db.sql(
+            "select user from tabSessions where sid=%s and lastupdate > %s",
+            (sid, get_expired_threshold())
+        )
         if res:
             username = res[0][0]
             # Save current request parameters before set_user wipes them
@@ -305,41 +309,29 @@ def login_endpoint():
     login = (data.get("usr") or data.get("username") or data.get("email") or "").strip()
     password = data.get("pwd") or data.get("password")
 
+    user_email = login or ""
+    if login:
+        if "@" not in login:
+            profile = frappe.db.get_value("CRM User Profile", {"username": login}, "user")
+            if profile:
+                user_email = profile
+        if is_account_locked(user_email):
+            return json_response({"success": False, "message": "Account locked. Try again later."}, 403)
+
     try:
-        # If already implicitly authenticated via standard /api/method/login
-        if frappe.session.user and frappe.session.user != "Guest":
-            user_email = frappe.session.user
-        else:
-            if not login or not password:
-                return json_response({"success": False, "message": "Missing credentials"}, 400)
-
-            user_email = login
-
-            # Username -> Email
-            if "@" not in login:
-                # First try CRM User Profile
-                profile = frappe.db.get_value(
-                    "CRM User Profile",
-                    {"username": login},
-                    "user"
-                )
-
-                if profile:
-                    user_email = profile
-                else:
-                    # Fallback to Frappe User
-                    if frappe.db.exists("User", login):
-                        user_email = login
-                    else:
-                        raise frappe.AuthenticationError
-
+        if login and password:
             # Password Check
             check_password(user_email, password)
+            reset_failed_login(user_email)
 
             # Login
             login_manager = frappe.auth.LoginManager()
             login_manager.user = user_email
             login_manager.post_login()
+        elif frappe.session.user and frappe.session.user != "Guest":
+            user_email = frappe.session.user
+        else:
+            return json_response({"success": False, "message": "Missing credentials"}, 400)
 
         # Generate and set CSRF Token
         from frappe.sessions import get_csrf_token
@@ -359,6 +351,8 @@ def login_endpoint():
         }, 200)
 
     except frappe.AuthenticationError:
+        if user_email:
+            record_failed_login(user_email)
         return json_response({
             "success": False,
             "message": "Invalid credentials"
@@ -387,6 +381,7 @@ def logout_endpoint():
         return json_response({"success": False, "message": f"Logout failed: {str(e)}"}, 500)
 
 
+@frappe.whitelist()
 def change_password_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
@@ -426,6 +421,7 @@ def change_password_endpoint():
         return json_response({"success": False, "message": f"Failed to change password: {str(e)}"}, 500)
 
 
+@frappe.whitelist(allow_guest=True)
 def forgot_password_endpoint():
     ensure_request_context()
     data = frappe.form_dict
@@ -456,6 +452,7 @@ def forgot_password_endpoint():
         return json_response({"success": False, "message": f"Forgot password failed: {str(e)}"}, 500)
 
 
+@frappe.whitelist(allow_guest=True)
 def reset_password_endpoint():
     ensure_request_context()
     data = frappe.form_dict
@@ -489,6 +486,7 @@ def reset_password_endpoint():
         return json_response({"success": False, "message": f"Password reset failed: {str(e)}"}, 500)
 
 
+@frappe.whitelist()
 def profile_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
@@ -572,6 +570,7 @@ def profile_endpoint():
             return json_response({"success": False, "message": f"Failed to update profile: {str(e)}"}, 500)
 
 
+@frappe.whitelist()
 def upload_avatar_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
@@ -602,6 +601,7 @@ def upload_avatar_endpoint():
         return json_response({"success": False, "message": f"Failed to upload avatar: {str(e)}"}, 500)
 
 
+@frappe.whitelist()
 def update_mobile_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
@@ -638,6 +638,7 @@ def update_mobile_endpoint():
         return json_response({"success": False, "message": f"Failed to update mobile: {str(e)}"}, 500)
 
 
+@frappe.whitelist()
 def update_email_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
@@ -978,7 +979,7 @@ def signup_endpoint():
     email = (data.get("email") or "").strip().lower()
     phone = (data.get("contact") or "").strip()
     password = data.get("password")
-    role = (data.get("role") or "User").strip()
+    role = "Sales Executive"
 
     if not username or not email or not password:
         return {
@@ -1015,11 +1016,7 @@ def signup_endpoint():
 
         update_password(email, password)
 
-        if role.lower() == "admin":
-            user.add_roles("Admin")
-
-        elif role.lower() == "user":
-            user.add_roles("User")
+        user.add_roles("Sales Executive")
 
 
         frappe.get_doc({
