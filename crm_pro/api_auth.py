@@ -26,7 +26,7 @@ def ensure_request_context():
             has_request = True
     except RuntimeError:
         pass
-        
+
     if not has_request:
         class DummyRequest:
             def __init__(self):
@@ -40,7 +40,7 @@ def ensure_request_context():
                 self.data = b""
                 self.cookies = {}
         frappe.local.request = DummyRequest()
-        
+
     if not getattr(frappe.local, "cookie_manager", None):
         from frappe.auth import CookieManager
         frappe.local.cookie_manager = CookieManager()
@@ -57,15 +57,15 @@ def json_response(data, status=200):
 def check_rate_limit(action_name, limit=RATE_LIMIT_PER_MINUTE, window=60):
     ip = frappe.local.request_ip or "127.0.0.1"
     cache_key = f"rate_limit:{action_name}:{ip}"
-    
+
     now = time.time()
     timestamps = frappe.cache().get_value(cache_key) or []
     # Clean up old timestamps
     timestamps = [t for t in timestamps if now - t < window]
-    
+
     if len(timestamps) >= limit:
         return False
-        
+
     timestamps.append(now)
     frappe.cache().set_value(cache_key, timestamps, expires_in_sec=window)
     return True
@@ -86,21 +86,21 @@ def record_failed_login(email):
     full_key = frappe.cache().make_key(count_key)
     if hasattr(frappe.local, "cache") and full_key in frappe.local.cache:
         del frappe.local.cache[full_key]
-        
+
     count = frappe.cache().get_value(count_key) or 0
     count += 1
-    
+
     if count >= MAX_FAILED_ATTEMPTS:
         lock_key = f"login_lockout:{email}"
         full_lock_key = frappe.cache().make_key(lock_key)
         if hasattr(frappe.local, "cache") and full_lock_key in frappe.local.cache:
             del frappe.local.cache[full_lock_key]
-            
+
         frappe.cache().set_value(lock_key, 1, expires_in_sec=LOCKOUT_DURATION_SECONDS)
         frappe.cache().delete_value(count_key)
         if hasattr(frappe.local, "cache") and full_key in frappe.local.cache:
             del frappe.local.cache[full_key]
-            
+
         # Log to CRM Audit Log
         log_audit_event("User", email, "Update", f"Account locked due to {MAX_FAILED_ATTEMPTS} failed attempts.")
     else:
@@ -157,26 +157,26 @@ def check_password_history(email, new_password):
     profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
     if not profile_name:
         return None
-        
+
     profile = frappe.get_doc("CRM User Profile", profile_name)
     history_str = profile.password_history or "[]"
     history = safe_json(history_str, default=[])
-        
+
     for pwd_hash in history:
         if passlibctx.verify(new_password, pwd_hash):
             return "Password must not match any of your last 5 passwords."
-            
+
     return None
 
 def save_password_to_history(email, password):
     profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
     if not profile_name:
         return
-        
+
     profile = frappe.get_doc("CRM User Profile", profile_name)
     history_str = profile.password_history or "[]"
     history = safe_json(history_str, default=[])
-        
+
     new_hash = passlibctx.hash(password)
     history.insert(0, new_hash)
     history = history[:5]
@@ -217,7 +217,7 @@ def register_endpoint():
     ensure_request_context()
     if not check_rate_limit("register"):
         return json_response({"success": False, "message": "Too many requests. Try again later."}, 429)
-        
+
     current_roles = frappe.get_roles(frappe.session.user)
     is_crm_admin = "CRM Admin" in current_roles or frappe.session.user == "Administrator"
     if not is_crm_admin:
@@ -226,7 +226,7 @@ def register_endpoint():
             "message": "Permission denied",
             "errors": ["Only CRM Admin can create users"]
         }, 403)
-        
+
     data = frappe.form_dict
 
     first_name = data.get("first_name")
@@ -235,29 +235,29 @@ def register_endpoint():
     mobile_no = data.get("mobile_no")
     password = data.get("password")
     confirm_password = data.get("confirm_password")
-    
+
     if not all([first_name, email, password, confirm_password]):
         return json_response({"success": False, "message": "Missing required fields"}, 400)
-        
+
     if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
         return json_response({"success": False, "message": "Invalid email format"}, 400)
-        
+
     if password != confirm_password:
         return json_response({"success": False, "message": "Password confirmation does not match"}, 400)
-        
+
     # Complexity Check
     complexity_err = validate_password_complexity(password)
     if complexity_err:
         return json_response({"success": False, "message": complexity_err}, 400)
-        
+
     # Duplicate Checks
     if frappe.db.exists("User", email):
         return json_response({"success": False, "message": "A user with this email already exists"}, 400)
-        
+
     if mobile_no:
         if frappe.db.exists("User", {"mobile_no": mobile_no}) or frappe.db.exists("CRM User Profile", {"phone_number": mobile_no}):
             return json_response({"success": False, "message": "A user with this mobile number already exists"}, 400)
-            
+
     # Create User
     try:
         user = frappe.get_doc({
@@ -275,7 +275,7 @@ def register_endpoint():
         })
         user.insert(ignore_permissions=True)
         update_password(user.name, password)
-        
+
         # Create CRM User Profile
         profile = frappe.get_doc({
             "doctype": "CRM User Profile",
@@ -285,10 +285,10 @@ def register_endpoint():
         })
         profile.insert(ignore_permissions=True)
         frappe.db.commit()
-        
+
         save_password_to_history(user.name, password)
         log_audit_event("User", user.name, "Create", "User registered successfully.")
-        
+
         return json_response({
             "success": True,
             "user_id": user.name,
@@ -371,7 +371,7 @@ def logout_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
         return json_response({"success": False, "message": "Authentication required"}, 401)
-        
+
     try:
         email = frappe.session.user
         frappe.local.login_manager.logout()
@@ -380,77 +380,76 @@ def logout_endpoint():
     except Exception as e:
         return json_response({"success": False, "message": f"Logout failed: {str(e)}"}, 500)
 
+@frappe.whitelist()
+def profile_endpoint():
+    ensure_request_context()
+    if frappe.session.user == "Guest":
+        return json_response({"success": False, "message": "Authentication required"}, 401)
+
+    req_method = "GET"
+    if frappe.request and getattr(frappe.request, "method", None):
+        req_method = frappe.request.method
+
+    if req_method == "GET":
+        res = get_profile()
+        if not res.get("success"):
+            return json_response(res, 401)
+        legacy_profile = {
+            "name": res.get("username"),
+            "email": res.get("email"),
+            "mobile": res.get("contact"),
+            "avatar": "",
+            "department": "",
+            "designation": ""
+        }
+        return json_response({"success": True, "profile": legacy_profile}, 200)
+    elif req_method == "PUT":
+        data = frappe.form_dict
+        res = update_profile(
+            username=data.get("name"),
+            email=None,
+            mobile_no=data.get("mobile"),
+            company=None
+        )
+        return json_response(res, 200 if res.get("success") else 400)
 
 @frappe.whitelist()
 def change_password_endpoint():
     ensure_request_context()
-    if frappe.session.user == "Guest":
-        return json_response({"success": False, "message": "Authentication required"}, 401)
-        
     data = frappe.form_dict
     old_password = data.get("old_password")
     new_password = data.get("new_password")
-    
+
     if not old_password or not new_password:
         return json_response({"success": False, "message": "Missing password fields"}, 400)
-        
-    email = frappe.session.user
-    
-    try:
-        # Verify old password
-        check_password(email, old_password)
-    except frappe.AuthenticationError:
-        return json_response({"success": False, "message": "Current password is incorrect"}, 400)
-        
-    # Complexity Check
-    complexity_err = validate_password_complexity(new_password)
-    if complexity_err:
-        return json_response({"success": False, "message": complexity_err}, 400)
-        
-    # History Check
-    history_err = check_password_history(email, new_password)
-    if history_err:
-        return json_response({"success": False, "message": history_err}, 400)
-        
-    try:
-        update_password(email, new_password)
-        save_password_to_history(email, new_password)
-        log_audit_event("User", email, "Update", "Password changed successfully.")
-        return json_response({"success": True, "message": "Password changed successfully"}, 200)
-    except Exception as e:
-        return json_response({"success": False, "message": f"Failed to change password: {str(e)}"}, 500)
 
+    try:
+        res = change_password(old_password, new_password)
+        return json_response(res, 200)
+    except frappe.ValidationError as e:
+        return json_response({"success": False, "message": str(e)}, 400)
+    except Exception as e:
+        return json_response({"success": False, "message": str(e)}, 500)
 
 @frappe.whitelist(allow_guest=True)
 def forgot_password_endpoint():
     ensure_request_context()
     data = frappe.form_dict
     email = data.get("email")
-    
     if not email:
         return json_response({"success": False, "message": "Missing email"}, 400)
-        
     if not frappe.db.exists("User", email):
         return json_response({"success": True, "message": "If the email exists, a reset code has been sent."}, 200)
-        
     try:
         token = secrets.token_hex(16)
-        
-        # Use Redis for reset token storing (highly secure and self-expiring!)
         frappe.cache().set_value(f"pwd_reset_token:{token}", email, expires_in_sec=3600)
-        
-        # Return success with token (in dev/test environments)
         log_audit_event("User", email, "Update", "Password reset request initiated.")
-        resp = {
-            "success": True,
-            "message": "If the email exists, a reset code has been sent."
-        }
+        resp = {"success": True, "message": "If the email exists, a reset code has been sent."}
         if frappe.conf.get("developer_mode") or frappe.flags.in_test:
             resp["token"] = token
         return json_response(resp, 200)
     except Exception as e:
-        return json_response({"success": False, "message": f"Forgot password failed: {str(e)}"}, 500)
-
+        return json_response({"success": False, "message": str(e)}, 500)
 
 @frappe.whitelist(allow_guest=True)
 def reset_password_endpoint():
@@ -458,24 +457,19 @@ def reset_password_endpoint():
     data = frappe.form_dict
     token = data.get("token")
     new_password = data.get("new_password")
-    
     if not token or not new_password:
         return json_response({"success": False, "message": "Missing token or password"}, 400)
-        
     email = frappe.cache().get_value(f"pwd_reset_token:{token}")
     if not email:
         return json_response({"success": False, "message": "Invalid or expired reset token"}, 400)
-        
-    # Complexity Check
+
     complexity_err = validate_password_complexity(new_password)
     if complexity_err:
         return json_response({"success": False, "message": complexity_err}, 400)
-        
-    # History Check
     history_err = check_password_history(email, new_password)
     if history_err:
         return json_response({"success": False, "message": history_err}, 400)
-        
+
     try:
         update_password(email, new_password)
         save_password_to_history(email, new_password)
@@ -483,91 +477,7 @@ def reset_password_endpoint():
         log_audit_event("User", email, "Update", "Password reset successfully completed.")
         return json_response({"success": True, "message": "Password reset successfully"}, 200)
     except Exception as e:
-        return json_response({"success": False, "message": f"Password reset failed: {str(e)}"}, 500)
-
-
-@frappe.whitelist()
-def profile_endpoint():
-    ensure_request_context()
-    if frappe.session.user == "Guest":
-        return json_response({"success": False, "message": "Authentication required"}, 401)
-        
-    email = frappe.session.user
-    
-    # Check request method safely
-    req_method = "GET"
-    if frappe.request and getattr(frappe.request, "method", None):
-        req_method = frappe.request.method
-        
-    if req_method == "GET":
-        try:
-            user_doc = frappe.get_doc("User", email)
-            profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
-            profile_doc = frappe.get_doc("CRM User Profile", profile_name) if profile_name else None
-            
-            return json_response({
-                "success": True,
-                "profile": {
-                    "name": f"{user_doc.first_name} {user_doc.last_name or ''}".strip(),
-                    "email": user_doc.email,
-                    "mobile": user_doc.mobile_no or (profile_doc.phone_number if profile_doc else ""),
-                    "avatar": user_doc.user_image or (profile_doc.profile_picture if profile_doc else ""),
-                    "department": profile_doc.department if profile_doc else "",
-                    "designation": profile_doc.designation if profile_doc else ""
-                }
-            }, 200)
-        except Exception as e:
-            return json_response({"success": False, "message": f"Failed to retrieve profile: {str(e)}"}, 500)
-            
-    elif req_method == "PUT":
-        data = frappe.form_dict
-        name = data.get("name")
-        mobile = data.get("mobile")
-        avatar = data.get("avatar")
-        department = data.get("department")
-        designation = data.get("designation")
-        
-        try:
-            user_doc = frappe.get_doc("User", email)
-            profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
-            if not profile_name:
-                # Autocreate profile if missing
-                profile_doc = frappe.get_doc({"doctype": "CRM User Profile", "user": email})
-                profile_doc.insert(ignore_permissions=True)
-            else:
-                profile_doc = frappe.get_doc("CRM User Profile", profile_name)
-                
-            if name:
-                names = name.split(" ", 1)
-                user_doc.first_name = names[0]
-                user_doc.last_name = names[1] if len(names) > 1 else ""
-            if mobile:
-                # Duplicate check
-                if frappe.db.sql("select name from tabUser where mobile_no=%s and name!=%s", (mobile, email)):
-                    return json_response({"success": False, "message": "Mobile number already in use"}, 400)
-                user_doc.mobile_no = mobile
-                profile_doc.phone_number = mobile
-            if avatar:
-                user_doc.user_image = avatar
-                profile_doc.profile_picture = avatar
-            if department:
-                profile_doc.department = department
-            if designation and designation != profile_doc.designation:
-                allowed_roles = ["CRM Admin", "System Manager"]
-                is_admin = any(role in frappe.get_roles(frappe.session.user) for role in allowed_roles)
-                if not is_admin:
-                    return json_response({"success": False, "message": "Not permitted to change user designation"}, 403)
-                profile_doc.designation = designation
-
-                
-            user_doc.save(ignore_permissions=True)
-            profile_doc.save(ignore_permissions=True)
-            frappe.db.commit()
-            
-            log_audit_event("User", email, "Update", "Profile updated successfully.")
-            return json_response({"success": True, "message": "Profile updated successfully"}, 200)
-        except Exception as e:
-            return json_response({"success": False, "message": f"Failed to update profile: {str(e)}"}, 500)
+        return json_response({"success": False, "message": str(e)}, 500)
 
 
 @frappe.whitelist()
@@ -575,25 +485,25 @@ def upload_avatar_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
         return json_response({"success": False, "message": "Authentication required"}, 401)
-        
+
     data = frappe.form_dict
     file_url = data.get("file_url")
-    
+
     if not file_url:
         return json_response({"success": False, "message": "Missing file_url"}, 400)
-        
+
     email = frappe.session.user
-    
+
     try:
         user_doc = frappe.get_doc("User", email)
         profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
-        
+
         user_doc.user_image = file_url
         user_doc.save(ignore_permissions=True)
-        
+
         if profile_name:
             frappe.db.set_value("CRM User Profile", profile_name, "profile_picture", file_url)
-            
+
         frappe.db.commit()
         log_audit_event("User", email, "Update", "Profile avatar uploaded successfully.")
         return json_response({"success": True, "message": "Avatar updated successfully", "avatar": file_url}, 200)
@@ -606,31 +516,31 @@ def update_mobile_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
         return json_response({"success": False, "message": "Authentication required"}, 401)
-        
+
     data = frappe.form_dict
     mobile = data.get("mobile")
-    
+
     if not mobile:
         return json_response({"success": False, "message": "Missing mobile number"}, 400)
-        
+
     email = frappe.session.user
-    
+
     # Duplicate check
     if frappe.db.sql("select name from tabUser where mobile_no=%s and name!=%s", (mobile, email)):
         return json_response({"success": False, "message": "Mobile number already in use"}, 400)
-        
+
     try:
         user_doc = frappe.get_doc("User", email)
         profile_name = frappe.db.get_value("CRM User Profile", {"user": email}, "name")
-        
+
         user_doc.mobile_no = mobile
         user_doc.save(ignore_permissions=True)
-        
+
         if profile_name:
             profile_doc = frappe.get_doc("CRM User Profile", profile_name)
             profile_doc.phone_number = mobile
             profile_doc.save(ignore_permissions=True)
-            
+
         frappe.db.commit()
         log_audit_event("User", email, "Update", "Mobile number updated successfully.")
         return json_response({"success": True, "message": "Mobile number updated successfully"}, 200)
@@ -643,36 +553,36 @@ def update_email_endpoint():
     ensure_request_context()
     if frappe.session.user == "Guest":
         return json_response({"success": False, "message": "Authentication required"}, 401)
-        
+
     data = frappe.form_dict
     new_email = data.get("new_email")
-    
+
     if not new_email:
         return json_response({"success": False, "message": "Missing new email"}, 400)
-        
+
     if not re.match(r"[^@]+@[^@]+\.[^@]+", new_email):
         return json_response({"success": False, "message": "Invalid email format"}, 400)
-        
+
     email = frappe.session.user
-    
+
     if frappe.db.exists("User", new_email):
         return json_response({"success": False, "message": "Email already in use"}, 400)
-        
+
     try:
         frappe.rename_doc("User", email, new_email, force=True)
         user_doc = frappe.get_doc("User", new_email)
         user_doc.email = new_email
         user_doc.save(ignore_permissions=True)
-        
+
         profile_name = frappe.db.get_value("CRM User Profile", {"user": new_email}, "name")
         if profile_name:
             frappe.db.set_value("CRM User Profile", profile_name, "user", new_email)
-            
+
         frappe.db.commit()
-        
+
         frappe.set_user(new_email)
         frappe.local.session.user = new_email
-        
+
         log_audit_event("User", new_email, "Update", f"Email address changed from {email} to {new_email}.")
         return json_response({"success": True, "message": "Email address updated successfully"}, 200)
     except Exception as e:
@@ -689,12 +599,12 @@ def get_users_list():
 
     profiles = frappe.get_all("CRM User Profile", fields=["user", "phone_number", "designation", "department", "profile_picture"])
     user_details = {p.user: p for p in profiles}
-    
-    users = frappe.get_all("User", 
+
+    users = frappe.get_all("User",
         filters={"enabled": 1, "user_type": "System User"},
         fields=["name", "first_name", "last_name", "mobile_no", "email"]
     )
-    
+
     results = []
     for u in users:
         p = user_details.get(u.name)
@@ -712,7 +622,7 @@ def get_users_list():
             "department": p.department if p else "",
             "avatar": (p.profile_picture if p else "") or ""
         })
-        
+
     return results
 
 @frappe.whitelist()
@@ -749,7 +659,7 @@ def update_user_profile(user_email, first_name=None, last_name=None, mobile=None
             "message": "Permission denied",
             "errors": ["Only CRM Admin can change designation"]
         }
-        
+
     user_doc = frappe.get_doc("User", user_email)
     if first_name is not None:
         user_doc.first_name = first_name
@@ -758,14 +668,14 @@ def update_user_profile(user_email, first_name=None, last_name=None, mobile=None
     if mobile is not None:
         user_doc.mobile_no = mobile
     user_doc.save(ignore_permissions=True)
-    
+
     profile_name = frappe.db.get_value("CRM User Profile", {"user": user_email}, "name")
     if not profile_name:
         profile_doc = frappe.new_doc("CRM User Profile")
         profile_doc.user = user_email
     else:
         profile_doc = frappe.get_doc("CRM User Profile", profile_name)
-        
+
     if mobile is not None:
         profile_doc.phone_number = mobile
     if designation is not None:
@@ -776,7 +686,7 @@ def update_user_profile(user_email, first_name=None, last_name=None, mobile=None
         profile_doc.designation = designation
     if department is not None:
         profile_doc.department = department
-        
+
     profile_doc.save(ignore_permissions=True)
     frappe.db.commit()
     return {
@@ -855,26 +765,26 @@ def get_login_activities():
     user_email = frappe.session.user
     if not user_email or user_email == "Guest":
         return []
-        
+
     logs = frappe.get_all("CRM Audit Log",
         filters={"ref_doctype": "User", "user": user_email},
         fields=["creation", "details"],
         order_by="creation desc"
     )
-    
+
     login_events = []
     logout_events = []
-    
+
     for l in logs:
         timestamp = int(frappe.utils.get_datetime(l.creation).timestamp() * 1000)
         if "logged in" in l.details:
             login_events.append({"time": timestamp, "details": l.details})
         elif "logged out" in l.details:
             logout_events.append({"time": timestamp, "details": l.details})
-            
+
     login_events.sort(key=lambda x: x["time"])
     logout_events.sort(key=lambda x: x["time"])
-    
+
     paired = []
     for login in login_events:
         logout_time = None
@@ -891,7 +801,7 @@ def get_login_activities():
                 break
         if matched_logout:
             logout_events.remove(matched_logout)
-                
+
         paired.append({
             "username": user_email,
             "loginAt": login["time"],
@@ -899,7 +809,7 @@ def get_login_activities():
             "duration": duration_str,
             "ip": "127.0.0.1"
         })
-        
+
     paired.reverse()
     return paired
 
@@ -923,132 +833,169 @@ def get_profile():
         return {"success": False, "message": "Not logged in"}
 
     doc = frappe.get_doc("User", user)
+    profile_name = frappe.db.get_value("CRM User Profile", {"user": user}, "name")
+    profile_doc = frappe.get_doc("CRM User Profile", profile_name) if profile_name else None
 
     return {
         "success": True,
         "username": doc.first_name or doc.full_name,
         "email": doc.email,
+        "contact": doc.mobile_no or (profile_doc.phone_number if profile_doc else ""),
         "roles": frappe.get_roles(user)
     }
 
 
 @frappe.whitelist()
-def update_profile(username=None, email=None):
-    user = frappe.session.user   # 👈 VERY IMPORTANT
+def update_profile(username=None, email=None, mobile_no=None, company=None, **kwargs):
+    user = frappe.session.user
 
     if user == "Guest":
         return {"success": False, "message": "Not logged in"}
 
-    doc = frappe.get_doc("User", user)
+    user_doc = frappe.get_doc("User", user)
+    profile_name = frappe.db.get_value("CRM User Profile", {"user": user}, "name")
+    if not profile_name:
+        profile_doc = frappe.new_doc("CRM User Profile")
+        profile_doc.user = user
+    else:
+        profile_doc = frappe.get_doc("CRM User Profile", profile_name)
 
     if username:
-        doc.first_name = username   # name change
+        user_doc.first_name = username
 
-    if email:
-        doc.email = email           # email change
+    if mobile_no:
+        from crm_pro.utils.mobile_validator import normalize_mobile, validate_mobile, check_duplicate_mobile
 
-    doc.save(ignore_permissions=True)
+        mobile_no = normalize_mobile(mobile_no)
+
+        validate_mobile(mobile_no)
+        check_duplicate_mobile(mobile_no, user)
+
+        user_doc.mobile_no = mobile_no
+        profile_doc.phone_number = mobile_no
+
+    if email and email != user_doc.email:
+        if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+            frappe.throw(_("Invalid email format"), frappe.ValidationError)
+        if frappe.db.exists("User", email):
+            frappe.throw(_("A user with this email already exists"), frappe.ValidationError)
+
+        frappe.rename_doc("User", user, email, force=True)
+        user_doc = frappe.get_doc("User", email)
+        user_doc.email = email
+        frappe.set_user(email)
+        frappe.local.session.user = email
+        if profile_doc.name:
+            profile_doc.user = email
+
+    user_doc.save(ignore_permissions=True)
+    profile_doc.save(ignore_permissions=True)
     frappe.db.commit()
 
+    log_audit_event("User", user_doc.name, "Update", "Profile updated securely.")
     return {"success": True, "message": "Profile updated successfully"}
 
 
 @frappe.whitelist()
 def change_password(old_password, new_password):
     user = frappe.session.user
+    if user == "Guest":
+        frappe.throw(_("Authentication required"), frappe.PermissionError)
 
-    if not frappe.check_password(user, old_password):
-        frappe.throw("Old password incorrect")
+    try:
+        check_password(user, old_password)
+    except frappe.AuthenticationError:
+        frappe.throw(_("Current password is incorrect"), frappe.ValidationError)
 
-    from frappe.utils.password import update_password
-    update_password(user, new_password)
+    complexity_err = validate_password_complexity(new_password)
+    if complexity_err:
+        frappe.throw(_(complexity_err), frappe.ValidationError)
 
-    return {"success": True, "message": "Password updated"}
+    history_err = check_password_history(user, new_password)
+    if history_err:
+        frappe.throw(_(history_err), frappe.ValidationError)
+
+    try:
+        update_password(user, new_password)
+        save_password_to_history(user, new_password)
+        log_audit_event("User", user, "Update", "Password changed successfully.")
+        return {"success": True, "message": "Password changed successfully"}
+    except Exception as e:
+        frappe.throw(_("Failed to change password: {0}").format(str(e)), frappe.ValidationError)
 
 
 @frappe.whitelist(allow_guest=True)
 def signup_endpoint():
-    import frappe
-    from frappe.utils.password import update_password
+    ensure_request_context()
+
+    if not check_rate_limit("signup"):
+        return {"success": False, "message": "Too many requests. Try again later."}
 
     data = frappe.form_dict
-
-
-
     username = (data.get("first_name") or "").strip()
     email = (data.get("email") or "").strip().lower()
     phone = (data.get("contact") or "").strip()
     password = data.get("password")
-    role = "Sales Executive"
 
     if not username or not email or not password:
-        return {
-            "success": False,
-            "message": "Missing required fields"
-        }
+        return {"success": False, "message": "Missing required fields"}
 
-    # Duplicate Email
+    if not re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        return {"success": False, "message": "Invalid email format"}
+
+    complexity_err = validate_password_complexity(password)
+    if complexity_err:
+        return {"success": False, "message": complexity_err}
+
     if frappe.db.exists("User", email):
-        return {
-            "success": False,
-            "message": "Email already registered"
-        }
+        return {"success": False, "message": "Email already registered"}
 
-    # Duplicate Phone
-    if frappe.db.exists("CRM User Profile", {"phone_number": phone}):
-        return {
-            "success": False,
-            "message": "Phone number already exists"
-        }
+    from crm_pro.utils.mobile_validator import normalize_mobile, validate_mobile, check_duplicate_mobile
+    normalized_phone = normalize_mobile(phone)
+    if normalized_phone:
+        try:
+            validate_mobile(normalized_phone)
+            check_duplicate_mobile(normalized_phone)
+        except frappe.ValidationError as e:
+            return {"success": False, "message": str(e)}
+        except frappe.LinkValidationError as e:
+            return {"success": False, "message": str(e)}
 
     try:
-
         user = frappe.get_doc({
             "doctype": "User",
             "email": email,
             "first_name": username,
+            "mobile_no": normalized_phone or "",
             "enabled": 1,
             "send_welcome_email": 0
         })
-
         user.insert(ignore_permissions=True)
-
-
         update_password(email, password)
-
         user.add_roles("Sales Executive")
-
 
         frappe.get_doc({
             "doctype": "CRM User Profile",
             "user": email,
             "username": username,
-            "phone_number": phone
+            "phone_number": normalized_phone or "",
+            "designation": "Sales Executive"
         }).insert(ignore_permissions=True)
 
-
         frappe.db.commit()
+
+        save_password_to_history(email, password)
+        log_audit_event("User", email, "Create", "User registered successfully.")
 
         return {
             "success": True,
             "message": "Account created successfully"
         }
-
     except Exception as e:
-
         frappe.db.rollback()
+        frappe.log_error(frappe.get_traceback(), "User Registration Failure")
+        return {"success": False, "message": f"Registration failed: {str(e)}"}
 
-        frappe.log_error(frappe.get_traceback(), "User Registration")
-
-        frappe.log_error(
-            frappe.get_traceback(),
-            "Signup Endpoint"
-        )
-
-        return {
-            "success": False,
-            "message": str(e)
-        }
 
 
 def after_request(response=None, request=None):
@@ -1056,11 +1003,11 @@ def after_request(response=None, request=None):
         # Generate the CSRF token (since CSRF validation has already passed)
         from frappe.sessions import get_csrf_token
         csrf_token = get_csrf_token()
-        
+
         # Set the csrf_token cookie with httponly=False so JS can read it
         frappe.local.cookie_manager.set_cookie("csrf_token", csrf_token, httponly=False)
         frappe.local.cookie_manager.flush_cookies(response=response)
-        
+
         # Update the JSON payload with custom fields for the SPA frontend
         try:
             import json

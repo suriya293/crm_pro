@@ -29,7 +29,7 @@ def verify_meta_signature(request):
     signature = request.headers.get("X-Hub-Signature-256")
     if not signature:
         return False
-    
+
     app_secret = frappe.get_doc("CRM Settings").get_password("facebook_app_secret", raise_exception=False)
     if not app_secret or app_secret in ["mock_secret", ""]:
         # Log a security warning
@@ -41,15 +41,15 @@ def verify_meta_signature(request):
         if not frappe.conf.get("developer_mode"):
             return False
         return True
-        
+
     import hmac
     import hashlib
-    
+
     try:
         sha_name, signature_hash = signature.split("=")
         if sha_name != "sha256":
             return False
-            
+
         mac = hmac.new(
             app_secret.encode("utf-8"),
             msg=request.data,
@@ -59,8 +59,7 @@ def verify_meta_signature(request):
     except Exception:
         return False
 
-@require_permission('Authenticated')
-@ratelimit(key='user', rate='100/m')
+@ratelimit(key='ip', rate='100/m')
 # TODO: add @validate_input(schema) for input validation
 @frappe.whitelist(allow_guest=True)
 def whatsapp_webhook():
@@ -75,7 +74,7 @@ def whatsapp_webhook():
         # Verification
         params = frappe.form_dict
         verify_token = frappe.db.get_single_value("CRM Settings", "facebook_webhook_verify_token")
-        
+
         mode = params.get("hub.mode")
         token = params.get("hub.verify_token")
         challenge = params.get("hub.challenge")
@@ -89,7 +88,7 @@ def whatsapp_webhook():
     elif request.method == "POST":
         if not verify_meta_signature(request):
             return Response(json.dumps({"success": False, "message": "Invalid webhook signature"}), mimetype="application/json", status=403)
-            
+
         # Process webhook payload safely
         data_str = request.data.decode("utf-8") if request.data else "{}"
         payload = safe_json(data_str, default=None)
@@ -97,14 +96,14 @@ def whatsapp_webhook():
             frappe.log_error("Invalid WhatsApp Webhook JSON payload", "WhatsApp Webhook Payload Error")
             frappe.response["status"] = "failed"
             return
-        
+
         try:
             entry = payload.get("entry", [])[0]
             changes = entry.get("changes", [])[0]
             value = changes.get("value", {})
             messages = value.get("messages", [])
             statuses = value.get("statuses", [])
-            
+
             if statuses:
                 status_info = statuses[0]
                 status = status_info.get("status")
@@ -113,17 +112,17 @@ def whatsapp_webhook():
                     errors = status_info.get("errors", [])
                     err_msg = errors[0].get("message") if errors else "Unknown error"
                     frappe.log_error(f"WhatsApp dispatch to {recipient} failed: {err_msg}", "WhatsApp Status Failure")
-            
+
             if messages:
                 msg = messages[0]
                 from_number = msg.get("from") # e.g. "15550268680"
                 text_body = msg.get("text", {}).get("body", "")
-                
+
                 # Match lead by mobile number (either mobile, alt_mobile_1, 2, or 3)
                 lead_name = frappe.db.get_value("CRM Lead", {
                     "mobile": ["like", f"%{from_number}%"]
                 }, "name")
-                
+
                 if not lead_name:
                     # check alt mobile
                     lead_name = frappe.db.get_value("CRM Lead", {
@@ -150,7 +149,7 @@ def whatsapp_webhook():
                     "message": text_body,
                     "direction": "Inbound"
                 }).insert(ignore_permissions=True)
-                
+
                 # 2. Log Activity
                 frappe.get_doc({
                     "doctype": "CRM Activity",
@@ -159,16 +158,15 @@ def whatsapp_webhook():
                     "notes": f"Inbound WhatsApp message: {text_body}",
                     "activity_date": now_datetime()
                 }).insert(ignore_permissions=True)
-                
+
                 frappe.db.commit()
         except Exception as e:
             frappe.log_error(f"Error parsing WhatsApp Webhook: {str(e)}", "WhatsApp Webhook Error")
-            
+
         frappe.response["status"] = "success"
         return
 
-@require_permission('Authenticated')
-@ratelimit(key='user', rate='100/m')
+@ratelimit(key='ip', rate='100/m')
 # TODO: add @validate_input(schema) for input validation
 @frappe.whitelist(allow_guest=True)
 def facebook_webhook():
@@ -183,7 +181,7 @@ def facebook_webhook():
         # Verification
         params = frappe.form_dict
         verify_token = frappe.db.get_single_value("CRM Settings", "facebook_webhook_verify_token")
-        
+
         mode = params.get("hub.mode")
         token = params.get("hub.verify_token")
         challenge = params.get("hub.challenge")
@@ -197,7 +195,7 @@ def facebook_webhook():
     elif request.method == "POST":
         if not verify_meta_signature(request):
             return Response(json.dumps({"success": False, "message": "Invalid webhook signature"}), mimetype="application/json", status=403)
-            
+
         data_str = request.data.decode("utf-8") if request.data else "{}"
         payload = safe_json(data_str, default=None)
         if payload is None:
@@ -209,7 +207,7 @@ def facebook_webhook():
             changes = entry.get("changes", [])[0]
             value = changes.get("value", {})
             leadgen_id = value.get("leadgen_id")
-            
+
             if leadgen_id:
                 # Enqueue background job to fetch leadgen info from Meta Graph API
                 frappe.enqueue(
@@ -219,7 +217,7 @@ def facebook_webhook():
                 )
         except Exception as e:
             frappe.log_error(f"Error parsing Facebook Webhook: {str(e)}", "Facebook Webhook Error")
-            
+
         frappe.response["status"] = "success"
         return
 
@@ -230,7 +228,7 @@ def send_whatsapp_message(lead_id=None, message=None):
     """
     if not lead_id or not message:
         frappe.throw(_("Lead ID and message text are required"))
-        
+
     doc_name = lead_id
     if not frappe.db.exists("CRM Lead", doc_name):
         found = frappe.db.get_value("CRM Lead", {"lead_name": lead_id}, "name")
@@ -243,15 +241,15 @@ def send_whatsapp_message(lead_id=None, message=None):
 
     if not lead.mobile or lead.mobile == "-":
         frappe.throw(_("Lead does not have a valid mobile number"))
-        
+
     # Get settings
     settings = frappe.get_doc("CRM Settings")
     if not settings.enable_whatsapp_integration:
         frappe.throw(_("WhatsApp integration is disabled in CRM Settings"))
-        
+
     token = settings.get_password("whatsapp_access_token")
     phone_id = settings.whatsapp_phone_number_id
-    
+
     if not token or not phone_id:
         frappe.throw(_("WhatsApp API Token or Phone Number ID is missing in Settings"))
 
@@ -272,7 +270,7 @@ def send_whatsapp_message(lead_id=None, message=None):
             "body": message
         }
     }
-    
+
     # In sandbox or local test, we mock requests
     if token == "mock_token":
         response_data = {"messages": [{"id": "mock_msg_123"}]}
@@ -306,7 +304,7 @@ def send_whatsapp_message(lead_id=None, message=None):
                     frappe.throw(
                         _(f"Meta API Request Failed after {max_retries} attempts: {str(last_error)}")
                     )
-            
+
     # Log outbound WhatsApp message
     frappe.get_doc({
         "doctype": "CRM WhatsApp Log",
@@ -315,7 +313,7 @@ def send_whatsapp_message(lead_id=None, message=None):
         "message": message,
         "direction": "Outbound"
     }).insert(ignore_permissions=True)
-    
+
     # Log Activity
     frappe.get_doc({
         "doctype": "CRM Activity",
@@ -324,7 +322,7 @@ def send_whatsapp_message(lead_id=None, message=None):
         "notes": f"Outbound WhatsApp message: {message}",
         "activity_date": now_datetime()
     }).insert(ignore_permissions=True)
-    
+
     frappe.db.commit()
     if is_web_api_call():
         return {

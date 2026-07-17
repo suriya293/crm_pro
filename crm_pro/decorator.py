@@ -1,4 +1,14 @@
-def require_permission(*args, **kwargs):
+import frappe
+from frappe import _
+
+def require_permission(permission_name, *args, **kwargs):
     def decorator(func):
-        return func
+        def wrapper(*args, **kwargs):
+            if permission_name == 'Authenticated':
+                if frappe.session.user == 'Guest':
+                    if hasattr(frappe.local, "response"):
+                        frappe.local.response["http_status_code"] = 401
+                    frappe.throw(_("Authentication required"), frappe.PermissionError)
+            return func(*args, **kwargs)
+        return wrapper
     return decorator

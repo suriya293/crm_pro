@@ -46,13 +46,13 @@ def validate_stage_val(stage):
     stage_strip = stage.strip()
     if not stage_strip or stage_strip.lower() in ["null", "none", "undefined", "-"]:
         return False
-    
+
     # 1. Check if stage already exists in database
     if frappe.db.exists("CRM Pipeline Stage", stage_strip):
         return True
     if frappe.db.exists("CRM Pipeline Stage", {"stage_name": stage_strip}):
         return True
-        
+
     # 2. If it is a default stage, auto-create it in database to avoid LinkValidationError
     default_stages = ["LEAD", "CONTACTED", "QUALIFIED", "PROPOSAL", "NEGOTIATION", "WON", "LOST"]
     if stage_strip in default_stages:
@@ -69,7 +69,7 @@ def validate_stage_val(stage):
             return True
         except Exception:
             pass
-            
+
     return False
 
 # --- Whitelisted APIs ---
@@ -216,7 +216,7 @@ def update_lead(lead_id=None, name=None, **kwargs):
             }
         else:
             frappe.throw(_("Lead Name/ID is required for update"), frappe.ValidationError)
-    
+
     if check_injection(lead_id):
         if is_web_api_call():
             return {
@@ -244,7 +244,7 @@ def update_lead(lead_id=None, name=None, **kwargs):
 
     try:
         lead = frappe.get_doc("CRM Lead", doc_name)
-        
+
         # Check permissions
         if not frappe.has_permission(lead, "write"):
             if is_web_api_call():
@@ -305,9 +305,9 @@ def update_lead(lead_id=None, name=None, **kwargs):
                     kwargs[field] = normalize_mobile(value)
 
         for field in [
-            "lead_name", "email", "mobile", "country_code", "stage", "source", "user", 
-            "priority", "segment", "alt_mobile_1", "alt_mobile_2", "alt_mobile_3", "age", 
-            "gender", "address", "state", "city", "country", "pincode", "company_name", 
+            "lead_name", "email", "mobile", "country_code", "stage", "source", "user",
+            "priority", "segment", "alt_mobile_1", "alt_mobile_2", "alt_mobile_3", "age",
+            "gender", "address", "state", "city", "country", "pincode", "company_name",
             "designation", "website", "tags", "opportunity_value", "followup_date"
         ]:
             if field in kwargs:
@@ -328,7 +328,7 @@ def update_lead(lead_id=None, name=None, **kwargs):
 
         lead.save()
         frappe.db.commit()
-        
+
         if is_web_api_call():
             return {
                 "success": True,
@@ -404,8 +404,8 @@ def delete_lead(lead_id=None, name=None, force_delete=0, **kwargs):
         # If force_delete is set, clean up linked child elements to avoid database constraint LinkExistsError
         if force_delete:
             child_doctypes = [
-                "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting", 
-                "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log", 
+                "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting",
+                "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log",
                 "CRM Email Log", "CRM Attachment", "CRM Contact", "CRM Deal"
             ]
             for dt in child_doctypes:
@@ -415,8 +415,8 @@ def delete_lead(lead_id=None, name=None, force_delete=0, **kwargs):
                         frappe.delete_doc(dt, ld.name, ignore_permissions=True, force=True)
         else:
             child_doctypes = [
-                "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting", 
-                "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log", 
+                "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting",
+                "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log",
                 "CRM Email Log", "CRM Attachment", "CRM Contact", "CRM Deal"
             ]
             for dt in child_doctypes:
@@ -488,7 +488,7 @@ def assign_lead(lead_id=None, name=None, user=None, **kwargs):
             }
         else:
             frappe.throw(_("Lead ID is required"), frappe.ValidationError)
-        
+
     if check_injection(lead_id) or (user and check_injection(user)):
         if is_web_api_call():
             return {
@@ -508,7 +508,7 @@ def assign_lead(lead_id=None, name=None, user=None, **kwargs):
             }
         else:
             frappe.throw(_("Assigned user does not exist"), frappe.ValidationError)
-        
+
     user = str(user).strip()
 
     # Verify user exists
@@ -546,7 +546,7 @@ def assign_lead(lead_id=None, name=None, user=None, **kwargs):
 
         lead.user = user
         lead.save()
-        
+
         # Generate notification
         frappe.get_doc({
             "doctype": "CRM Notification",
@@ -626,17 +626,17 @@ def get_leads(
 
     # 2. Build filters list
     db_filters = []
-    
+
     # Text search fields with SQL injection checks
     for field in ["name", "lead_name", "email", "mobile", "source", "stage", "user", "assigned_user"]:
         val = parsed_filters.get(field)
         if val:
             if check_injection(val):
                 return {"success": False, "message": "Validation failed", "errors": [f"Potential SQL injection in {field}"]}
-            
+
             # Map assigned_user to user
             db_field = "user" if field == "assigned_user" else field
-            
+
             if field in ["email", "mobile", "lead_name", "name"]:
                 db_filters.append([db_field, "like", f"%{val}%"])
             else:
@@ -691,7 +691,7 @@ def get_leads(
     # 4. Sorting & Validation
     sort_by = parsed_filters.get("sort_by") or sort_by or "creation"
     sort_order = parsed_filters.get("sort_order") or sort_order or "desc"
-    
+
     valid_sort_fields = [
         "name", "lead_name", "email", "mobile", "country_code", "stage",
         "source", "user", "priority", "segment", "creation", "modified", "opportunity_value"
@@ -793,10 +793,10 @@ def search_leads(
     if query:
         if check_injection(query):
             return {"success": False, "message": "Invalid search query"}
-        
+
         op = "=" if exact_match else "like"
         val = query if exact_match else f"%{query}%"
-        
+
         or_filters.append(["lead_name", op, val])
         or_filters.append(["email", op, val])
         or_filters.append(["mobile", op, val])
@@ -887,7 +887,7 @@ def get_lead(lead_id=None, name=None, lead_name=None, email=None, mobile=None, c
     email = email or kwargs.get("email")
     mobile = mobile or kwargs.get("mobile")
     creation_date = creation_date or kwargs.get("creation_date") or kwargs.get("creation")
-   
+
 
     # Direct search support
     if email and not lead_name and not lead_id:
@@ -920,7 +920,7 @@ def get_lead(lead_id=None, name=None, lead_name=None, email=None, mobile=None, c
                     "leads": [lead]
                 }
             }
-        
+
         # Fallback to look up by name in case lead_id is lead_name
         lead_name = lead_id
 
@@ -1054,7 +1054,7 @@ def get_lead_sources(lead_id=None, **kwargs):
 
     sources_str = frappe.db.get_single_value("CRM Settings", "lead_sources")
     sources = safe_json(sources_str, default=[])
-    
+
     return {
         "success": True,
         "message": "Lead sources retrieved successfully",
@@ -1103,11 +1103,11 @@ def create_deal(deal_name, lead, deal_value, **kwargs):
         deal.deal_name = deal_name
         deal.lead = lead
         deal.deal_value = flt(deal_value)
-        
+
         for f in ["company", "deal_stage", "expected_close", "forecast_category"]:
             if f in kwargs:
                 deal.set(f, kwargs.get(f))
-        
+
         deal.deal_status = "Open"
         deal.insert()
         frappe.db.commit()
@@ -1172,14 +1172,14 @@ def update_deal(name=None, deal_id=None, **kwargs):
             return {"success": False, "message": "Deal ID/Name is required"}
         else:
             frappe.throw(_("Deal ID/Name is required"), frappe.ValidationError)
-            
+
     try:
         if not frappe.db.exists("CRM Deal", doc_id):
             if is_web_api_call():
                 return {"success": False, "message": "Deal not found"}
             else:
                 frappe.throw(_("Deal not found"), frappe.DoesNotExistError)
-                
+
         deal = frappe.get_doc("CRM Deal", doc_id)
         if not frappe.has_permission(deal, "write"):
             if is_web_api_call():
@@ -1187,14 +1187,14 @@ def update_deal(name=None, deal_id=None, **kwargs):
                 return {"success": False, "message": "Permission denied"}
             else:
                 frappe.throw(_("Permission denied"), frappe.PermissionError)
-                
+
         for field in ["deal_name", "lead", "company", "deal_stage", "deal_value", "expected_close", "forecast_category", "deal_status"]:
             if field in kwargs:
                 val = kwargs.get(field)
                 if field == "deal_value":
                     val = flt(val)
                 deal.set(field, val)
-                
+
         deal.save()
         frappe.db.commit()
         if is_web_api_call():
@@ -1222,14 +1222,14 @@ def delete_deal(name=None, **kwargs):
             return {"success": False, "message": "Deal ID/Name is required"}
         else:
             frappe.throw(_("Deal ID/Name is required"), frappe.ValidationError)
-            
+
     try:
         if not frappe.db.exists("CRM Deal", name):
             if is_web_api_call():
                 return {"success": False, "message": "Deal not found"}
             else:
                 frappe.throw(_("Deal not found"), frappe.DoesNotExistError)
-                
+
         deal = frappe.get_doc("CRM Deal", name)
         if not frappe.has_permission(deal, "delete"):
             if is_web_api_call():
@@ -1237,7 +1237,7 @@ def delete_deal(name=None, **kwargs):
                 return {"success": False, "message": "Permission denied"}
             else:
                 frappe.throw(_("Permission denied"), frappe.PermissionError)
-                
+
         frappe.delete_doc("CRM Deal", name)
         frappe.db.commit()
         if is_web_api_call():
@@ -1360,29 +1360,29 @@ def get_dashboard_metrics(
             deal_filters["owner"] = current_user
 
         total_leads = frappe.db.count("CRM Lead", filters=lead_filters)
-        
+
         lead_filters_new = lead_filters.copy()
         lead_filters_new["stage"] = "LEAD"
         new_leads = frappe.db.count("CRM Lead", filters=lead_filters_new)
-        
+
         lead_filters_conv = lead_filters.copy()
         lead_filters_conv["stage"] = "ONBOARDED"
         converted_leads = frappe.db.count("CRM Lead", filters=lead_filters_conv)
-        
+
         deal_filters_won = deal_filters.copy()
         deal_filters_won["deal_status"] = "Won"
         won_deals = frappe.db.count("CRM Deal", filters=deal_filters_won)
-        
+
         deal_filters_lost = deal_filters.copy()
         deal_filters_lost["deal_status"] = "Lost"
         lost_deals = frappe.db.count("CRM Deal", filters=deal_filters_lost)
-        
+
         deal = frappe.qb.DocType("CRM Deal")
         query = frappe.qb.from_(deal).select(Sum(deal.deal_value)).where(deal.deal_status == "Won")
         if not is_admin:
             query = query.where(deal.owner == current_user)
         total_revenue = query.run()[0][0] or 0.0
-        
+
         # Source-wise distribution using group by
         source_distribution = {}
         lead = frappe.qb.DocType("CRM Lead")
@@ -1405,7 +1405,7 @@ def get_dashboard_metrics(
         for r in res_sources:
             src = r[0] or "Unknown"
             source_distribution[src] = r[1]
-            
+
         # Stage distribution using group by
         stage_distribution = {}
         query_stg = (
@@ -1473,7 +1473,7 @@ def get_pipeline():
     try:
         stages = frappe.get_list("CRM Pipeline Stage", fields=["name", "stage_name", "color", "sort_order"], order_by="sort_order asc")
         stage_names = [s.name for s in stages]
-        
+
         all_leads = frappe.get_list("CRM Lead",
             filters={"stage": ["in", stage_names]},
             fields=["name", "lead_name", "opportunity_value", "user", "stage"],
@@ -1484,18 +1484,18 @@ def get_pipeline():
             fields=["name", "deal_name", "deal_value", "deal_status", "deal_stage"],
             limit=None
         )
-        
+
         leads_by_stage = {}
         deals_by_stage = {}
         for l in all_leads:
             leads_by_stage.setdefault(l.stage, []).append(l)
         for d in all_deals:
             deals_by_stage.setdefault(d.deal_stage, []).append(d)
-            
+
         for stage in stages:
             stage["leads"] = leads_by_stage.get(stage.name, [])
             stage["deals"] = deals_by_stage.get(stage.name, [])
-            
+
         if is_web_api_call():
             return {
                 "success": True,
@@ -1571,8 +1571,8 @@ def lead_after_insert(doc, method):
 
 def lead_on_trash(doc, method):
     child_doctypes = [
-        "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting", 
-        "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log", 
+        "CRM Activity", "CRM Task", "CRM Note", "CRM Meeting",
+        "CRM Reminder", "CRM Call Log", "CRM WhatsApp Log",
         "CRM Email Log", "CRM Attachment", "CRM Contact", "CRM Deal"
     ]
     for dt in child_doctypes:
@@ -1617,7 +1617,7 @@ def get_tasks(lead_id):
         lead = frappe.get_doc("CRM Lead", lead_id)
         if not frappe.has_permission(lead, "read"):
             return {"success": False, "message": "Permission denied"}
-            
+
         tasks = frappe.get_all("CRM Task",
             filters={"lead": lead_id},
             fields=["name", "task_subject", "due_date", "status", "assigned_to"]
@@ -1645,7 +1645,7 @@ def create_task(lead_id, task_subject, due_date=None, status="Open", assigned_to
         lead = frappe.get_doc("CRM Lead", lead_id)
         if not frappe.has_permission(lead, "write"):
             return {"success": False, "message": "Permission denied"}
-            
+
         task = frappe.get_doc({
             "doctype": "CRM Task",
             "lead": lead_id,
@@ -1681,7 +1681,7 @@ def delete_task(name=None):
             lead = frappe.get_doc("CRM Lead", task.lead)
             if not frappe.has_permission(lead, "write"):
                 return {"success": False, "message": "Permission denied"}
-                
+
         frappe.delete_doc("CRM Task", name)
         frappe.db.commit()
         return {
@@ -1732,17 +1732,17 @@ def save_crm_settings(**kwargs):
     try:
         doc = frappe.get_doc("CRM Settings")
         for field in [
-            "company_name", "default_pipeline", "enable_ai_suggestions", 
+            "company_name", "default_pipeline", "enable_ai_suggestions",
             "enable_whatsapp_integration", "whatsapp_phone_number_id"
         ]:
             if field in kwargs:
                 doc.set(field, frappe.utils.cint(kwargs.get(field)) if field in ["enable_ai_suggestions", "enable_whatsapp_integration"] else kwargs.get(field))
-        
+
         # Save secrets securely
         for pwd_field in ["whatsapp_access_token", "facebook_webhook_verify_token", "facebook_app_secret", "facebook_access_token"]:
             if pwd_field in kwargs:
                 doc.set(pwd_field, kwargs.get(pwd_field))
-                
+
         doc.save(ignore_permissions=True)
         frappe.db.commit()
         frappe.clear_cache(doctype="CRM Settings")
@@ -1787,7 +1787,7 @@ def save_pipeline_stages(stages_list):
     try:
         stages_list = safe_json(stages_list, default=[])
         existing_stages = {s.name: s for s in frappe.get_all("CRM Pipeline Stage", fields=["name"])}
-        
+
         incoming_names = []
         for stage_data in stages_list:
             stage_name = stage_data.get("name")
@@ -1798,12 +1798,12 @@ def save_pipeline_stages(stages_list):
             active_val = 1 if active or active is None else 0
             statuses = stage_data.get("statuses") or []
             statuses_str = json.dumps(statuses)
-            
+
             doc_name = stage_id
             if not doc_name or not frappe.db.exists("CRM Pipeline Stage", doc_name):
                 found_name = frappe.db.get_value("CRM Pipeline Stage", {"stage_name": stage_name}, "name")
                 doc_name = found_name or stage_id
-                
+
             if doc_name and frappe.db.exists("CRM Pipeline Stage", doc_name):
                 stage_doc = frappe.get_doc("CRM Pipeline Stage", doc_name)
                 stage_doc.stage_name = stage_name
@@ -1826,11 +1826,11 @@ def save_pipeline_stages(stages_list):
                     stage_doc.name = stage_id
                 stage_doc.insert(ignore_permissions=True)
                 incoming_names.append(stage_doc.name)
-                
+
         for name in existing_stages:
             if name not in incoming_names:
                 frappe.delete_doc("CRM Pipeline Stage", name, ignore_permissions=True)
-                
+
         frappe.db.commit()
         return {
             "success": True,
@@ -1860,7 +1860,7 @@ def get_crm_notes(lead_id):
                 return {"success": False, "message": "Permission denied"}
             else:
                 frappe.throw(_("Permission denied"), frappe.PermissionError)
-            
+
         notes = frappe.get_all("CRM Note",
             filters={"lead": lead_id},
             fields=["name", "content", "added_by", "creation"]
@@ -1899,7 +1899,7 @@ def create_crm_note(lead_id, content):
                 return {"success": False, "message": "Permission denied"}
             else:
                 frappe.throw(_("Permission denied"), frappe.PermissionError)
-            
+
         note = frappe.get_doc({
             "doctype": "CRM Note",
             "lead": lead_id,
@@ -1949,7 +1949,7 @@ def delete_crm_note(name=None):
                     return {"success": False, "message": "Permission denied"}
                 else:
                     frappe.throw(_("Permission denied"), frappe.PermissionError)
-                
+
         frappe.delete_doc("CRM Note", name)
         frappe.db.commit()
         if is_web_api_call():
@@ -2124,7 +2124,7 @@ def create_user(username, email, password, fullname=None, mobile=None, role="Sal
 
     if frappe.db.exists("User", email):
         return {"success": False, "message": "A user with this email already exists"}
-    
+
     if not role or not frappe.db.exists("Role", role):
         if frappe.db.exists("Role", "Sales Executive"):
             role = "Sales Executive"
@@ -2143,7 +2143,7 @@ def create_user(username, email, password, fullname=None, mobile=None, role="Sal
         user.append("roles", {"role": role})
         user.insert(ignore_permissions=True)
         update_password(user.name, password)
-        
+
         profile = frappe.get_doc({
             "doctype": "CRM User Profile",
             "user": user.name,
@@ -2152,7 +2152,7 @@ def create_user(username, email, password, fullname=None, mobile=None, role="Sal
         })
         profile.insert(ignore_permissions=True)
         frappe.db.commit()
-        
+
         save_password_to_history(user.name, password)
         log_audit_event("User", user.name, "Create", "User created via API.")
         return {
@@ -2203,7 +2203,7 @@ def create_pipeline_stage(stage_name, color=None, order=0, active=1, statuses=No
         return {"success": False, "message": "Stage Name is required"}
     if not frappe.has_permission("CRM Pipeline Stage", "write"):
         return {"success": False, "message": "Permission denied"}
-    
+
     try:
         stage = frappe.new_doc("CRM Pipeline Stage")
         stage.stage_name = stage_name
@@ -2229,7 +2229,7 @@ def update_pipeline_stage(name=None, **kwargs):
         return {"success": False, "message": "Stage Name/ID is required"}
     if not frappe.has_permission("CRM Pipeline Stage", "write"):
         return {"success": False, "message": "Permission denied"}
-    
+
     try:
         stage = frappe.get_doc("CRM Pipeline Stage", name)
         for field in ["stage_name", "color", "sort_order", "active"]:
@@ -2256,7 +2256,7 @@ def delete_pipeline_stage(name=None):
         return {"success": False, "message": "Stage Name/ID is required"}
     if not frappe.has_permission("CRM Pipeline Stage", "delete"):
         return {"success": False, "message": "Permission denied"}
-    
+
     try:
         frappe.delete_doc("CRM Pipeline Stage", name, ignore_permissions=True)
         frappe.db.commit()
@@ -2286,7 +2286,7 @@ def get_recent_leads(limit=10):
 
     try:
 
-        leads = frappe.get_all(
+        leads = frappe.get_list(
             "CRM Lead",
             fields=[
                 "name",
