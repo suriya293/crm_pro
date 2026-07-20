@@ -1,7 +1,6 @@
 import logging
 import frappe
 logger = frappe.logger("crm_pro")
-from ratelimit import limits as ratelimit
 from frappe import _
 from frappe.utils import flt
 from frappe.query_builder.functions import Sum, Count

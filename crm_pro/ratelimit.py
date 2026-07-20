@@ -1,9 +1,11 @@
 import frappe
 import time
 from frappe import _
+from functools import wraps
 
 def ratelimit(key='user', rate='100/m'):
     def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             try:
                 limit_str, window_str = rate.split('/')

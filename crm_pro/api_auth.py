@@ -205,9 +205,9 @@ def check_bearer_token():
             frappe.form_dict.sid = sid
             frappe.local.session.sid = sid
             frappe.local.session.user = username
-            from frappe.sessions import Session
-            frappe.local.session_obj = Session(user=username, resume=True)
-            frappe.local.session = frappe.local.session_obj.data
+            if getattr(frappe.local, "session_obj", None):
+                frappe.local.session_obj.user = username
+                frappe.local.session_obj.sid = sid
 
 
 # --- Endpoints ---
@@ -333,10 +333,17 @@ def login_endpoint():
         else:
             return json_response({"success": False, "message": "Missing credentials"}, 400)
 
-        # Generate and set CSRF Token
-        from frappe.sessions import get_csrf_token
-        csrf_token = get_csrf_token()
-        frappe.local.cookie_manager.set_cookie("csrf_token", csrf_token, httponly=False)
+        # Generate and set CSRF Token safely
+        csrf_token = None
+
+        if getattr(frappe.local, "session_obj", None):
+            from frappe.sessions import get_csrf_token
+            csrf_token = get_csrf_token()
+            frappe.local.cookie_manager.set_cookie(
+                "csrf_token",
+                csrf_token,
+                httponly=False
+            )
 
         user_doc = frappe.get_doc("User", user_email)
 
@@ -997,9 +1004,19 @@ def signup_endpoint():
         return {"success": False, "message": f"Registration failed: {str(e)}"}
 
 
-
 def after_request(response=None, request=None):
-    if frappe.local.request.path == "/api/method/login" and frappe.session.user != "Guest":
+
+    if not getattr(frappe.local, "request", None):
+        return response
+
+    if not response:
+        return response
+
+    if (
+        frappe.local.request.path == "/api/method/login"
+        and frappe.session.user != "Guest"
+        and getattr(frappe.local, "session_obj", None)
+    ):
         # Generate the CSRF token (since CSRF validation has already passed)
         from frappe.sessions import get_csrf_token
         csrf_token = get_csrf_token()

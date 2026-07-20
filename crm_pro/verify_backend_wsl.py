@@ -74,7 +74,7 @@ def run_checks():
         print("crm_pro api_auth module import: PASS")
     except Exception as e:
         print(f"crm_pro api_auth module import: FAIL ({str(e)})")
-        
+
     print("=== BACKEND VALIDATION COMPLETED ===")
 
 if __name__ == "__main__":

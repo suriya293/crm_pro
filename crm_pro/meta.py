@@ -59,9 +59,9 @@ def verify_meta_signature(request):
     except Exception:
         return False
 
+@frappe.whitelist(allow_guest=True)
 @ratelimit(key='ip', rate='100/m')
 # TODO: add @validate_input(schema) for input validation
-@frappe.whitelist(allow_guest=True)
 def whatsapp_webhook():
     logger.info('Entering whatsapp_webhook')
     """
@@ -166,9 +166,9 @@ def whatsapp_webhook():
         frappe.response["status"] = "success"
         return
 
+@frappe.whitelist(allow_guest=True)
 @ratelimit(key='ip', rate='100/m')
 # TODO: add @validate_input(schema) for input validation
-@frappe.whitelist(allow_guest=True)
 def facebook_webhook():
     logger.info('Entering facebook_webhook')
     """

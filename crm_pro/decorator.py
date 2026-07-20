@@ -1,8 +1,11 @@
 import frappe
 from frappe import _
 
+from functools import wraps
+
 def require_permission(permission_name, *args, **kwargs):
     def decorator(func):
+        @wraps(func)
         def wrapper(*args, **kwargs):
             if permission_name == 'Authenticated':
                 if frappe.session.user == 'Guest':
