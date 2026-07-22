@@ -2,6 +2,7 @@
   "name": "CRM Lead",
   "doctype": "DocType",
   "module": "CRM Pro",
+  "autoname": "CRM-LEAD-.#####",
   "editable_grid": 1,
   "engine": "InnoDB",
   "field_order": [
